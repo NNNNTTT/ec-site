@@ -52,6 +52,19 @@ services:
                 - '-p${DB_PASSWORD}'
             retries: 3
             timeout: 5s
+    phpmyadmin:
+        image: phpmyadmin/phpmyadmin
+        restart: always
+        ports:
+            - "8081:80"  # http://localhost:8081 でアクセス可能
+        environment:
+            PMA_HOST: mysql        # 接続先MySQLホスト（上のdbサービス名）
+            MYSQL_ROOT_PASSWORD: '${DB_PASSWORD}'
+            UPLOAD_LIMIT: 20M 
+        depends_on:
+            - mysql
+        networks:
+            - sail
     redis:
         image: 'redis:alpine'
         ports:
