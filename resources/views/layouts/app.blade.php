@@ -13,7 +13,7 @@
     <nav class='navbar navbar-light bg-light'>
         <div class='container'>
             <a href="{{ route('product.index') }}" class="navbar-brand">{{ config('app.name', 'Laravel') }}</a>
-            <a href="#" class="fas fa-shopping-cart" style="color:black"></a>
+            <a href="{{ route('cart.index') }}" class="fas fa-shopping-cart" style="color:black"></a>
         </div>
     </nav>
     @yield('content')
