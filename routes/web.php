@@ -24,6 +24,8 @@ Route::middleware([CartSession::class])->group(function () {
 
     Route::name('cart')->group(function(){
         Route::get('/cart', [CartController::class, 'index'])->name('.index');
+        Route::get('/cart/checkout', [CartController::class, 'checkout'])->name('.checkout');
+        Route::get('/cart/success', [CartController::class, 'success'])->name('.success');
     });
 
 });
