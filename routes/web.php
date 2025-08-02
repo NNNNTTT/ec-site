@@ -19,6 +19,7 @@ Route::middleware([CartSession::class])->group(function () {
 
     Route::name('line_item')->group(function(){
         Route::post('/line_item/create', [LineItemController::class, 'create'])->name('.create');
+        Route::post('/line_item/delete', [LineItemController::class, 'delete'])->name('.delete');
     });
 
     Route::name('cart')->group(function(){
