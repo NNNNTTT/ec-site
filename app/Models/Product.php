@@ -13,4 +13,12 @@ class Product extends Model
             'line_items',
         )->withPivot(['id', 'quantity']);
     }
+
+    public function users()
+    {
+        return $this->belongsToMany(
+            Cart::class,
+            'user_line_items',
+        )->withPivot(['id', 'quantity']);
+    }
 }

@@ -33,12 +33,20 @@ class RegisteredUserController extends Controller
             'name' => ['required', 'string', 'max:255'],
             'email' => ['required', 'string', 'lowercase', 'email', 'max:255', 'unique:'.User::class],
             'password' => ['required', 'confirmed', Rules\Password::defaults()],
+            'phone' => ['required', 'regex:/^0\d{1,4}-?\d{1,4}-?\d{3,4}$/'], // 電話番号の正規表現
+            'postal_code' => ['required', 'string', 'regex:/^\d{3}-?\d{4}$/'], // 郵便番号
+            'prefecture' => ['required', 'string', 'max:255'], // 都道府県
+            'address' => ['required', 'string', 'max:255'], // 住所
         ]);
 
         $user = User::create([
             'name' => $request->name,
             'email' => $request->email,
             'password' => Hash::make($request->password),
+            'phone' => $request->phone,
+            'postal_code' => $request->postal_code,
+            'prefecture' => $request->prefecture,
+            'address' => $request->address,
         ]);
 
         event(new Registered($user));

@@ -16,6 +16,34 @@
             <x-input-error :messages="$errors->get('email')" class="mt-2" />
         </div>
 
+        <!-- Phone Number -->
+        <div class="mt-4">
+            <x-input-label for="phone" :value="__('Phone')" />
+            <x-text-input id="phone" class="block mt-1 w-full" type="text" name="phone" :value="old('phone')" required />
+            <x-input-error :messages="$errors->get('phone')" class="mt-2" />
+        </div>
+
+        <!-- Postal code -->
+        <div class="mt-4">
+            <x-input-label for="phone" :value="__('Postal Code ')" />
+            <x-text-input id="phone" class="block mt-1 w-full" type="text" name="postal_code" :value="old('postal_code')" required />
+            <x-input-error :messages="$errors->get('postal_code')" class="mt-2" />
+        </div>
+
+        <!-- Address -->
+        <div class="mt-4">
+            <x-input-label for="address" :value="__('Address')" />
+            <x-text-input id="address" class="block mt-1 w-full" type="text" name="address" :value="old('address')" required />
+            <x-input-error :messages="$errors->get('address')" class="mt-2" />
+        </div>
+
+        <!-- Prefecture -->
+        <div class="mt-4">
+            <x-input-label for="prefecture" :value="__('Prefecture')" />
+            <x-text-input id="prefecture" class="block mt-1 w-full" type="text" name="prefecture" :value="old('prefecture')" required />
+            <x-input-error :messages="$errors->get('prefecture')" class="mt-2" />
+        </div>
+
         <!-- Password -->
         <div class="mt-4">
             <x-input-label for="password" :value="__('Password')" />

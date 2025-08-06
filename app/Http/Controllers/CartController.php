@@ -6,12 +6,19 @@ use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Session;
 use App\Models\Cart;
 use App\Models\LineItem;
+use Illuminate\Support\Facades\Auth;
+use App\Models\UserLineItem;
+use App\Models\User;
 
 class CartController extends Controller
 {
     public function index(){
-        $cart_id = Session::get('cart');
-        $cart = Cart::find($cart_id);
+        if(Auth::check()){
+            $cart = User::find(Auth::id());
+        }else{
+            $cart_id = Session::get('cart');
+            $cart = Cart::find($cart_id);
+        }
 
         $total_price = 0;
         foreach($cart->products as $product){
@@ -25,8 +32,13 @@ class CartController extends Controller
     }
 
     public function checkout(){
-        $cart_id = Session::get('cart');
-        $cart = Cart::find($cart_id);
+        if(Auth::check()){
+            $user_id = Auth::user()->id;
+            $cart = User::find($user_id);
+        } else {
+            $cart_id = Session::get('cart');
+            $cart = Cart::find($cart_id);
+        }
 
         if(count($cart->products) <= 0){
             return redirect(route('cart.index'));
@@ -62,8 +74,13 @@ class CartController extends Controller
     }
 
     public function success(){
-        $cart_id = Session::get('cart');
-        LineItem::where('cart_id', $cart_id)->delete();
+        if(Auth::check()){
+            $user_id = Auth::user()->id;
+            UserLineItem::where('user_id', $user_id)->delete();
+        } else {
+            $cart_id = Session::get('cart');
+            LineItem::where('cart_id', $cart_id)->delete();
+        }
 
         return redirect(route('product.index'));
     }
