@@ -57,4 +57,8 @@ class User extends Authenticatable
             'user_line_items',
         )->withPivot(['id', 'quantity']);
     }
+
+    public function orders(){
+        return $this->hasMany(Order::class);
+    }
 }

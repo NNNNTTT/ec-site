@@ -6,6 +6,8 @@ use App\Http\Controllers\ProductController;
 use App\Http\Controllers\CartController;
 use App\Http\Controllers\LineItemController;
 use App\Http\Middleware\CartSession;
+use App\Http\Controllers\OrderController;
+use App\Http\Controllers\Auth\AuthenticatedSessionController;
 
 /*
 Route::get('/', function () {
@@ -29,6 +31,16 @@ Route::middleware([CartSession::class])->group(function () {
         Route::get('/cart', [CartController::class, 'index'])->name('.index');
         Route::get('/cart/checkout', [CartController::class, 'checkout'])->name('.checkout');
         Route::get('/cart/success', [CartController::class, 'success'])->name('.success');
+    });
+
+    Route::name('order')->group(function(){
+        Route::get('/order', [OrderController::class, 'index'])->name('.index');
+        Route::post('/order/login', [OrderController::class, 'login'])->name('.login');
+        Route::post('/order/register', [OrderController::class, 'register'])->name('.register');
+        Route::post('/order/store', [OrderController::class, 'store'])->name('.store');
+        Route::get('/order/card', [OrderController::class, 'card'])->name('.card');
+        Route::post('/order/card', [OrderController::class, 'card_customer'])->name('.card_customer');
+        Route::get('/order/success', [OrderController::class, 'success'])->name('.success');
     });
 
 });

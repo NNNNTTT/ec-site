@@ -21,4 +21,10 @@ class Product extends Model
             'user_line_items',
         )->withPivot(['id', 'quantity']);
     }
+
+    public function orders(){
+        return $this->belongsToMany(Order::class)
+        ->withPivot('quantity', 'price')
+        ->withTimestamps();
+    }
 }

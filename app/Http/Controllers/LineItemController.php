@@ -57,4 +57,5 @@ class LineItemController extends Controller
             return redirect(route('cart.index'));
         }
     }
+
 }
