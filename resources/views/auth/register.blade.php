@@ -1,52 +1,53 @@
 <x-guest-layout>
+    <h2 class="text-gray-900 dark:text-white text-center mb-4">新規登録</h2>
     <form method="POST" action="{{ route('register') }}">
         @csrf
 
         <!-- Name -->
         <div>
-            <x-input-label for="name" :value="__('Name')" />
+            <x-input-label for="name" :value="__('名前')" />
             <x-text-input id="name" class="block mt-1 w-full" type="text" name="name" :value="old('name')" required autofocus autocomplete="name" />
             <x-input-error :messages="$errors->get('name')" class="mt-2" />
         </div>
 
         <!-- Email Address -->
         <div class="mt-4">
-            <x-input-label for="email" :value="__('Email')" />
+            <x-input-label for="email" :value="__('メールアドレス')" />
             <x-text-input id="email" class="block mt-1 w-full" type="email" name="email" :value="old('email')" required autocomplete="username" />
             <x-input-error :messages="$errors->get('email')" class="mt-2" />
         </div>
 
         <!-- Phone Number -->
         <div class="mt-4">
-            <x-input-label for="phone" :value="__('Phone')" />
+            <x-input-label for="phone" :value="__('電話番号')" />
             <x-text-input id="phone" class="block mt-1 w-full" type="text" name="phone" :value="old('phone')" required />
             <x-input-error :messages="$errors->get('phone')" class="mt-2" />
         </div>
 
         <!-- Postal code -->
         <div class="mt-4">
-            <x-input-label for="phone" :value="__('Postal Code ')" />
+            <x-input-label for="phone" :value="__('郵便番号')" />
             <x-text-input id="phone" class="block mt-1 w-full" type="text" name="postal_code" :value="old('postal_code')" required />
             <x-input-error :messages="$errors->get('postal_code')" class="mt-2" />
         </div>
 
-        <!-- Address -->
-        <div class="mt-4">
-            <x-input-label for="address" :value="__('Address')" />
-            <x-text-input id="address" class="block mt-1 w-full" type="text" name="address" :value="old('address')" required />
-            <x-input-error :messages="$errors->get('address')" class="mt-2" />
-        </div>
-
         <!-- Prefecture -->
         <div class="mt-4">
-            <x-input-label for="prefecture" :value="__('Prefecture')" />
+            <x-input-label for="prefecture" :value="__('都道府県')" />
             <x-text-input id="prefecture" class="block mt-1 w-full" type="text" name="prefecture" :value="old('prefecture')" required />
             <x-input-error :messages="$errors->get('prefecture')" class="mt-2" />
         </div>
 
+        <!-- Address -->
+        <div class="mt-4">
+            <x-input-label for="address" :value="__('住所')" />
+            <x-text-input id="address" class="block mt-1 w-full" type="text" name="address" :value="old('address')" required />
+            <x-input-error :messages="$errors->get('address')" class="mt-2" />
+        </div>
+
         <!-- Password -->
         <div class="mt-4">
-            <x-input-label for="password" :value="__('Password')" />
+            <x-input-label for="password" :value="__('パスワード')" />
 
             <x-text-input id="password" class="block mt-1 w-full"
                             type="password"
@@ -58,7 +59,7 @@
 
         <!-- Confirm Password -->
         <div class="mt-4">
-            <x-input-label for="password_confirmation" :value="__('Confirm Password')" />
+            <x-input-label for="password_confirmation" :value="__('パスワード確認')" />
 
             <x-text-input id="password_confirmation" class="block mt-1 w-full"
                             type="password"
@@ -69,11 +70,11 @@
 
         <div class="flex items-center justify-end mt-4">
             <a class="underline text-sm text-gray-600 dark:text-gray-400 hover:text-gray-900 dark:hover:text-gray-100 rounded-md focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-indigo-500 dark:focus:ring-offset-gray-800" href="{{ route('login') }}">
-                {{ __('Already registered?') }}
+                {{ __('すでに登録済みの方はこちら') }}
             </a>
 
             <x-primary-button class="ms-4">
-                {{ __('Register') }}
+                {{ __('登録') }}
             </x-primary-button>
         </div>
     </form>

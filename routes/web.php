@@ -8,6 +8,8 @@ use App\Http\Controllers\LineItemController;
 use App\Http\Middleware\CartSession;
 use App\Http\Controllers\OrderController;
 use App\Http\Controllers\Auth\AuthenticatedSessionController;
+use App\Http\Controllers\AdminController;
+use App\Http\Controllers\AdminOrderController;
 
 /*
 Route::get('/', function () {
@@ -43,6 +45,20 @@ Route::middleware([CartSession::class])->group(function () {
         Route::get('/order/success', [OrderController::class, 'success'])->name('.success');
     });
 
+});
+
+Route::name('admin')->group(function(){
+    Route::get('/admin', [AdminController::class, 'index'])->name('.index');
+    Route::get('/admin/product', [ProductController::class, 'admin_index'])->name('.product.index');
+    Route::get('/admin/product/create', [ProductController::class, 'create'])->name('.product.create');
+    Route::post('/admin/product/store', [ProductController::class, 'store'])->name('.product.store');
+    Route::get('/admin/product/edit/{id}', [ProductController::class, 'edit'])->name('.product.edit');
+    Route::post('/admin/product/update/{id}', [ProductController::class, 'update'])->name('.product.update');
+    Route::get('/admin/product/destroy/{id}', [ProductController::class, 'destroy'])->name('.product.destroy');
+
+    Route::get('/admin/order', [AdminOrderController::class, 'index'])->name('.order.index');
+    Route::get('/admin/order/show/{id}', [AdminOrderController::class, 'show'])->name('.order.show');
+    Route::post('/admin/order/status_update', [AdminOrderController::class, 'status_update'])->name('.order.status_update');
 });
 
 Route::get('/dashboard', function () {

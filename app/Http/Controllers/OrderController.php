@@ -132,9 +132,7 @@ class OrderController extends Controller
             ]);
     
             foreach($request->line_items as $line_item){
-                OrderProduct::create([
-                    'order_id' => $order->id,
-                    'product_id' => $line_item['product_id'],
+                $order->products()->attach($line_item['product_id'], [
                     'quantity' => $line_item['quantity'],
                     'price' => $line_item['price'],
                 ]);
