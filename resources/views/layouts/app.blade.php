@@ -38,7 +38,7 @@
     </nav>
     @yield('content')
     <div class="admin_btn" style="position: fixed; bottom: 20px; right: 20px;">
-        <a href="{{ route('admin.index') }}" class="btn btn-success">管理画面</a>
+        <a href="{{ route('admin.index') }}" class="btn btn-success" style="color: white;">管理画面</a>
     </div>
 </body>
 <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/js/bootstrap.bundle.min.js"></script>
