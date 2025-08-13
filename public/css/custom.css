@@ -30,7 +30,7 @@
 .card__btn-trash {
   padding: 12px;
 }
-.card:hover {
+.card_hover:hover {
   transform: scale(1.01);
   transition-duration: 0.5s;
 }

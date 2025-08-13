@@ -12,7 +12,7 @@
     @if(count($line_items) > 0)
     <div class="cart-wrapper">
         @foreach ($line_items as $item)
-        <div class="card mb-3">
+        <div class="card mb-3 card_hover">
             <div class="row">
                 <img src="{{ asset($item->image) }}" alt="{{ $item->name }}" class="product-cart-img col-2"/>
                 <div class="card-body col-9">
@@ -42,7 +42,7 @@
     <div class="cart__sub-total">
         小計：￥{{ number_format($total_price) }}
     </div>
-    <button onClick="location.href='{{ route('order.index') }}'" class='cart__purchase btn btn-primary'>
+    <button onClick="location.href='{{ route('order.index') }}'" class='cart__purchase btn btn-dark'>
         購入手続きに進む
     </button>
     @else
