@@ -12,9 +12,9 @@ return new class extends Migration
     public function up(): void
     {
         Schema::create('order_product', function (Blueprint $table) {
-            $table->id();
-            $table->foreignId('order_id')->constrained()->onDelete('cascade');
-            $table->foreignId('product_id')->constrained()->onDelete('cascade');
+            $table->bigIncrements('id');
+            $table->unsignedBigInteger('order_id')->index('order_product_order_id_foreign');
+            $table->unsignedBigInteger('product_id')->index('order_product_product_id_foreign');
             $table->integer('quantity');
             $table->integer('price');
             $table->timestamps();

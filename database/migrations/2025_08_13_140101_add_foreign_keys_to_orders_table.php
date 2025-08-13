@@ -11,7 +11,9 @@ return new class extends Migration
      */
     public function up(): void
     {
-        Schema::rename('order_product', 'ordered_products');
+        Schema::table('orders', function (Blueprint $table) {
+            $table->foreign(['user_id'])->references(['id'])->on('users')->onUpdate('no action')->onDelete('no action');
+        });
     }
 
     /**
@@ -19,6 +21,8 @@ return new class extends Migration
      */
     public function down(): void
     {
-        Schema::rename('ordered_products', 'order_product');
+        Schema::table('orders', function (Blueprint $table) {
+            $table->dropForeign('orders_user_id_foreign');
+        });
     }
 };

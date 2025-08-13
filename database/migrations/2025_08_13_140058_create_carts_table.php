@@ -11,8 +11,9 @@ return new class extends Migration
      */
     public function up(): void
     {
-        Schema::table('order_products', function (Blueprint $table) {
-            //
+        Schema::create('carts', function (Blueprint $table) {
+            $table->bigIncrements('id');
+            $table->timestamps();
         });
     }
 
@@ -21,8 +22,6 @@ return new class extends Migration
      */
     public function down(): void
     {
-        Schema::table('order_products', function (Blueprint $table) {
-            //
-        });
+        Schema::dropIfExists('carts');
     }
 };

@@ -11,7 +11,14 @@ return new class extends Migration
      */
     public function up(): void
     {
-        Schema::rename('order_products', 'order_product');
+        Schema::create('products', function (Blueprint $table) {
+            $table->bigIncrements('id');
+            $table->string('name');
+            $table->text('description');
+            $table->string('image');
+            $table->integer('price');
+            $table->timestamps();
+        });
     }
 
     /**
@@ -19,6 +26,6 @@ return new class extends Migration
      */
     public function down(): void
     {
-        Schema::rename('order_product', 'order_products');
+        Schema::dropIfExists('products');
     }
 };

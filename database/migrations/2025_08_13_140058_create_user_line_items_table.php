@@ -12,18 +12,11 @@ return new class extends Migration
     public function up(): void
     {
         Schema::create('user_line_items', function (Blueprint $table) {
-            $table->id();
-            $table->unsignedBigInteger('user_id');
-            $table->unsignedBigInteger('product_id');
+            $table->bigIncrements('id');
+            $table->unsignedBigInteger('user_id')->index('user_line_items_user_id_foreign');
+            $table->unsignedBigInteger('product_id')->index('user_line_items_product_id_foreign');
             $table->integer('quantity');
             $table->timestamps();
-
-            $table->foreign('user_id')
-                ->references('id')
-                ->on('users');
-            $table->foreign('product_id')
-                ->references('id')
-                ->on('products');
         });
     }
 
@@ -32,6 +25,6 @@ return new class extends Migration
      */
     public function down(): void
     {
-        Schema::dropIfExists('line_items_user');
+        Schema::dropIfExists('user_line_items');
     }
 };

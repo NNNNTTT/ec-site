@@ -12,8 +12,8 @@ return new class extends Migration
     public function up(): void
     {
         Schema::create('orders', function (Blueprint $table) {
-            $table->id();
-            $table->foreignId('user_id')->constrained();
+            $table->bigIncrements('id');
+            $table->unsignedBigInteger('user_id')->index('orders_user_id_foreign');
             $table->string('status')->default('pending');
             $table->integer('total_price');
             $table->string('payment_method')->nullable();
@@ -24,6 +24,11 @@ return new class extends Migration
             $table->string('shipping_address');
             $table->string('shipping_phone');
             $table->timestamps();
+            $table->string('stripe_pi_id')->nullable();
+            $table->string('stripe_customer_id')->nullable();
+            $table->string('stripe_yoshin')->nullable();
+            $table->string('stripe_capture')->nullable();
+            $table->string('stripe_cancel')->nullable();
         });
     }
 
