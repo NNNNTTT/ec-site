@@ -118,6 +118,13 @@ a:active {
   text-decoration: none;
 }
 
+.auth_favorite-icon {
+  cursor: pointer;
+}
+.guest_favorite-icon {
+  cursor: pointer;
+}
+
 @media (max-width: 600px) {
   .top-img {
     background-image: url("../images/top2.jpg");

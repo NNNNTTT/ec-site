@@ -26,13 +26,18 @@ class AuthenticatedSessionController extends Controller
      */
     public function store(LoginRequest $request): RedirectResponse
     {   
+        $favorites = $request->input('favorites');
+        $favorites = json_decode($favorites, true);
 
         $request->authenticate();
 
         $request->session()->regenerate();
 
-        return redirect()->intended('/');
-    }
+        $user = Auth::user();
+        $user->favorites()->syncWithoutDetaching($favorites);
+
+        return redirect()->route('product.index')->with('favorites', $favorites);
+    }   
 
     /**
      * Destroy an authenticated session.

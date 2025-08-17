@@ -27,10 +27,30 @@
 
             <div class="d-flex gap-3 align-items-center">
                 @auth
+                    <form method="GET" action="{{ route('mypage.index') }}">
+                        <button type="submit" class="btn btn-outline-secondary">mypage</button>
+                    </form>
                     <form method="POST" action="{{ route('logout') }}">
                         @csrf
                         <button type="submit" class="btn btn-outline-secondary">logout</button>
                     </form>
+                    @php
+                        $user = Auth::user();
+                        $favorites = $user->favorites;
+                    @endphp
+                    @if($favorites->count() > 0)
+                    <form method="POST" action="{{ route('favorite.index') }}" class="favorite-form">
+                        @csrf
+                        <i class="fas fa-heart auth_favorite-icon" style="color:#ff69b4;"></i>
+                        <input type="hidden" name="type" value="auth">
+                    </form>
+                    @else
+                    <form method="POST" action="{{ route('favorite.index') }}" class="favorite-form">
+                        @csrf
+                        <i class="far fa-heart auth_favorite-icon" style="color:#ff69b4;"></i>
+                        <input type="hidden" name="type" value="auth">
+                    </form>
+                    @endif
                 @endauth
                 @guest
                     <form method="GET" action="{{ route('login') }}">
@@ -39,7 +59,14 @@
                     <form method="GET" action="{{ route('register') }}">
                         <button type="submit" class="btn btn-outline-secondary">register</button>
                     </form>
+                    <form method="POST" action="{{ route('favorite.index') }}" class="favorite-form">
+                        @csrf
+                        <i class="fa-heart guest_favorite-icon" style="color:#ff69b4;"></i>
+                        <input type="hidden" class="guest_favorite-input" name="favorites" value="">
+                        <input type="hidden" name="type" value="guest">
+                    </form>
                 @endguest
+
                 <a href="{{ route('cart.index') }}" class="fas fa-shopping-cart" style="color:black"></a>
             </div>
 
@@ -52,3 +79,31 @@
 </body>
 <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/js/bootstrap.bundle.min.js"></script>
 </html>
+<script>
+    @if(session()->has('favorites'))
+    localStorage.removeItem('favorites');
+    @endif
+    
+    @guest
+    let favorites = JSON.parse(localStorage.getItem('favorites') || '[]');
+    if (favorites.length > 0) {
+        const guestFavoriteIcon = document.querySelector('.guest_favorite-icon');
+        guestFavoriteIcon.classList.remove('far');
+        guestFavoriteIcon.classList.add('fas');
+    } else {
+        const guestFavoriteIcon = document.querySelector('.guest_favorite-icon');
+        guestFavoriteIcon.classList.remove('fas');
+        guestFavoriteIcon.classList.add('far');
+    }
+
+    const guestFavoriteInput = document.querySelector('.guest_favorite-input');
+    guestFavoriteInput.value = JSON.stringify(favorites);   
+    @endguest
+
+    const favoriteForm = document.querySelector('.favorite-form');
+    console.log(favoriteForm);
+    favoriteForm.addEventListener('click', function() {
+        favoriteForm.submit();
+    })
+
+</script>

@@ -10,6 +10,8 @@ use App\Http\Controllers\OrderController;
 use App\Http\Controllers\Auth\AuthenticatedSessionController;
 use App\Http\Controllers\AdminController;
 use App\Http\Controllers\AdminOrderController;
+use App\Http\Controllers\MypageController;
+use App\Http\Controllers\FavoriteController;
 
 /*
 Route::get('/', function () {
@@ -45,6 +47,16 @@ Route::middleware([CartSession::class])->group(function () {
         Route::get('/order/success', [OrderController::class, 'success'])->name('.success');
     });
 
+    Route::name('favorite')->group(function(){
+        Route::post('/favorite', [FavoriteController::class, 'index'])->name('.index');
+    });
+});
+
+Route::name('mypage')->group(function(){
+    Route::get('/mypage', [MypageController::class, 'index'])->name('.index');
+    Route::get('/mypage/edit', [MypageController::class, 'edit'])->name('.edit');
+    Route::post('/mypage/update', [MypageController::class, 'update'])->name('.update');
+    Route::get('/mypage/order_detail/{id}', [MypageController::class, 'order_detail'])->name('.order_detail');
 });
 
 Route::name('admin')->group(function(){

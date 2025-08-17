@@ -45,5 +45,13 @@
                 {{ __('ログイン') }}
             </x-primary-button>
         </div>
+
+        <input type="hidden" name="favorites" value="">
     </form>
 </x-guest-layout>
+
+<script>
+    let favorites = JSON.parse(localStorage.getItem('favorites') || '[]');
+    const favoriteInput = document.querySelector('input[name="favorites"]');
+    favoriteInput.value = JSON.stringify(favorites);
+</script>
