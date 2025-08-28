@@ -43,4 +43,13 @@ class Product extends Model
             'user_id',
         )->withPivot('id');
     }
+
+    public function reviews(){
+        return $this->belongsToMany(
+            User::class,
+            'reviews',
+            'product_id',
+            'user_id'
+        )->withPivot('id','user_id','rating','title','comment', 'created_at');
+    }
 }

@@ -36,7 +36,8 @@ class AuthenticatedSessionController extends Controller
         $user = Auth::user();
         $user->favorites()->syncWithoutDetaching($favorites);
 
-        return redirect()->route('product.index')->with('favorites', $favorites);
+        return redirect()->back()
+            ->with('favorites', $favorites);
     }   
 
     /**

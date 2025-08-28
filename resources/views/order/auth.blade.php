@@ -24,7 +24,7 @@
 
     <div class="login-container mb-4 pb-3 border-bottom">
 
-        <form method="POST" action="{{ route('order.login') }}" class="login-form">
+        <form method="POST" action="{{ route('login') }}" class="login-form">
             @csrf
 
             <div>
@@ -69,7 +69,7 @@
     <label class="form-check-label mb-3" for="tabRegister">会員登録がお済みでない方</label>
     <div class="register-container">
 
-        <form method="POST" action="{{ route('order.register') }}" class="register-form" style="display: none;">
+        <form method="POST" action="{{ route('register') }}" class="register-form" style="display: none;">
             @csrf
 
             <!-- Name -->

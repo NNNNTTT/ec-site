@@ -3,6 +3,10 @@
 @section('title', '注文詳細')
 
 @section('content')
+
+
+
+@if (session('error'))
 <div class="container">
     <h2 class="mb-5 mt-5">注文詳細</h2>
     <div class="card">
@@ -19,11 +23,16 @@
                     <p class="card-text">{{ $product->name }}</p>
                     <p class="card-text">¥{{ number_format($product->price) }}</p>
                     <p class="card-text">数量: {{ $product->pivot->quantity }}</p>
+                    @if ($product->reviews()->where('user_id', Auth::id())->doesntExist())
+                        <a href="{{ route('mypage.review.create', $product->id) }}" class='btn btn-outline-secondary'>商品レビューを書く</a>
+                    @else
+                        <a href="{{ route('mypage.review.edit', $product->id) }}" class='btn btn-outline-secondary'>商品レビューを編集する</a>
+                    @endif
                 </div>
             </div>        
             @endforeach
             <div class="d-flex flex-column align-items-end mt-3">
-                <p>送料:0</p>
+                <p>送料:¥{{ number_format( $order->shipping_fee )}}</p>
                 <p>合計金額: ¥{{ number_format($order->total_price) }}</p>
             </div>
 

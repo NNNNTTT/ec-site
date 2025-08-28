@@ -12,6 +12,8 @@ use App\Http\Controllers\AdminController;
 use App\Http\Controllers\AdminOrderController;
 use App\Http\Controllers\MypageController;
 use App\Http\Controllers\FavoriteController;
+use App\Http\Controllers\ReviewController;
+
 
 /*
 Route::get('/', function () {
@@ -57,6 +59,10 @@ Route::name('mypage')->group(function(){
     Route::get('/mypage/edit', [MypageController::class, 'edit'])->name('.edit');
     Route::post('/mypage/update', [MypageController::class, 'update'])->name('.update');
     Route::get('/mypage/order_detail/{id}', [MypageController::class, 'order_detail'])->name('.order_detail');
+    Route::get('/mypage/review/create/{id}', [ReviewController::class, 'create'])->name('.review.create');
+    Route::post('/mypage/review/store', [ReviewController::class, 'store'])->name('.review.store');
+    Route::get('/mypage/review/edit/{id}', [ReviewController::class, 'edit'])->name('.review.edit');
+    Route::post('/mypage/review/update/{id}', [ReviewController::class, 'update'])->name('.review.update');
 });
 
 Route::name('admin')->group(function(){

@@ -29,6 +29,7 @@ class Order extends Model
         'stripe_yoshin',
         'stripe_capture',
         'stripe_cancel',
+        'shipping_fee'
     ];
 
     public function user(){

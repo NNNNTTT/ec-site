@@ -70,4 +70,13 @@ class User extends Authenticatable
             'product_id',
         )->withPivot('id');
     }
+
+    public function reviews(){
+        return $this->belongsToMany(
+            Product::class,
+            'reviews',
+            'user_id',
+            'product_id'
+        )->withPivot('id','rating','title','comment');
+    }
 }

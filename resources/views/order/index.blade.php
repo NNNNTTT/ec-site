@@ -41,6 +41,14 @@
                                 </tbody>
                                 <tfoot>
                                     <tr class="fw-bold">
+                                        <td colspan="2" class="text-end fs-5">小計</td>
+                                        <td class="text-end fs-5">¥{{ number_format($subtotal) }}</td>
+                                    </tr>
+                                    <tr class="fw-bold">
+                                        <td colspan="2" class="text-end fs-5">送料</td>
+                                        <td class="text-end fs-5">¥{{ number_format($shipping_fee) }}</td>
+                                    </tr>
+                                    <tr class="fw-bold">
                                         <td colspan="2" class="text-end fs-5">合計金額</td>
                                         <td class="text-end fs-5">¥{{ number_format($total_price) }}</td>
                                     </tr>
@@ -103,6 +111,7 @@
                 <div class="d-grid gap-2 mt-4">
                     <button type="submit" class="btn btn-dark btn-lg" id='order_btn' disabled>注文を確定する</button>
                 </div>
+                <input type="hidden" name="shipping_fee" value="{{ $shipping_fee }}">
                 <input type="hidden" name="total_price" value="{{ $total_price }}">
                 <input type="hidden" name="user_id" value="{{ $user->id }}">
                 <input type="hidden" name="user_name" value="{{ $user->name }}">

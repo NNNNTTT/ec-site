@@ -32,6 +32,28 @@
             <a href="{{ route('product.index') }}">TOPへ戻る</a>
         </form>
     </div>
+    <div class="review mt-5 text-left">
+        <p class="border-bottom p-3">レビュー</p>
+        @foreach ($product->reviews as $review)
+        <div class="review-item border-bottom">
+            <div class="text-warning mb-1">
+                {{ str_repeat('★', $review->pivot->rating) }}
+                {{ str_repeat('☆', 5 - $review->pivot->rating) }}
+            </div>
+            <p class="fw-bold mb-1">{{ $review->pivot->title }}</p>
+            <p>{{ $review->pivot->comment }}</p>
+            @if (Auth::check())
+                @if (Auth::user()->id === $review->pivot->user_id)
+                    <a href="{{ route('mypage.review.edit', $review->pivot->id) }}" class="btn btn-outline-secondary mb-3">レビューを編集する</a>
+                @endif
+            @endif
+            <div class="d-flex justify-content-between">
+                <p style="font-size: 12px; color: #6c757d;">{{ $review->pivot->created_at->format('Y/m/d H:i') }}</p>
+                <p style="color: #6c757d;">不適切なレビューを報告する</p>
+            </div>
+        </div>
+        @endforeach
+    </div>
 </div>
 
 <script>

@@ -18,6 +18,7 @@ use Illuminate\Auth\Events\Registered;
 use Illuminate\Validation\Rules;
 use Illuminate\Support\Facades\Log;
 use Illuminate\Support\Facades\DB;
+use App\Services\ShippingCalculators\DefaultShippingCalculator;
 
 class OrderController extends Controller
 {
@@ -25,88 +26,26 @@ class OrderController extends Controller
 
         if(Auth::check()){
             $user = User::find(Auth::id());
-            $total_price = 0;
+            $subtotal = 0;
             foreach($user->products as $product){
                 $total = $product->price * $product->pivot->quantity;
-                $total_price += $total;
+                $subtotal += $total;
             }
+
+            $shippingCalculator = new DefaultShippingCalculator;
+            $shipping_fee = $shippingCalculator->calculate($subtotal);
+
+            $total_price = $subtotal + $shipping_fee;
+
             return view('order.index')
                 ->with('total_price', $total_price)
                 ->with('line_items', $user->products)
-                ->with('user', $user);
+                ->with('user', $user)
+                ->with('shipping_fee', $shipping_fee)
+                ->with('subtotal', $subtotal);
         }else{
             return view('order.auth');
         }
-    }
-
-    public function login(LoginRequest $request, LineItemService $lineItemService){
-        
-        //ログイン認証
-        $request->authenticate();
-        $request->session()->regenerate();
-
-        //ゲストカートをユーザーカートにマージ
-        $lineItemService->marge(); 
-
-        //ユーザー情報を取得
-        $user = User::find(Auth::id());
-
-        //合計金額を計算
-        $total_price = 0;
-        foreach($user->products as $product){
-            $total = $product->price * $product->pivot->quantity;
-            $total_price += $total;
-        }
-
-        //注文確定画面を表示
-        return view('order.index')
-            ->with('total_price', $total_price)
-            ->with('line_items', $user->products)
-            ->with('user', $user);
-    }
-
-    public function register(Request $request, LineItemService $lineItemService){
-        $request->validate([
-            'name' => ['required', 'string', 'max:255'],
-            'email' => ['required', 'string', 'lowercase', 'email', 'max:255', 'unique:'.User::class],
-            'password' => ['required', 'confirmed', Rules\Password::defaults()],
-            'phone' => ['required', 'regex:/^0\d{1,4}-?\d{1,4}-?\d{3,4}$/'], // 電話番号の正規表現
-            'postal_code' => ['required', 'string', 'regex:/^\d{3}-?\d{4}$/'], // 郵便番号
-            'prefecture' => ['required', 'string', 'max:255'], // 都道府県
-            'address' => ['required', 'string', 'max:255'], // 住所
-        ]);
-
-        $user = User::create([
-            'name' => $request->name,
-            'email' => $request->email,
-            'password' => Hash::make($request->password),
-            'phone' => $request->phone,
-            'postal_code' => $request->postal_code,
-            'prefecture' => $request->prefecture,
-            'address' => $request->address,
-        ]);
-
-        event(new Registered($user));
-
-        Auth::login($user);
-
-        //ゲストカートをユーザーカートにマージ
-        $lineItemService->marge(); 
-
-        //ユーザー情報を取得
-        $user = User::find(Auth::id());
-
-        //合計金額を計算
-        $total_price = 0;
-        foreach($user->products as $product){
-            $total = $product->price * $product->pivot->quantity;
-            $total_price += $total;
-        }
-
-        return view('order.index')
-            ->with('total_price', $total_price)
-            ->with('line_items', $user->products)
-            ->with('user', $user);
     }
 
     public function store(Request $request){
@@ -120,6 +59,7 @@ class OrderController extends Controller
             $order = Order::create([
                 'user_id' => $request->user_id,
                 'total_price' => $request->total_price,
+                'shipping_fee' => $request->shipping_fee,
                 'payment_method' => $request->payment_method,
                 'shipping_name' => $request->user_name,
                 'shipping_phone' => $request->user_phone,
