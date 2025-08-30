@@ -7,7 +7,7 @@
     <h2 class="mb-5 mt-5">商品レビューを書く</h2>
     <div class="card">
         <div class="card-body">
-            <form action="{{ route('mypage.review.store') }}" method="post">
+            <form action="{{ route('mypage.review.update', $review->id) }}" method="post">
                 @csrf
                 <div class="py-3 border-bottom mb-3">
                     <div class="order_img">
@@ -37,7 +37,7 @@
                     <textarea class="form-control" name='comment' id="exampleFormControlTextarea1" rows="3" style="max-width: 700px;">{{ $review->comment }}</textarea>
                 </div>
                 <input type="hidden" name="product_id" value="{{ $product->id }}">
-                <button type="submit" class="btn btn-outline-secondary">登録</button>
+                <button type="submit" class="btn btn-outline-secondary">更新</button>
             </form>
         </div>
     </div>

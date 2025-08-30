@@ -57,6 +57,83 @@
 </div>
 
 <script>
+    @if (Auth::check())
+    document.addEventListener('DOMContentLoaded', function() {
+        let favoriteBtn = document.querySelector('.favorite button');
+        const csrfToken = document.querySelector('meta[name="csrf-token"]').getAttribute('content');
+        @if ($product->favorites()->where('user_id', Auth::id())->exists())
+            favoriteBtn.textContent = 'お気に入り解除';
+            favoriteBtn.classList.remove('add');
+            favoriteBtn.classList.add('destroy');
+        @else
+            favoriteBtn.textContent = 'お気に入りに追加する';
+            favoriteBtn.classList.add('add');
+        @endif
+        favoriteBtn.addEventListener('click', function() {
+            let favoriteBtn = document.querySelector('.favorite button');
+            if(favoriteBtn.classList[2] === 'add') {
+                fetch('{{ route('favorite.store') }}', {
+                    method: 'POST',
+                    headers: {
+                        'Content-Type': 'application/json',
+                        'X-CSRF-TOKEN': csrfToken,
+                    },
+                    body: JSON.stringify({
+                        product_id: {{ $product->id }},
+                    })
+                })
+                .then(response => response.json())
+                .then(data => {
+                    if (data.success) {
+                        this.classList.remove('add');
+                        this.classList.add('destroy');
+                        this.textContent = 'お気に入り解除';
+                        const authFavoriteIcon = document.querySelector('.auth_favorite-icon');
+                        console.log(authFavoriteIcon);
+                        if(authFavoriteIcon.classList.contains('far')) {
+                            authFavoriteIcon.classList.remove('far');
+                            authFavoriteIcon.classList.add('fas');
+                        }
+                    } else {
+                        console.log('お気に入りに追加できませんでした。');
+                    }
+                })
+                .catch(error => {
+                    console.error('Error:', error);
+                });
+        }else if(favoriteBtn.classList[2] === 'destroy') {
+            fetch('{{ route('favorite.destroy') }}', {
+                method: 'POST',
+                headers: {
+                    'Content-Type': 'application/json',
+                    'X-CSRF-TOKEN': csrfToken,
+                },
+                body: JSON.stringify({
+                    product_id: {{ $product->id }},
+                })
+            })
+            .then(response => response.json())
+            .then(data => {
+                if (data.success) {
+                    this.classList.remove('destroy');
+                    this.classList.add('add');
+                    this.textContent = 'お気に入りに追加する';
+                } else {
+                    console.log('お気に入りを解除できませんでした。');
+                }
+                if(data.favoritecount === 0) {
+                    const guestFavoriteIcon = document.querySelector('.auth_favorite-icon');
+                    guestFavoriteIcon.classList.remove('fas');
+                    guestFavoriteIcon.classList.add('far');
+                }
+            })
+            .catch(error => {
+                console.error('Error:', error);
+            });
+        }
+    });
+    });
+    @else
     document.addEventListener('DOMContentLoaded', function() {
         const favoriteBtn = document.querySelector('.favorite button');
         const itemId = favoriteBtn.getAttribute('data-item-id');
@@ -99,7 +176,6 @@
             // 確認用：現在のリストをコンソールに出力
             console.log('現在のお気に入りリスト:', localStorage.getItem('favorites'));
         })
-
         // --- ページ読み込み時に、既にお気に入りのボタンの表示を更新する処理 ---
         const currentFavorites = JSON.parse(localStorage.getItem('favorites') || '[]');
         if (currentFavorites.includes(itemId)) {
@@ -113,6 +189,6 @@
             guestFavoriteInput.value = JSON.stringify(currentFavorites);
         }
     })
-
+    @endif
 </script>
 @endsection

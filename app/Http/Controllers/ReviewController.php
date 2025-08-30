@@ -58,6 +58,8 @@ class ReviewController extends Controller
             'comment' => 'required|string',
         ]);
 
+
+
         DB::beginTransaction();
         try{
             Review::find($id)->update($request->all());

@@ -26,4 +26,20 @@ class FavoriteController extends Controller
             return view('favorite.index', compact('favoriteProducts'));
         }
     }
+
+    public function store(Request $request)
+    {
+        $product = Product::find($request->input('product_id'));
+        $product->favorites()->attach(Auth::id());
+        $favoritecount = Auth::user()->favorites()->count();
+        return response()->json(['success' => true, 'favoritecount' => $favoritecount]);
+    }
+
+    public function destroy(Request $request)
+    {
+        $product = Product::find($request->input('product_id'));
+        $product->favorites()->detach(Auth::id());
+        $favoritecount = Auth::user()->favorites()->count();
+        return response()->json(['success' => true, 'favoritecount' => $favoritecount]);
+    }
 }

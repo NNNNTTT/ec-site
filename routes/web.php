@@ -51,6 +51,8 @@ Route::middleware([CartSession::class])->group(function () {
 
     Route::name('favorite')->group(function(){
         Route::post('/favorite', [FavoriteController::class, 'index'])->name('.index');
+        Route::post('/favorite/store', [FavoriteController::class, 'store'])->name('.store');
+        Route::post('/favorite/destroy', [FavoriteController::class, 'destroy'])->name('.destroy');
     });
 });
 

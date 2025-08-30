@@ -4,9 +4,6 @@
 
 @section('content')
 
-
-
-@if (session('error'))
 <div class="container">
     <h2 class="mb-5 mt-5">注文詳細</h2>
     <div class="card">
