@@ -26,6 +26,11 @@
             <a href="{{ route('product.index') }}" class="navbar-brand">{{ config('app.name', 'Laravel') }}</a>
 
             <div class="d-flex gap-3 align-items-center">
+                <form action="{{ route('product.search') }}" method="POST" class="d-flex gap-2">
+                    @csrf
+                    <input type="text" name="search" placeholder="商品名を検索">
+                    <button type="submit" class="btn btn-outline-secondary">search</button>
+                </form>
                 @auth
                     <form method="GET" action="{{ route('mypage.index') }}">
                         <button type="submit" class="btn btn-outline-secondary">mypage</button>

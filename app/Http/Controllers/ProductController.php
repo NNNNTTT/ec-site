@@ -25,13 +25,17 @@ class ProductController extends Controller
 
     public function admin_index()
     {
+        $show = "product";
         return view('admin.product.index')
-            ->with('products', Product::get());
+            ->with('products', Product::get())
+            ->with('show', $show);
     }
 
     public function create()
     {
-        return view('admin.product.create');
+        $show = "product";
+        return view('admin.product.create')
+            ->with('show', $show);
     }
 
     public function store(Request $request)
@@ -67,7 +71,9 @@ class ProductController extends Controller
     }
 
     public function edit($id){
+        $show = "product";
         return view('admin.product.edit')
+            ->with('show', $show)
             ->with('product', Product::find($id));
     }
 
@@ -78,6 +84,8 @@ class ProductController extends Controller
             'description' => 'required|string',
             'image' => 'sometimes|image|mimes:jpeg,png,jpg,gif|max:2048',
         ]);
+
+        $show = "product";
 
         DB::beginTransaction();
         try{
@@ -92,19 +100,29 @@ class ProductController extends Controller
             }
 
             DB::commit();
-            return redirect()->route('admin.product.edit', $id)->with('success', '商品を更新しました');
+            return redirect()->route('admin.product.edit', $id)->with('success', '商品を更新しました')
+                ->with('show', $show);
 
         }catch(\Exception $e){
             DB::rollBack();
             Log::error($e);
-            return redirect()->route('admin.product.edit', $id)->with('error', '商品を更新できませんでした');
+            return redirect()->route('admin.product.edit', $id)->with('error', '商品を更新できませんでした')
+                ->with('show', $show);
         }
     }
 
     public function destroy($id){
         $product = Product::find($id);
         $product->delete();
-        return redirect()->route('admin.product.index')->with('success', $id . '番の商品を削除しました');
+        $show = "product";
+        return redirect()->route('admin.product.index')->with('success', $id . '番の商品を削除しました')
+            ->with('show', $show);
+    }
+
+    public function search(Request $request){
+        $products = Product::where('name', 'like', '%' . $request->input('search') . '%')->get();
+        return view('product.index')
+            ->with('products', $products);
     }
 
     private function saveImage($request, $product){
@@ -114,4 +132,5 @@ class ProductController extends Controller
         $product->image = 'storage/images/' . $filename;
         $product->save();
     }
+
 }

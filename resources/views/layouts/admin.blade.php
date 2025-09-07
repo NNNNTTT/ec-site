@@ -20,10 +20,10 @@
             </a>
             <ul class="list-unstyled ps-0">
                 <li class="mb-1">
-                    <button class="btn btn-toggle d-inline-flex align-items-center rounded border-0 collapsed" data-bs-toggle="collapse" data-bs-target="#home-collapse" aria-expanded="true">
+                    <button class="btn btn-toggle d-inline-flex align-items-center rounded border-0 collapsed" data-bs-toggle="collapse" data-bs-target="#product-collapse" aria-expanded="true">
                     商品
                     </button>
-                    <div class="collapse show" id="home-collapse">
+                    <div class="collapse" id="product-collapse">
                     <ul class="btn-toggle-nav list-unstyled fw-normal pb-1 small">
                         <li><a href="{{ route('admin.product.index') }}" class="link-body-emphasis d-inline-flex text-decoration-none rounded">商品一覧</a></li>
                         <li><a href="{{ route('admin.product.create') }}" class="link-body-emphasis d-inline-flex text-decoration-none rounded">商品登録</a></li>
@@ -31,12 +31,23 @@
                     </div>
                 </li>
                 <li class="mb-1">
-                    <button class="btn btn-toggle d-inline-flex align-items-center rounded border-0 collapsed" data-bs-toggle="collapse" data-bs-target="#dashboard-collapse" aria-expanded="false">
+                    <button class="btn btn-toggle d-inline-flex align-items-center rounded border-0 collapsed" data-bs-toggle="collapse" data-bs-target="#order-collapse" aria-expanded="false">
                         注文管理
                     </button>
-                    <div class="collapse" id="dashboard-collapse">
+                    <div class="collapse" id="order-collapse">
                     <ul class="btn-toggle-nav list-unstyled fw-normal pb-1 small">
                         <li><a href="{{ route('admin.order.index') }}" class="link-body-emphasis d-inline-flex text-decoration-none rounded">注文一覧</a></li>
+                    </ul>
+                    </div>
+                </li>
+                <li class="mb-1">
+                    <button class="btn btn-toggle d-inline-flex align-items-center rounded border-0 collapsed" data-bs-toggle="collapse" data-bs-target="#sales-collapse" aria-expanded="false">
+                        売上管理
+                    </button>
+                    <div class="collapse" id="sales-collapse">
+                    <ul class="btn-toggle-nav list-unstyled fw-normal pb-1 small">
+                        <li><a href="{{ route('admin.sale.days_show') }}" class="link-body-emphasis d-inline-flex text-decoration-none rounded">日毎売上一覧</a></li>
+                        <li><a href="{{ route('admin.sale.month_show') }}" class="link-body-emphasis d-inline-flex text-decoration-none rounded">月毎売上一覧</a></li>
                     </ul>
                     </div>
                 </li>
@@ -65,4 +76,15 @@
 </body>
 <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/js/bootstrap.bundle.min.js"></script>
 <script src="{{ asset('js/sidebars.js') }}"></script>
+<script>
+    if('{{ $show }}' == 'order'){
+        document.querySelector('#order-collapse').classList.add('show');
+    }else if('{{ $show }}' == 'product'){
+        document.querySelector('#product-collapse').classList.add('show');
+    }else if('{{ $show }}' == 'sales'){
+        document.querySelector('#sales-collapse').classList.add('show');
+    }else if('{{ $show }}' == 'sale'){
+        document.querySelector('#sales-collapse').classList.add('show');
+    }
+</script>
 </html>

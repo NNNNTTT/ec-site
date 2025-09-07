@@ -15,12 +15,14 @@ class AdminOrderController extends Controller
             $status = 'pending';
             $orders = Order::where('status', 'pending')->get();
         }
-        return view('admin.order.index', compact('orders', 'status'));
+        $show = "order";
+        return view('admin.order.index', compact('orders', 'status', 'show'));
     }
 
     public function show($id){
+        $show = "order";
         $order = Order::find($id);
-        return view('admin.order.show', compact('order'));
+        return view('admin.order.show', compact('order', 'show'));
     }
 
     public function status_update(Request $request){

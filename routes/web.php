@@ -13,6 +13,7 @@ use App\Http\Controllers\AdminOrderController;
 use App\Http\Controllers\MypageController;
 use App\Http\Controllers\FavoriteController;
 use App\Http\Controllers\ReviewController;
+use App\Http\Controllers\AdminSaleController;
 
 
 /*
@@ -26,6 +27,7 @@ Route::middleware([CartSession::class])->group(function () {
     Route::name('product')->group(function () {
         Route::get('/', [ProductController::class, 'index'])->name('.index');
         Route::get('/product/{id}', [ProductController::class, 'show'])->name('.show');
+        Route::post('/product/search', [ProductController::class, 'search'])->name('.search');
     });
 
     Route::name('line_item')->group(function(){
@@ -79,6 +81,11 @@ Route::name('admin')->group(function(){
     Route::get('/admin/order', [AdminOrderController::class, 'index'])->name('.order.index');
     Route::get('/admin/order/show/{id}', [AdminOrderController::class, 'show'])->name('.order.show');
     Route::post('/admin/order/status_update', [AdminOrderController::class, 'status_update'])->name('.order.status_update');
+
+    Route::get('/admin/sale/days_show', [AdminSaleController::class, 'days_show'])->name('.sale.days_show');
+    Route::post('/admin/sale/days_search', [AdminSaleController::class, 'days_search'])->name('.sale.days_search');
+    Route::get('/admin/sale/month_show', [AdminSaleController::class, 'month_show'])->name('.sale.month_show');
+    Route::post('/admin/sale/month_search', [AdminSaleController::class, 'month_search'])->name('.sale.month_search');
 });
 
 Route::get('/dashboard', function () {
