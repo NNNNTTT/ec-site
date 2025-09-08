@@ -19,6 +19,11 @@
         {{ $product->description }}
         <form method='POST' action="{{ route('line_item.create') }}">
             @csrf
+            @if($product->stock <= 0)
+                <p class="product__stock mt-3 text-danger">
+                    こちらの商品は現在在庫切れのため購入できません。
+                </p>
+            @else
             <input type="hidden" name="id" value="{{ $product->id }}">
             <div class="product__quantity">
                 <input type="number" name='quantity' min='1' value='1' require>
@@ -26,6 +31,7 @@
             <div class="product__btn-add-cart">
                 <button type='submit' class='btn btn-outline-secondary'>カートに追加する</button>
             </div>
+            @endif
             <div class="favorite mb-3">
                 <button type="button" class="btn btn-outline-danger" data-item-id="{{ $product->id }}">お気に入りに追加する</button>
             </div>

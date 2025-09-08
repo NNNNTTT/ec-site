@@ -43,6 +43,7 @@ class ProductController extends Controller
         $request->validate([
             'name' => 'required|string|max:255',
             'price' => 'required|integer',
+            'stock' => 'required|integer',
             'description' => 'required|string',
             'image' => 'required|image|mimes:jpeg,png,jpg,gif|max:2048',
         ]);
@@ -53,6 +54,7 @@ class ProductController extends Controller
                 'name' => $request->name,
                 'price' => $request->price,
                 'description' => $request->description,
+                'stock' => $request->stock,
                 'image' => '',
             ]);
 
@@ -82,6 +84,7 @@ class ProductController extends Controller
             'name' => 'required|string|max:255',
             'price' => 'required|integer',
             'description' => 'required|string',
+            'stock' => 'required|integer',
             'image' => 'sometimes|image|mimes:jpeg,png,jpg,gif|max:2048',
         ]);
 
@@ -93,6 +96,7 @@ class ProductController extends Controller
             $product->name = $request->name;
             $product->price = $request->price;
             $product->description = $request->description;
+            $product->stock = $request->stock;
             $product->save();
 
             if($request->hasFile('image')){
@@ -123,6 +127,29 @@ class ProductController extends Controller
         $products = Product::where('name', 'like', '%' . $request->input('search') . '%')->get();
         return view('product.index')
             ->with('products', $products);
+    }
+
+    public function stock_edit(){
+        $show = "product";
+        $products = Product::all();
+        return view('admin.product.stock_edit')
+            ->with('products', $products)
+            ->with('show', $show);
+    }
+
+    public function stock_update(Request $request){
+        $show = "product";
+        $select_productIds = $request->products;
+        
+        foreach($select_productIds as $productId){
+            $productId = intval($productId);
+            $product = Product::find($productId);
+            $product->stock = $request->stock[$productId];
+            $product->save();
+        }
+        return redirect()->route('admin.product.stock_edit')
+            ->with('success', '在庫を更新しました')
+            ->with('show', $show);
     }
 
     private function saveImage($request, $product){

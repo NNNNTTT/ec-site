@@ -16,6 +16,10 @@
                 <input type="number" class="form-control" name='price' id="exampleFormControlTextarea1" rows="3" style="max-width: 700px;" ></input>
             </div>
             <div class="mb-3">
+                <label for="exampleFormControlTextarea1" class="form-label">在庫数</label>
+                <input type="number" class="form-control" name='stock' id="exampleFormControlTextarea1" rows="3" style="max-width: 700px;" ></input>
+            </div>
+            <div class="mb-3">
                 <label for="exampleFormControlTextarea1" class="form-label">商品説明</label>
                 <textarea class="form-control" name='description' id="exampleFormControlTextarea1" rows="3" style="max-width: 700px;"></textarea>
             </div>

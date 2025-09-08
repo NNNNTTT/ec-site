@@ -11,6 +11,7 @@ use App\Models\UserLineItem;
 use App\Models\User;
 use App\Models\Order;
 use App\Models\OrderProduct;
+use App\Models\Product;
 use Illuminate\Support\Facades\Session;
 use App\Services\StripeService;
 use Illuminate\Support\Facades\Hash;
@@ -27,11 +28,15 @@ class OrderController extends Controller
         if(Auth::check()){
             $user = User::find(Auth::id());
             $subtotal = 0;
+            $price_count = 0;
             foreach($user->products as $product){
+                if($product->stock <= 0){
+                }else{
+                $price_count += 1;
                 $total = $product->price * $product->pivot->quantity;
                 $subtotal += $total;
+                }
             }
-
             $shippingCalculator = new DefaultShippingCalculator;
             $shipping_fee = $shippingCalculator->calculate($subtotal);
 
@@ -41,8 +46,10 @@ class OrderController extends Controller
                 ->with('total_price', $total_price)
                 ->with('line_items', $user->products)
                 ->with('user', $user)
+                ->with('price_count', $price_count)
                 ->with('shipping_fee', $shipping_fee)
                 ->with('subtotal', $subtotal);
+                
         }else{
             return view('order.auth');
         }
@@ -76,6 +83,10 @@ class OrderController extends Controller
                     'quantity' => $line_item['quantity'],
                     'price' => $line_item['price'],
                 ]);
+
+                $product = Product::find($line_item['product_id']);
+                $product->stock -= $line_item['quantity'];
+                $product->save();
             }
     
             UserLineItem::where('user_id', $order->user_id)->delete();

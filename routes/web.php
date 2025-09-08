@@ -77,6 +77,8 @@ Route::name('admin')->group(function(){
     Route::get('/admin/product/edit/{id}', [ProductController::class, 'edit'])->name('.product.edit');
     Route::post('/admin/product/update/{id}', [ProductController::class, 'update'])->name('.product.update');
     Route::get('/admin/product/destroy/{id}', [ProductController::class, 'destroy'])->name('.product.destroy');
+    Route::get('/admin/product/stock_edit', [ProductController::class, 'stock_edit'])->name('.product.stock_edit');
+    Route::post('/admin/product/stock_update', [ProductController::class, 'stock_update'])->name('.product.stock_update');
 
     Route::get('/admin/order', [AdminOrderController::class, 'index'])->name('.order.index');
     Route::get('/admin/order/show/{id}', [AdminOrderController::class, 'show'])->name('.order.show');

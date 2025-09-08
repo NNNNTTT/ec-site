@@ -15,6 +15,16 @@
                 <div class="card-header">
                     <h2 class="h5 mb-0">ご注文内容</h2>
                 </div>
+                @if($price_count == 0)
+                    <div class="card-body">
+                        @foreach($line_items as $line_item)
+                            @if($line_item->stock <= 0)
+                                <p class="text-danger">{{ $line_item->name }}は現在在庫切れのため購入できません。</p>
+                            @endif
+                        @endforeach
+                        <a class="btn btn-outline-secondary" href="{{ route('product.index') }}">商品一覧へ戻る</a>
+                    </div>
+                @else
                 <form action="{{ route('order.store') }}" method="POST">
                     @csrf
                     <div class="card-body">
@@ -29,6 +39,9 @@
                                 </thead>
                                 <tbody>
                                     @foreach($line_items as $line_item)
+                                        @if($line_item->stock <= 0)
+                                            <p class="text-danger">{{ $line_item->name }}は現在在庫切れのため購入できません。</p>
+                                        @else
                                         <tr>
                                             <td>{{ $line_item->name }}</td>
                                             <td class="text-end">¥{{ number_format($line_item->price) }}</td>
@@ -37,6 +50,7 @@
                                             <input type="hidden" name="line_items[{{ $loop->index }}][quantity]" value="{{ $line_item->pivot->quantity }}">
                                             <input type="hidden" name="line_items[{{ $loop->index }}][price]" value="{{ $line_item->price }}">
                                         </tr>
+                                        @endif
                                     @endforeach
                                 </tbody>
                                 <tfoot>
@@ -123,6 +137,7 @@
                 <input type="hidden" name="customer_id" value="">
                 <input type="hidden" name="payment_method_id" value="">
             </form>
+            @endif
 
         </div>
     </div>
