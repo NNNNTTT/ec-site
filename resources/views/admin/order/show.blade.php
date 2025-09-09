@@ -92,7 +92,7 @@
                         @elseif($order->status == 'delivered')
                             <p>配達済み</p>
                         @elseif($order->status == 'canceled')
-                            <p>キャンセル済み</p>
+                            <p>注文取消し</p>
                         @endif
                     </td>
                 </tr>   

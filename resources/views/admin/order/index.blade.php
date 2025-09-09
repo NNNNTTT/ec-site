@@ -25,7 +25,8 @@
 
     <div class="d-flex justify-content-center">
         <a class="status_btn pending" href="{{ route('admin.order.index', ['status' => 'pending']) }}" style="border:1px solid #000; border-bottom: 1px solid #fff; padding: 10px 20px; text-decoration: none; margin-right: 10px; color: #000;">未発送</a>
-        <a class="status_btn shipped" href="{{ route('admin.order.index', ['status' => 'shipped']) }}" style="border:1px solid #000; border-bottom: 1px solid #fff; padding: 10px 20px; text-decoration: none; color: #000;">発送済み</a>
+        <a class="status_btn shipped" href="{{ route('admin.order.index', ['status' => 'shipped']) }}" style="border:1px solid #000; border-bottom: 1px solid #fff; padding: 10px 20px; text-decoration: none; margin-right: 10px; color: #000;">発送済み</a>
+        <a class="status_btn canceled" href="{{ route('admin.order.index', ['status' => 'canceled']) }}" style="border:1px solid #000; border-bottom: 1px solid #fff; padding: 10px 20px; text-decoration: none; margin-right: 10px; color: #000;">注文取消し</a>
     </div>
     <form action="{{ route('admin.order.status_update') }}" method="post">
         @csrf
@@ -62,6 +63,7 @@
                             <option value="no_change" selected>変更してください</option>
                             <option value="pending">未発送</option>
                             <option value="shipped">発送済み</option>
+                            <option value="canceled">注文取消し</option>
                         </select>
                     </td>
                     <td style="width: 10%;"><a href="{{ route('admin.order.show', $order->id) }}" class="btn btn-outline-secondary">注文詳細</a></td>
@@ -76,8 +78,10 @@
         document.addEventListener('DOMContentLoaded', function() {
             if('{{ $status }}' == 'pending'){
                 document.querySelector('.pending').classList.add('active');
-            }else{
+            }else if('{{ $status }}' == 'shipped'){
                 document.querySelector('.shipped').classList.add('active');
+            }else if('{{ $status }}' == 'canceled'){
+                document.querySelector('.canceled').classList.add('active');
             }
         });
     </script>

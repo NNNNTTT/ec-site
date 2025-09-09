@@ -51,4 +51,22 @@ class StripeService
 
         return $yoshin_data;
     }
+
+    public function capture($order){
+        \Stripe\Stripe::setApiKey(env('STRIPE_SECRET_KEY'));
+        $payment_intent = \Stripe\PaymentIntent::retrieve($order->stripe_pi_id);
+        $payment_intent->capture();
+
+        return $payment_intent;
+    }
+
+    public function cancel($order){
+        \Stripe\Stripe::setApiKey(env('STRIPE_SECRET_KEY'));
+        $payment_intent = \Stripe\PaymentIntent::retrieve($order->stripe_pi_id);
+        $payment_intent->cancel();
+
+        return $payment_intent;
+    }
+
+    
 }

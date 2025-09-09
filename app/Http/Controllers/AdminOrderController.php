@@ -4,6 +4,7 @@ namespace App\Http\Controllers;
 
 use Illuminate\Http\Request;
 use App\Models\Order;
+use App\Services\StripeService;
 
 class AdminOrderController extends Controller
 {
@@ -33,6 +34,23 @@ class AdminOrderController extends Controller
                 $old_order = Order::find($id);
                 if($old_order->status != $order['status']){
                     $old_order->status = $order['status'];
+
+                    //決済確定処理
+                    if($order['status'] == 'shipped' && $old_order->payment_method == 'credit_card' && $old_order->payment_status == 'unpaid'){
+                        $stripeService = new StripeService();
+                        $stripeService->capture($old_order);
+                        $old_order->stripe_capture = now();
+                        $old_order->payment_status = 'paid';
+                    }
+
+                    //決済キャンセル処理
+                    if($order['status'] == 'canceled' && $old_order->payment_method == 'credit_card' && $old_order->payment_status == 'unpaid'){
+                        $stripeService = new StripeService();
+                        $stripeService->cancel($old_order);
+                        $old_order->stripe_cancel = now();
+                        $old_order->payment_status = 'canceled';
+                    }
+
                     $old_order->save();
                 }
             }
