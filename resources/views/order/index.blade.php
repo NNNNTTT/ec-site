@@ -124,6 +124,7 @@
 
                 <div class="d-grid gap-2 mt-4">
                     <button type="submit" class="btn btn-dark btn-lg" id='order_btn' disabled>注文を確定する</button>
+                    <a href="{{ route('cart.index') }}" class="btn btn-outline-secondary btn-lg">カートに戻る</a>
                 </div>
                 <input type="hidden" name="shipping_fee" value="{{ $shipping_fee }}">
                 <input type="hidden" name="total_price" value="{{ $total_price }}">

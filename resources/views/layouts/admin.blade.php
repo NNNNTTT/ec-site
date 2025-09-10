@@ -20,7 +20,7 @@
             </a>
             <ul class="list-unstyled ps-0">
                 <li class="mb-1">
-                    <button class="btn btn-toggle d-inline-flex align-items-center rounded border-0 collapsed" data-bs-toggle="collapse" data-bs-target="#product-collapse" aria-expanded="true">
+                    <button class="btn btn-toggle d-inline-flex align-items-center rounded border-0 collapsed" data-bs-toggle="collapse" data-bs-target="#product-collapse" aria-expanded="false">
                     商品
                     </button>
                     <div class="collapse" id="product-collapse">
@@ -79,13 +79,23 @@
 <script src="{{ asset('js/sidebars.js') }}"></script>
 <script>
     if('{{ $show }}' == 'order'){
+        document.querySelector('[data-bs-target="#order-collapse"]').setAttribute('aria-expanded', 'true');
+        document.querySelector('[data-bs-target="#order-collapse"]').classList.remove('collapsed');
         document.querySelector('#order-collapse').classList.add('show');
     }else if('{{ $show }}' == 'product'){
+        document.querySelector('[data-bs-target="#product-collapse"]').setAttribute('aria-expanded', 'true');
+        document.querySelector('[data-bs-target="#product-collapse"]').classList.remove('collapsed');
         document.querySelector('#product-collapse').classList.add('show');
     }else if('{{ $show }}' == 'sales'){
+        document.querySelector('[data-bs-target="#sales-collapse"]').setAttribute('aria-expanded', 'true');
+        document.querySelector('[data-bs-target="#sales-collapse"]').classList.remove('collapsed');
         document.querySelector('#sales-collapse').classList.add('show');
+        document.querySelector('#sales-collapse').classList.remove('collapsed');
     }else if('{{ $show }}' == 'sale'){
+        document.querySelector('[data-bs-target="#sales-collapse"]').setAttribute('aria-expanded', 'true');
+        document.querySelector('[data-bs-target="#sales-collapse"]').classList.remove('collapsed');
         document.querySelector('#sales-collapse').classList.add('show');
+        document.querySelector('#sales-collapse').classList.remove('collapsed');
     }
 </script>
 </html>

@@ -35,11 +35,16 @@ class MypageController extends Controller
         $user->phone = $request->phone;
         $user->address = $request->address;
         $user->save();
+
+        return redirect()->route('mypage.index');
     }
 
     public function order_detail($id)
     {
         $order = Order::find($id);
+        if($order->user_id != Auth::user()->id){
+            return redirect()->route('mypage.index');
+        }
 
         return view('mypage.order_detail', compact('order'));
     }

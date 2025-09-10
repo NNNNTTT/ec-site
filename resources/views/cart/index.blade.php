@@ -45,6 +45,7 @@
     <button onClick="location.href='{{ route('order.index') }}'" class='cart__purchase btn btn-dark'>
         購入手続きに進む
     </button>
+    <a href="{{ route('product.index') }}" class="cart__purchase btn btn-outline-secondary mx-3">お買い物を続ける</a>
     @else
     <div class="cart__empty">
         カートに商品が入っていません。

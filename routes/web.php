@@ -28,6 +28,8 @@ Route::middleware([CartSession::class])->group(function () {
         Route::get('/', [ProductController::class, 'index'])->name('.index');
         Route::get('/product/{id}', [ProductController::class, 'show'])->name('.show');
         Route::post('/product/search', [ProductController::class, 'search'])->name('.search');
+        Route::get('/product/review/edit/{id}', [ReviewController::class, 'product_review_edit'])->name('.review.edit');
+        Route::post('/product/review/update/{id}', [ReviewController::class, 'product_review_update'])->name('.review.update');
     });
 
     Route::name('line_item')->group(function(){
@@ -65,8 +67,8 @@ Route::name('mypage')->group(function(){
     Route::get('/mypage/order_detail/{id}', [MypageController::class, 'order_detail'])->name('.order_detail');
     Route::get('/mypage/review/create/{id}', [ReviewController::class, 'create'])->name('.review.create');
     Route::post('/mypage/review/store', [ReviewController::class, 'store'])->name('.review.store');
-    Route::get('/mypage/review/edit/{id}', [ReviewController::class, 'edit'])->name('.review.edit');
-    Route::post('/mypage/review/update/{id}', [ReviewController::class, 'update'])->name('.review.update');
+    Route::get('/mypage/review/edit/{order_id}/{product_id}', [ReviewController::class, 'mypage_review_edit'])->name('.review.edit');
+    Route::post('/mypage/review/update/{order_id}/{review_id}', [ReviewController::class, 'mypage_review_update'])->name('.review.update');
 });
 
 Route::name('admin')->group(function(){

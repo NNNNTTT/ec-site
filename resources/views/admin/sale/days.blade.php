@@ -7,7 +7,7 @@
 @section('content')
 
     <div class="card-body">
-        <form action="{{ route('admin.sale.days_search') }}" method="POST" class="d-flex justify-content-end gap-2 mb-3"> 
+        <form action="{{ route('admin.sale.days_search') }}" method="POST" class="d-flex justify-content-end gap-2 mb-3 align-items-end"> 
             @csrf
             <div class="form-group" style="width: 200px;">
                 <label for="start_date">開始日</label>

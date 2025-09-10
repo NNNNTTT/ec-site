@@ -7,9 +7,9 @@
 @section('content')
 
     <div class="card-body">
-        <form action="{{ route('admin.sale.month_search') }}" method="POST" class="d-flex justify-content-end gap-2 mb-3"> 
+        <form action="{{ route('admin.sale.month_search') }}" method="POST" class="d-flex justify-content-end gap-2 mb-3 align-items-center"> 
             @csrf
-            <div class="form-group" style="width: 200px;">
+            <div class="form-group">
                 <label for="year">年を選択:</label>
                 <select id="year" name="year">
                     @for ($y = date('Y'); $y >= 2020; $y--)

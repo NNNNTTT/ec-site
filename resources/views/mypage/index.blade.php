@@ -28,12 +28,6 @@
         <li class='nav-item'>
             <a href='#order-history' class='nav-link'>注文履歴</a>
         </li>
-        <li class='nav-item'>
-            <a href='#' class='nav-link'>お気に入り</a>
-        </li>
-        <li class='nav-item'>
-            <a href='#' class='nav-link'>ポイント</a>
-        </li>
     </ul>
 
     <div id="account" class="content">
@@ -86,11 +80,14 @@
             <tbody>
         </table>
     </div>
+
+    <div class="mt-3">
+        <a href="{{ route('product.index') }}">トップへ戻る</a>
+    </div>
 </div>
 <script>
     $(document).ready(function() {
         $('#account').addClass('active');
-
         $('.nav-tabs a').click(function() {
             $(this).tab('show');
             if($(this).attr('href') == '#account') {

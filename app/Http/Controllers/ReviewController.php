@@ -42,29 +42,63 @@ class ReviewController extends Controller
         }
     }
 
-    public function edit($id){
+    public function product_review_edit($id){
         $user_id = Auth::id();
         $review = Review::where('user_id', $user_id)->where('product_id', $id)->first();
-        $product = Product::find($id);
-        return view('mypage.review.edit')
-            ->with('product', $product)
-            ->with('review', $review);
+        if($review == null){
+            return redirect()->route('product.index');
+        }else{
+            $product = Product::find($review->product_id);
+            return view('product.review.edit')
+                ->with('product', $product)
+                ->with('review', $review);
+        }
     }
 
-    public function update(Request $request, $id){
+    public function product_review_update(Request $request, $id){
         $request->validate([
             'rating' => 'required|integer|min:1|max:5',
             'title' => 'required|string|max:255',
             'comment' => 'required|string',
         ]);
 
-
-
         DB::beginTransaction();
         try{
             Review::find($id)->update($request->all());
             DB::commit();
-            return redirect()->route('product.review.edit', $request->product_id)->with('success', 'レビューを更新しました');
+            return redirect()->route('product.show', $request->product_id)->with('success', 'レビューを更新しました');
+        }catch(\Exception $e){
+            DB::rollBack();
+            return redirect()->back()->with('error', 'レビューの更新に失敗しました');
+        }
+    }
+
+    public function mypage_review_edit($order_id, $product_id){
+        $user_id = Auth::id();
+        $review = Review::where('user_id', $user_id)->where('product_id', $product_id)->first();
+        if($review == null){
+            return redirect()->route('mypage.index');
+        }else{
+            $product = Product::find($review->product_id);
+            return view('mypage.review.edit')
+                ->with('product', $product)
+                ->with('review', $review)
+                ->with('order_id', $order_id);
+        }
+    }
+
+    public function mypage_review_update(Request $request, $order_id, $review_id){
+        $request->validate([
+            'rating' => 'required|integer|min:1|max:5',
+            'title' => 'required|string|max:255',
+            'comment' => 'required|string',
+        ]);
+
+        DB::beginTransaction();
+        try{
+            Review::find($review_id)->update($request->all());
+            DB::commit();
+            return redirect()->route('mypage.order_detail', $request->order_id)->with('success', 'レビューを更新しました');
         }catch(\Exception $e){
             DB::rollBack();
             return redirect()->back()->with('error', 'レビューの更新に失敗しました');

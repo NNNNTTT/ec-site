@@ -35,11 +35,14 @@
             <div class="favorite mb-3">
                 <button type="button" class="btn btn-outline-danger" data-item-id="{{ $product->id }}">お気に入りに追加する</button>
             </div>
-            <a href="{{ route('product.index') }}">TOPへ戻る</a>
+            <a href="{{ route('product.index') }}">商品一覧へ戻る</a>
         </form>
     </div>
     <div class="review mt-5 text-left">
         <p class="border-bottom p-3">レビュー</p>
+        @if($product->reviews->count() == 0)
+            <p>この商品のレビューはありません</p>
+        @else
         @foreach ($product->reviews as $review)
         <div class="review-item border-bottom">
             <div class="text-warning mb-1">
@@ -50,7 +53,7 @@
             <p>{{ $review->pivot->comment }}</p>
             @if (Auth::check())
                 @if (Auth::user()->id === $review->pivot->user_id)
-                    <a href="{{ route('mypage.review.edit', $review->pivot->id) }}" class="btn btn-outline-secondary mb-3">レビューを編集する</a>
+                    <a href="{{ route('product.review.edit', $review->pivot->product_id) }}" class="btn btn-outline-secondary mb-3">レビューを編集する</a>
                 @endif
             @endif
             <div class="d-flex justify-content-between">
@@ -59,6 +62,7 @@
             </div>
         </div>
         @endforeach
+        @endif
     </div>
 </div>
 

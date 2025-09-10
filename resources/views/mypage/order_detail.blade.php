@@ -21,11 +21,12 @@
                     <p class="card-text">¥{{ number_format($product->price) }}</p>
                     <p class="card-text">数量: {{ $product->pivot->quantity }}</p>
                     @if ($product->reviews()->where('user_id', Auth::id())->doesntExist())
-                        <a href="{{ route('mypage.review.create', $product->id) }}" class='btn btn-outline-secondary'>商品レビューを書く</a>
+                        <a href="{{ route('mypage.review.create', [$order->id, $product->id]) }}" class='btn btn-outline-secondary'>商品レビューを書く</a>
                     @else
-                        <a href="{{ route('mypage.review.edit', $product->id) }}" class='btn btn-outline-secondary'>商品レビューを編集する</a>
+                        <a href="{{ route('mypage.review.edit', [$order->id, $product->id]) }}" class='btn btn-outline-secondary'>商品レビューを編集する</a>
                     @endif
                 </div>
+
             </div>        
             @endforeach
             <div class="d-flex flex-column align-items-end mt-3">
