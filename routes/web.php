@@ -65,7 +65,7 @@ Route::name('mypage')->group(function(){
     Route::get('/mypage/edit', [MypageController::class, 'edit'])->name('.edit');
     Route::post('/mypage/update', [MypageController::class, 'update'])->name('.update');
     Route::get('/mypage/order_detail/{id}', [MypageController::class, 'order_detail'])->name('.order_detail');
-    Route::get('/mypage/review/create/{id}', [ReviewController::class, 'create'])->name('.review.create');
+    Route::get('/mypage/review/create/{order_id}/{product_id}', [ReviewController::class, 'create'])->name('.review.create');
     Route::post('/mypage/review/store', [ReviewController::class, 'store'])->name('.review.store');
     Route::get('/mypage/review/edit/{order_id}/{product_id}', [ReviewController::class, 'mypage_review_edit'])->name('.review.edit');
     Route::post('/mypage/review/update/{order_id}/{review_id}', [ReviewController::class, 'mypage_review_update'])->name('.review.update');

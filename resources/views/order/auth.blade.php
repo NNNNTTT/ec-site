@@ -1,7 +1,7 @@
 @extends('layouts.app')
 
 @section('title')
-商品一覧
+ログイン・会員登録
 @endsection
 
 @section('content')
@@ -62,6 +62,9 @@
                     {{ __('ログイン') }}
                 </x-primary-button>
             </div>
+
+            <!-- jsでローカルのお気に入り情報を取得してここに格納します -->
+            <input type="hidden" name="favorites_data" value="">
         </form>
     </div>
 
@@ -144,10 +147,15 @@
                     {{ __('登録') }}
                 </x-primary-button>
             </div>
+
+            <!-- jsでローカルのお気に入り情報を取得してここに格納します -->
+            <input type="hidden" name="favorites_data" value="">
+
         </form>
     </div>
 </div>
 </x-guest-layout>
+<script src="{{ asset('js/auth/login.js') }}"></script>
 @endsection
 
 @section('js', asset('js/order/auth.js'))

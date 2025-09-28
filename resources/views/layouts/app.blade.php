@@ -41,13 +41,13 @@
                     @if($favorites->count() > 0)
                     <form method="POST" action="{{ route('favorite.index') }}" class="favorite-form">
                         @csrf
-                        <i class="fas fa-heart auth_favorite-icon" style="color:#ff69b4;"></i>
+                        <i class="fas fa-heart auth_favorite-icon"></i>
                         <input type="hidden" name="type" value="auth">
                     </form>
                     @else
                     <form method="POST" action="{{ route('favorite.index') }}" class="favorite-form">
                         @csrf
-                        <i class="far fa-heart auth_favorite-icon" style="color:#ff69b4;"></i>
+                        <i class="far fa-heart auth_favorite-icon"></i>
                         <input type="hidden" name="type" value="auth">
                     </form>
                     @endif
@@ -58,7 +58,7 @@
                     </a>    
                     <form method="POST" action="{{ route('favorite.index') }}" class="favorite-form">
                         @csrf
-                        <i class="fa-heart guest_favorite-icon" style="color :#ffbfdf; "></i>
+                        <i class="fa-heart guest_favorite-icon"></i>
                         <input type="hidden" class="guest_favorite-input" name="favorites" value="">
                         <input type="hidden" name="type" value="guest">
                     </form>

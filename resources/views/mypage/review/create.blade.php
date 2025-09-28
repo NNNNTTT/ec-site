@@ -37,6 +37,7 @@
                     <textarea class="form-control" name='comment' id="exampleFormControlTextarea1" rows="3" style="max-width: 700px;"></textarea>
                 </div>
                 <input type="hidden" name="product_id" value="{{ $product->id }}">
+                <input type="hidden" name="order_id" value="{{ $order_id }}">
                 <button type="submit" class="btn btn-outline-secondary">登録</button>
             </form>
         </div>

@@ -5,15 +5,23 @@ namespace App\Http\Controllers;
 use Illuminate\Http\Request;
 use App\Models\Review;
 use App\Models\Product;
+use App\Models\Order;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\DB;
 
 class ReviewController extends Controller
 {
-    //
-    public function create($id){
-        return view('mypage.review.create')
-            ->with('product', Product::find($id));
+    public function create($order_id, $product_id){
+        $user_id = Auth::id();
+
+        $order = Order::find($order_id);
+        if($order->user_id !== $user_id){
+            return redirect()->route('mypage.order_detail', $order_id);
+        }else{
+            return view('mypage.review.create')
+            ->with('product', Product::find($product_id))
+            ->with('order_id', $order_id);
+        }
     }
 
     public function store(Request $request){
@@ -35,7 +43,7 @@ class ReviewController extends Controller
                 'comment' => $request->comment,
             ]);
             DB::commit();
-            return redirect()->route('mypage.order_detail', $request->product_id)->with('success', 'レビューを登録しました');
+            return redirect()->route('mypage.order_detail', $request->order_id)->with('success', 'レビューを登録しました');
         }catch(\Exception $e){
             DB::rollBack();
             return redirect()->back()->with('error', 'レビューの登録に失敗しました');

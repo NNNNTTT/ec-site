@@ -1,7 +1,7 @@
 @extends('layouts.app')
 
 @section('title')
-ログイン
+ログイン・会員登録
 @endsection
 
 @section('content')
