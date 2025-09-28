@@ -26,7 +26,8 @@ class AuthenticatedSessionController extends Controller
      */
     public function store(LoginRequest $request): RedirectResponse
     {   
-        $favorites = $request->input('favorites');
+        // ゲスト時のお気に入り情報のデータを取得する
+        $favorites = $request->input('favorites_data');
         $favorites = json_decode($favorites, true);
 
         $request->authenticate();
@@ -34,10 +35,14 @@ class AuthenticatedSessionController extends Controller
         $request->session()->regenerate();
 
         $user = Auth::user();
+
+        // ログインユーザーのお気に入り情報とゲスト時のお気に入り情報を結合する
         $user->favorites()->syncWithoutDetaching($favorites);
 
-        return redirect()->back()
-            ->with('favorites', $favorites);
+        // セッションにゲスト時のお気に入り情報を格納　ビュー側で受け取るため
+        session(['favorites' => $favorites]);
+
+        return redirect()->back();
     }   
 
     /**

@@ -1,3 +1,4 @@
+
 <!DOCTYPE html>
 <html lang="{{ app()->getLocale() }}">
 <head>
@@ -29,19 +30,10 @@
             <a href="{{ route('product.index') }}" class="navbar-brand">{{ config('app.name', 'Laravel') }}</a>
 
             <div class="d-flex gap-3 align-items-center">
-                <form action="{{ route('product.search') }}" method="POST" class="d-flex gap-2">
-                    @csrf
-                    <input type="text" name="search" placeholder="商品名を検索">
-                    <button type="submit" class="btn btn-outline-secondary">search</button>
-                </form>
                 @auth
-                    <form method="GET" action="{{ route('mypage.index') }}">
-                        <button type="submit" class="btn btn-outline-secondary">mypage</button>
-                    </form>
-                    <form method="POST" action="{{ route('logout') }}">
-                        @csrf
-                        <button type="submit" class="btn btn-outline-secondary">logout</button>
-                    </form>
+                    <a href="{{ route('mypage.index') }}">
+                        <i class="fa-regular fa-user"></i>
+                    </a>    
                     @php
                         $user = Auth::user();
                         $favorites = $user->favorites;
@@ -61,15 +53,12 @@
                     @endif
                 @endauth
                 @guest
-                    <form method="GET" action="{{ route('login') }}">
-                        <button type="submit" class="btn btn-outline-secondary">login</button>
-                    </form>
-                    <form method="GET" action="{{ route('register') }}">
-                        <button type="submit" class="btn btn-outline-secondary">register</button>
-                    </form>
+                    <a href="{{ route('login') }}">
+                        <i class="fa-regular fa-user"></i>
+                    </a>    
                     <form method="POST" action="{{ route('favorite.index') }}" class="favorite-form">
                         @csrf
-                        <i class="fa-heart guest_favorite-icon" style="color:#ff69b4;"></i>
+                        <i class="fa-heart guest_favorite-icon" style="color :#ffbfdf; "></i>
                         <input type="hidden" class="guest_favorite-input" name="favorites" value="">
                         <input type="hidden" name="type" value="guest">
                     </form>
@@ -91,6 +80,14 @@
         const isGuest = @json(auth()->guest());
         const hasFavoritesSession = @json(session()->has('favorites'));
     </script>
+
+    <!-- 上記でfavoritesのセッション情報を変数に格納した後セッションを削除する -->
+    @php
+    if(session()->has('favorites')) {
+        session()->forget('favorites');
+    }
+    @endphp
+
 
     <script src="{{ asset('js/layouts/app.js') }}"></script>
     <script src="@yield('js')"></script>

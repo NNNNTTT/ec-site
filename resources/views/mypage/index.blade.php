@@ -49,7 +49,13 @@
                 <td class="col-9">{{ Auth::user()->address }}</td>
             </tr>
         </table>
-        <a href="{{ route('mypage.edit') }}" class="btn btn-outline-secondary mt-3">アカウント情報を編集する</a>
+        <div class="d-flex mt-5 gap-3">
+            <a href="{{ route('mypage.edit') }}" class="btn btn-outline-secondary">アカウント情報を編集する</a>
+            <form method="POST" action="{{ route('logout') }}">
+                @csrf
+                <button type="submit" class="btn btn-outline-secondary">ログアウト</button>
+            </form>
+        </div>
     </div>
 
     <div id="order-history" class="content">

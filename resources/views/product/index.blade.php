@@ -13,6 +13,14 @@
     <div class="top__title text-center">
         ALL Products
     </div>
+
+    <!-- 商品検索 -->
+    <form action="{{ route('product.search') }}" method="POST" class="d-flex justify-content-center gap-2 mb-4">
+        @csrf
+        <input type="text" name="search" placeholder="商品名を検索">
+        <button type="submit" class="btn btn-outline-secondary">search</button>
+    </form>
+
     <div class='row'>
         @foreach($products as $product)
             <a href="{{ route('product.show', $product->id) }}" class="col-lg-4 col-md-6">

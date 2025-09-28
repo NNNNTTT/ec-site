@@ -29,6 +29,7 @@ class RegisteredUserController extends Controller
      */
     public function store(Request $request): RedirectResponse
     {
+
         $request->validate([
             'name' => ['required', 'string', 'max:255'],
             'email' => ['required', 'string', 'lowercase', 'email', 'max:255', 'unique:'.User::class],
@@ -53,6 +54,18 @@ class RegisteredUserController extends Controller
 
         Auth::login($user);
 
-        return redirect(route('dashboard', absolute: false));
+        // ゲスト時のお気に入り情報のデータを取得する
+        $favorites = $request->input('favorites_data');
+        $favorites = json_decode($favorites, true);
+
+        $user = Auth::user();
+
+        // ログインユーザーのお気に入り情報とゲスト時のお気に入り情報を結合する
+        $user->favorites()->syncWithoutDetaching($favorites);
+
+        // セッションにゲスト時のお気に入り情報を格納　ビュー側で受け取るため
+        session(['favorites' => $favorites]);
+
+        return redirect()->back();
     }
 }
