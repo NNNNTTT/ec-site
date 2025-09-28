@@ -3,7 +3,10 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+    <!-- csrfTokenをmetaデータに格納 -->
     <meta name="csrf-token" content="{{ csrf_token() }}">
+    
     <title>@yield('title') | {{ config('app.name', 'laravel')}}</title>
     <link rel="stylesheet" href="{{ asset('/css/custom.css') }}">
     <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/css/bootstrap.min.css" rel="stylesheet">
@@ -81,34 +84,15 @@
     <div class="admin_btn" style="position: fixed; bottom: 20px; right: 20px;">
         <a href="{{ route('admin.product.index') }}" class="btn btn-success" style="color: white;">管理画面</a>
     </div>
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/js/bootstrap.bundle.min.js"></script>
+
+    <!-- サーバー情報をJSに渡す -->
+    <script>
+        const isGuest = @json(auth()->guest());
+        const hasFavoritesSession = @json(session()->has('favorites'));
+    </script>
+
+    <script src="{{ asset('js/layouts/app.js') }}"></script>
+    <script src="@yield('js')"></script>
 </body>
-<script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/js/bootstrap.bundle.min.js"></script>
 </html>
-<script>
-    @if(session()->has('favorites'))
-    localStorage.removeItem('favorites');
-    @endif
-    
-    @guest
-    let favorites = JSON.parse(localStorage.getItem('favorites') || '[]');
-    if (favorites.length > 0) {
-        const guestFavoriteIcon = document.querySelector('.guest_favorite-icon');
-        guestFavoriteIcon.classList.remove('far');
-        guestFavoriteIcon.classList.add('fas');
-    } else {
-        const guestFavoriteIcon = document.querySelector('.guest_favorite-icon');
-        guestFavoriteIcon.classList.remove('fas');
-        guestFavoriteIcon.classList.add('far');
-    }
-
-    const guestFavoriteInput = document.querySelector('.guest_favorite-input');
-    guestFavoriteInput.value = JSON.stringify(favorites);   
-    @endguest
-
-    const favoriteForm = document.querySelector('.favorite-form');
-    console.log(favoriteForm);
-    favoriteForm.addEventListener('click', function() {
-        favoriteForm.submit();
-    })
-
-</script>

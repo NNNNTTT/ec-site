@@ -74,28 +74,13 @@
             @yield('content')
         </div>
     </div>
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/js/bootstrap.bundle.min.js"></script>
+    
+    <!-- jsファイルに渡すデータ -->
+    <div id="show" data-show="{{ $show }}"></div>
+    
+    <script src="{{ asset('js/sidebars.js') }}"></script>
+    <script src="{{ asset('js/layouts/admin.js') }}"></script>
+    <script src="@yield('js')"></script>
 </body>
-<script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/js/bootstrap.bundle.min.js"></script>
-<script src="{{ asset('js/sidebars.js') }}"></script>
-<script>
-    if('{{ $show }}' == 'order'){
-        document.querySelector('[data-bs-target="#order-collapse"]').setAttribute('aria-expanded', 'true');
-        document.querySelector('[data-bs-target="#order-collapse"]').classList.remove('collapsed');
-        document.querySelector('#order-collapse').classList.add('show');
-    }else if('{{ $show }}' == 'product'){
-        document.querySelector('[data-bs-target="#product-collapse"]').setAttribute('aria-expanded', 'true');
-        document.querySelector('[data-bs-target="#product-collapse"]').classList.remove('collapsed');
-        document.querySelector('#product-collapse').classList.add('show');
-    }else if('{{ $show }}' == 'sales'){
-        document.querySelector('[data-bs-target="#sales-collapse"]').setAttribute('aria-expanded', 'true');
-        document.querySelector('[data-bs-target="#sales-collapse"]').classList.remove('collapsed');
-        document.querySelector('#sales-collapse').classList.add('show');
-        document.querySelector('#sales-collapse').classList.remove('collapsed');
-    }else if('{{ $show }}' == 'sale'){
-        document.querySelector('[data-bs-target="#sales-collapse"]').setAttribute('aria-expanded', 'true');
-        document.querySelector('[data-bs-target="#sales-collapse"]').classList.remove('collapsed');
-        document.querySelector('#sales-collapse').classList.add('show');
-        document.querySelector('#sales-collapse').classList.remove('collapsed');
-    }
-</script>
 </html>

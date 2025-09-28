@@ -66,139 +66,20 @@
     </div>
 </div>
 
+<!-- サーバー情報をjsに渡す -->
 <script>
-    @if (Auth::check())
-    document.addEventListener('DOMContentLoaded', function() {
-        let favoriteBtn = document.querySelector('.favorite button');
-        const csrfToken = document.querySelector('meta[name="csrf-token"]').getAttribute('content');
-        @if ($product->favorites()->where('user_id', Auth::id())->exists())
-            favoriteBtn.textContent = 'お気に入り解除';
-            favoriteBtn.classList.remove('add');
-            favoriteBtn.classList.add('destroy');
-        @else
-            favoriteBtn.textContent = 'お気に入りに追加する';
-            favoriteBtn.classList.add('add');
-        @endif
-        favoriteBtn.addEventListener('click', function() {
-            let favoriteBtn = document.querySelector('.favorite button');
-            if(favoriteBtn.classList[2] === 'add') {
-                fetch('{{ route('favorite.store') }}', {
-                    method: 'POST',
-                    headers: {
-                        'Content-Type': 'application/json',
-                        'X-CSRF-TOKEN': csrfToken,
-                    },
-                    body: JSON.stringify({
-                        product_id: {{ $product->id }},
-                    })
-                })
-                .then(response => response.json())
-                .then(data => {
-                    if (data.success) {
-                        this.classList.remove('add');
-                        this.classList.add('destroy');
-                        this.textContent = 'お気に入り解除';
-                        const authFavoriteIcon = document.querySelector('.auth_favorite-icon');
-                        console.log(authFavoriteIcon);
-                        if(authFavoriteIcon.classList.contains('far')) {
-                            authFavoriteIcon.classList.remove('far');
-                            authFavoriteIcon.classList.add('fas');
-                        }
-                    } else {
-                        console.log('お気に入りに追加できませんでした。');
-                    }
-                })
-                .catch(error => {
-                    console.error('Error:', error);
-                });
-        }else if(favoriteBtn.classList[2] === 'destroy') {
-            fetch('{{ route('favorite.destroy') }}', {
-                method: 'POST',
-                headers: {
-                    'Content-Type': 'application/json',
-                    'X-CSRF-TOKEN': csrfToken,
-                },
-                body: JSON.stringify({
-                    product_id: {{ $product->id }},
-                })
-            })
-            .then(response => response.json())
-            .then(data => {
-                if (data.success) {
-                    this.classList.remove('destroy');
-                    this.classList.add('add');
-                    this.textContent = 'お気に入りに追加する';
-                } else {
-                    console.log('お気に入りを解除できませんでした。');
-                }
-                if(data.favoritecount === 0) {
-                    const guestFavoriteIcon = document.querySelector('.auth_favorite-icon');
-                    guestFavoriteIcon.classList.remove('fas');
-                    guestFavoriteIcon.classList.add('far');
-                }
-            })
-            .catch(error => {
-                console.error('Error:', error);
-            });
-        }
-    });
-    });
-    @else
-    document.addEventListener('DOMContentLoaded', function() {
-        const favoriteBtn = document.querySelector('.favorite button');
-        const itemId = favoriteBtn.getAttribute('data-item-id');
-        favoriteBtn.addEventListener('click', function() {
+    const isAuth = @json(Auth::check());
+    const productId = @json($product->id);
+    const favoriteExists = @json($product->favorites()->where('user_id', Auth::id() ?? 0)->exists());
+    
+    const favoriteStoreRoute = @json(route('favorite.store'));
+    const favoriteDestroyRoute = @json(route('favorite.destroy'));
 
-            // 1. 現在のLocalStorageからお気に入りリストを取得
-            // データがなければ空の配列 '[]' を使う
-            let favorites = JSON.parse(localStorage.getItem('favorites') || '[]');
-
-            // 2. 既にお気に入り登録されているかチェック
-            const itemIndex = favorites.indexOf(itemId);
-            
-            if (itemIndex > -1) {
-                // あった場合：リストから削除
-                favorites.splice(itemIndex, 1);
-                console.log(`Item ${itemId} をお気に入りから削除しました。`);
-                this.textContent = 'お気に入りに追加する'; // ボタンのテキストを戻す
-            } else {
-                // なかった場合：リストに追加
-                favorites.push(itemId);
-                console.log(`Item ${itemId} をお気に入りに追加しました。`);
-                this.textContent = 'お気に入り解除'; // ボタンのテキストを変更
-            }
-
-            if(favorites.length > 0) {
-                const guestFavoriteIcon = document.querySelector('.guest_favorite-icon');
-                guestFavoriteIcon.classList.remove('far');
-                guestFavoriteIcon.classList.add('fas');
-            } else {
-                const guestFavoriteIcon = document.querySelector('.guest_favorite-icon');
-                guestFavoriteIcon.classList.remove('fas');
-                guestFavoriteIcon.classList.add('far');
-            }
-
-            // 3. 更新したリストをJSON文字列に変換してLocalStorageに保存
-            localStorage.setItem('favorites', JSON.stringify(favorites));
-            const guestFavoriteInput = document.querySelector('.guest_favorite-input');
-            guestFavoriteInput.value = JSON.stringify(favorites);
-
-            // 確認用：現在のリストをコンソールに出力
-            console.log('現在のお気に入りリスト:', localStorage.getItem('favorites'));
-        })
-        // --- ページ読み込み時に、既にお気に入りのボタンの表示を更新する処理 ---
-        const currentFavorites = JSON.parse(localStorage.getItem('favorites') || '[]');
-        if (currentFavorites.includes(itemId)) {
-            favoriteBtn.textContent = 'お気に入り解除';
-            const guestFavoriteInput = document.querySelector('.guest_favorite-input');
-            console.log(currentFavorites);
-            guestFavoriteInput.value = JSON.stringify(currentFavorites);
-        } else {
-            favoriteBtn.textContent = 'お気に入りに追加する';
-            const guestFavoriteInput = document.querySelector('.guest_favorite-input');
-            guestFavoriteInput.value = JSON.stringify(currentFavorites);
-        }
-    })
-    @endif
+    const csrfToken = document.querySelector('meta[name="csrf-token"]').getAttribute('content'); // metaデータからcsrftokenを取得する
 </script>
+
 @endsection
+
+@section('js', asset('js/product/show.js'))
+
+

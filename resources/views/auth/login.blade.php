@@ -46,12 +46,10 @@
             </x-primary-button>
         </div>
 
+        <!-- jsでローカルのお気に入り情報を取得してここに格納します -->
         <input type="hidden" name="favorites" value="">
+        
     </form>
 </x-guest-layout>
 
-<script>
-    let favorites = JSON.parse(localStorage.getItem('favorites') || '[]');
-    const favoriteInput = document.querySelector('input[name="favorites"]');
-    favoriteInput.value = JSON.stringify(favorites);
-</script>
+<script src="{{ asset('js/auth/login.js') }}"></script>

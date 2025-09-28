@@ -74,15 +74,9 @@
         <button class="btn btn-success">ステータス一括更新</button>
     </form>
 
-    <script>
-        document.addEventListener('DOMContentLoaded', function() {
-            if('{{ $status }}' == 'pending'){
-                document.querySelector('.pending').classList.add('active');
-            }else if('{{ $status }}' == 'shipped'){
-                document.querySelector('.shipped').classList.add('active');
-            }else if('{{ $status }}' == 'canceled'){
-                document.querySelector('.canceled').classList.add('active');
-            }
-        });
-    </script>
+    <!-- jsファイルに渡すデータ -->
+    <div id="status" data-show="{{ $status }}"></div>
+    
 @endsection
+
+@section('js', asset('js/admin/order/index.js'))

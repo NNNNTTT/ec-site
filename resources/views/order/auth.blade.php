@@ -147,19 +147,8 @@
         </form>
     </div>
 </div>
-
-<script>
-    $(document).ready(function(){
-        $('.login-tab').click(function(){
-            $('.login-form').slideToggle();
-            $('.register-form').slideUp();
-        });
-        $('.register-tab').click(function(){
-            $('.register-form').slideToggle();
-            $('.login-form').slideUp();
-        });
-    });
-</script>
 </x-guest-layout>
 @endsection
+
+@section('js', asset('js/order/auth.js'))
 
