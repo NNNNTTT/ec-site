@@ -3,8 +3,21 @@
 namespace App\Http\Controllers;
 
 use Illuminate\Http\Request;
+
+// モデルクラス
 use App\Models\Order;
+
+// サービスクラス
 use App\Services\StripeService;
+
+// ファサードクラス
+use Illuminate\Support\Facades\Log;
+use Illuminate\Support\Facades\DB;
+
+// 例外クラス
+use App\Exceptions\PaymentCaptureException;
+use App\Exceptions\PaymentCancelException;
+
 
 class AdminOrderController extends Controller
 {
@@ -26,52 +39,81 @@ class AdminOrderController extends Controller
         return view('admin.order.show', compact('order', 'show'));
     }
 
+    // 注文ステータス更新処理
     public function status_update(Request $request){
         $orders = $request->orders;
         
-        foreach($orders as $id => $order){
-            if($order['status'] != 'no_change'){
-                $old_order = Order::find($id);
-                if($old_order->status != $order['status']){
+        DB::beginTransaction();
+        try{
+            $stripeService = new StripeService();
+            foreach($orders as $id => $order){
+                if($order['status'] != 'no_change'){
+                    $old_order = Order::find($id);
+                    if($old_order->status != $order['status']){
+    
+                        if($old_order->payment_method == 'credit_card'){
+                            //決済確定処理
+                            if($order['status'] == 'shipped' && $old_order->payment_status == 'unpaid'){
 
-                    if($old_order->payment_method == 'credit_card'){
-                        //決済確定処理
-                        if($order['status'] == 'shipped' && $old_order->payment_status == 'unpaid'){
-                            $stripeService = new StripeService();
-                            $stripeService->capture($old_order);
-                            $old_order->stripe_capture = now();
-                            $old_order->payment_status = 'paid';
+                                $result = $stripeService->capture($old_order);
+                                if(!($result['success'] ?? false)){
+                                    throw new PaymentCaptureException($result['error'] ?? '決済(確定)に失敗');
+                                }
+                                $old_order->stripe_capture = now();
+                                $old_order->payment_status = 'paid';
+                            }
+    
+                            //決済キャンセル処理
+                            else if($order['status'] == 'canceled' && $old_order->payment_status == 'unpaid'){
+
+                                $result = $stripeService->cancel($old_order);
+                                if(!($result['success'] ?? false)){
+                                    throw new PaymentCancelException($result['error'] ?? '決済(キャンセル)に失敗');
+
+                                }
+                                $old_order->stripe_cancel = now();
+                                $old_order->payment_status = 'canceled';
+                            }
+    
+                        }else{
+    
+                            if($order['status'] == 'shipped'){
+                                $old_order->payment_status = 'paid';
+                            }
+    
+                            else if($order['status'] == 'canceled'){
+                                $old_order->payment_status = 'canceled';
+                            }
+    
+                            else if($order['status'] == 'pending'){
+                                $old_order->payment_status = 'unpaid';
+                            }
+    
                         }
-
-                        //決済キャンセル処理
-                        else if($order['status'] == 'canceled' && $old_order->payment_status == 'unpaid'){
-                            $stripeService = new StripeService();
-                            $stripeService->cancel($old_order);
-                            $old_order->stripe_cancel = now();
-                            $old_order->payment_status = 'canceled';
-                        }
-
-                    }else{
-
-                        if($order['status'] == 'shipped'){
-                            $old_order->payment_status = 'paid';
-                        }
-
-                        else if($order['status'] == 'canceled'){
-                            $old_order->payment_status = 'canceled';
-                        }
-
-                        else if($order['status'] == 'pending'){
-                            $old_order->payment_status = 'unpaid';
-                        }
-
+    
+                        $old_order->status = $order['status'];
+                        $old_order->save();
                     }
-
-                    $old_order->status = $order['status'];
-                    $old_order->save();
                 }
             }
+            DB::commit();
+            return redirect()->route('admin.order.index');
+
+        } catch(PaymentCaptureException $e){
+            DB::rollBack();
+            Log::error('決済確定に失敗: ' . $e->getMessage());
+            return redirect()->back()->with('error', '決済(確定)に失敗しました。サーバー管理者にお知らせください。');
+
+        } catch(PaymentCancelException $e){
+            DB::rollBack();
+            Log::error('決済キャンセルに失敗: ' . $e->getMessage());
+            return redirect()->back()->with('error', '決済(キャンセル)に失敗しました。サーバー管理者にお知らせください。');
         }
-        return redirect()->route('admin.order.index');
+        
+        catch(\Exception $e){
+            DB::rollBack();
+            Log::error('注文ステータス更新に失敗しました: ' . $e->getMessage());
+            return redirect()->back()->with('error', '注文ステータス更新に失敗しました。サーバー管理者にお知らせください。');
+        }
     }
 }

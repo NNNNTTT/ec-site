@@ -23,6 +23,12 @@
         }
     @endphp
 
+    @if(session('error'))
+        <div class="alert alert-danger">
+            {{ session('error') }}
+        </div>
+    @endif
+
     <div class="d-flex justify-content-center">
         <a class="status_btn pending" href="{{ route('admin.order.index', ['status' => 'pending']) }}" style="border:1px solid #000; border-bottom: 1px solid #fff; padding: 10px 20px; text-decoration: none; margin-right: 10px; color: #000;">未発送</a>
         <a class="status_btn shipped" href="{{ route('admin.order.index', ['status' => 'shipped']) }}" style="border:1px solid #000; border-bottom: 1px solid #fff; padding: 10px 20px; text-decoration: none; margin-right: 10px; color: #000;">発送済み</a>

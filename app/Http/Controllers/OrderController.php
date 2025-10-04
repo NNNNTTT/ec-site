@@ -70,6 +70,10 @@ class OrderController extends Controller
             if($request->payment_method === 'credit_card'){
                 $stripeService = new StripeService();
                 $yoshin_data = $stripeService->yoshin($request);
+
+                if(!($yoshin_data['success'] ?? false)){
+                    throw new \Exception($yoshin_data['message'] ?? 'クレジットカードエラー');
+                }
             }
     
             $order = Order::create([
@@ -115,8 +119,13 @@ class OrderController extends Controller
 
         }catch(\Exception $e){
             DB::rollBack();
-            Log::error('注文に失敗しました: ' . $e->getMessage());
-            return redirect()->back()->with('error', '注文に失敗しました');
+            if($e->getMessage() == 'クレジットカードエラー'){
+                Log::error('注文に失敗しました: 決済（与信）に失敗したため');
+                return redirect()->back()->with('error', 'クレジットカード決済が利用できない状態です。他のお支払い方法をご利用ください。');
+            }else{
+                Log::error('注文に失敗しました: ' . $e->getMessage());
+                return redirect()->back()->with('error', '注文に失敗しました');
+            }     
         }
     }
 
@@ -128,11 +137,19 @@ class OrderController extends Controller
     // クレジットカード決済のクライアントシークレットを取得
     public function card(){
         $stripeService = new StripeService();
-        $client_secret = $stripeService->createClientSecret();
+        $result = $stripeService->createClientSecret();
 
-        return response()->json([
-            'client_secret' => $client_secret,
-        ]);
+        if($result['success']){
+            return response()->json([
+                'success' => $result['success'],
+                'client_secret' => $result['client_secret'],             
+            ]);
+        }else{
+            return response()->json([
+                'success' => $result['success'],
+                'message' => $result['error'],
+            ]);
+        }
     }
 
     // クレジットカード決済の顧客情報を取得
@@ -140,11 +157,19 @@ class OrderController extends Controller
 
         $stripeService = new StripeService();
         // ペイメントメソッドIDと顧客IDを取得
-        [$customer_id, $payment_method_id] = $stripeService->createCustomer($request->setup_intent_id);
+        $result = $stripeService->createCustomer($request->setup_intent_id);
 
-        return response()->json([
-            'customer_id' => $customer_id,
-            'payment_method_id' => $payment_method_id,
-        ]);
+        if($result['success']){
+            return response()->json([
+                'success' => $result['success'],
+                'customer_id' => $result['customer_id'],
+                'payment_method_id' => $result['payment_method_id'],
+            ]);
+        }else{
+            return response()->json([
+                'success' => $result['success'],
+                'message' => $result['error'],
+            ]);
+        }
     }
 }

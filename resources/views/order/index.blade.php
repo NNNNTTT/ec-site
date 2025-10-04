@@ -10,6 +10,11 @@
     <div class="row">
         <div class="col-md-10 offset-md-1">
             <h1 class="text-center mb-4">ご注文手続き</h1>
+            @if(session('error'))
+                <div class="alert alert-danger">
+                    {{ session('error') }}
+                </div>
+            @endif
 
             <div class="card mb-4">
                 <div class="card-header">
@@ -153,6 +158,8 @@
                 <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
             </div>
             <div class="modal-body">
+
+                <!-- クレジットカード入力フォーム -->
                 <form action="" method="POST" id="card-form">
                     <div class="card-form">
                         <div id="card-element">
@@ -162,10 +169,11 @@
                         </div>
                     </div>
                 </form>
+
             </div>
-            <div class="modal-footer">
-                <button type="submit" id="card-submit" class="btn btn-dark">登録</button>
-                <p id="error-message"></p>
+            <div class="modal-footer flex-column">
+                <button type="submit" id="card-submit" class="btn btn-dark btn-lg">登録</button>
+                <p id="error-message" class="text-danger"></p>
             </div>
         </div>
     </div>

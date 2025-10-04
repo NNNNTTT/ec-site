@@ -2,70 +2,133 @@
 
 namespace App\Services;
 
+use Illuminate\Support\Facades\Log;
+
 class StripeService
 {
-    public function createClientSecret()
-    {
-        \Stripe\Stripe::setApiKey(env('STRIPE_SECRET_KEY'));
-        $setupIntent = \Stripe\SetupIntent::create([
-            'payment_method_types' => ['card'],
-        ]);
+    private string $secret_key;
 
-        $client_secret = $setupIntent->client_secret;
+    // 初期化時にストライプのシークレットキーを設定
+    public function __construct() {
+        $this->secret_key = config('services.stripe.secret_key');
+        \Stripe\Stripe::setApiKey($this->secret_key);
+    }
 
-        return $client_secret;
+    public function createClientSecret(): array {   
+        try{
+            $setupIntent = \Stripe\SetupIntent::create([
+                'payment_method_types' => ['card'],
+            ]);
+
+            return [
+                'success' => true,
+                'client_secret' => $setupIntent->client_secret,
+            ];
+
+        }catch(\Exception $e){
+            Log::error('セットアップインテントの作成に失敗しました: ' . $e->getMessage());            
+
+            return [
+                'success' => false,
+                'error' => 'クレジットカード決済が利用できない状態です。サーバー管理者にお知らせください。',
+            ];
+        }
+    }
+
+    public function createCustomer(string $setup_intent_id): array {
+        try{
+            $setup_intent = \Stripe\SetupIntent::retrieve($setup_intent_id);
+            $payment_method_id = $setup_intent->payment_method;
+            $customer = \Stripe\Customer::create([
+                'payment_method' => $payment_method_id,
+            ]);
+
+            return [
+                'success' => true,
+                'customer_id' => $customer->id,
+                'payment_method_id' => $payment_method_id,
+            ];
+
+        }catch(\Exception $e){
+            Log::error('顧客の作成に失敗しました: ' . $e->getMessage());
+
+            return [
+                'success' => false,
+                'error' => 'クレジットカード決済が利用できない状態です。サーバー管理者にお知らせください。',
+            ];
+        }
+    }
+
+    public function yoshin($order): array{
+        try{
+            $payment_intent = \Stripe\PaymentIntent::create([
+                'amount' => $order->total_price,
+                'currency' => 'jpy',
+                'customer' => $order->customer_id,
+                'payment_method' => $order->payment_method_id,
+                'confirm' => true,
+                'off_session' => true,
+                "capture_method" => "manual",     
+            ]);
+    
+            return [
+                'success' => true,
+                'stripe_pi_id' => $payment_intent->id,
+                'stripe_customer_id' => $order->customer_id,
+                'stripe_payment_method_id' => $order->payment_method_id,
+                'yoshin_status' => $payment_intent->status,
+                'stripe_yoshin' => now(),
+            ];
+
+        }catch(\Exception $e){
+            Log::error('決済(与信)に失敗しました: ' . $e->getMessage());
+
+            return [
+                'success' => false,
+                'error' => 'クレジットカードエラー',
+            ];
+        }
 
     }
 
-    public function createCustomer($setup_intent_id){
-        \Stripe\Stripe::setApiKey(env('STRIPE_SECRET_KEY'));
-        $setup_intent = \Stripe\SetupIntent::retrieve($setup_intent_id);
-        $payment_method_id = $setup_intent->payment_method;
-        $customer = \Stripe\Customer::create([
-            'payment_method' => $payment_method_id,
-        ]);
-        $customer_id = $customer->id;
+    public function capture($order): array{
+        try{
+            $payment_intent = \Stripe\PaymentIntent::retrieve($order->stripe_pi_id);
+            $payment_intent->capture();
+    
+            return [
+                'success' => false,
+                'error' => '決済(確定)に失敗',
+            ];
 
-        return [$customer_id, $payment_method_id];
+        }catch(\Exception $e){
+            Log::error('決済(確定)に失敗しました: ' . $e->getMessage());
+
+            return [
+                'success' => false,
+                'error' => '決済(確定)に失敗',
+            ];
+        }
+
     }
 
-    public function yoshin($order){
-        \Stripe\Stripe::setApiKey(env('STRIPE_SECRET_KEY'));
-        $payment_intent = \Stripe\PaymentIntent::create([
-            'amount' => $order->total_price,
-            'currency' => 'jpy',
-            'customer' => $order->customer_id,
-            'payment_method' => $order->payment_method_id,
-            'confirm' => true,
-            'off_session' => true,
-            "capture_method" => "manual",     
-        ]);
-
-        $yoshin_data = [
-            'stripe_pi_id' => $payment_intent->id,
-            'stripe_customer_id' => $order->customer_id,
-            'stripe_payment_method_id' => $order->payment_method_id,
-            'yoshin_status' => $payment_intent->status,
-            'stripe_yoshin' => now(),
-        ];
-
-        return $yoshin_data;
-    }
-
-    public function capture($order){
-        \Stripe\Stripe::setApiKey(env('STRIPE_SECRET_KEY'));
-        $payment_intent = \Stripe\PaymentIntent::retrieve($order->stripe_pi_id);
-        $payment_intent->capture();
-
-        return $payment_intent;
-    }
-
-    public function cancel($order){
-        \Stripe\Stripe::setApiKey(env('STRIPE_SECRET_KEY'));
+    public function cancel($order): array{
+        try{
         $payment_intent = \Stripe\PaymentIntent::retrieve($order->stripe_pi_id);
         $payment_intent->cancel();
 
-        return $payment_intent;
+        return [
+                'success' => true,
+            ];
+
+        }catch(\Exception $e){
+            Log::error('決済(キャンセル)に失敗しました: ' . $e->getMessage());
+
+            return [
+                'success' => false,
+                'error' => '決済(キャンセル)に失敗',
+            ];
+        }
     }
 
     
