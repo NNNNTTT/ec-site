@@ -9,6 +9,7 @@ use Illuminate\Support\Facades\Auth;
 
 class FavoriteController extends Controller
 {
+    // お気に入りのボタンを押した時の処理
     public function index(Request $request)
     {
         if($request->input('type') == 'auth'){

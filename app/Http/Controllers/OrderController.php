@@ -23,20 +23,26 @@ use App\Services\ShippingCalculators\DefaultShippingCalculator;
 
 class OrderController extends Controller
 {
+    // 注文画面を表示する
     public function index(Request $request){
 
         if(Auth::check()){
+
             $user = User::find(Auth::id());
             $subtotal = 0;
             $price_count = 0;
+
+            // 商品の小計を計算する
             foreach($user->products as $product){
-                if($product->stock <= 0){
-                }else{
-                $price_count += 1;
-                $total = $product->price * $product->pivot->quantity;
-                $subtotal += $total;
-                }
+
+                // 在庫がない場合は計算対象から除外
+                if($product->stock <= 0) continue;
+                
+                $price_count++; // 在庫あり商品のカウント（0の場合はビューで在庫切れ表示）
+                $subtotal += $product->price * $product->pivot->quantity;     
             }
+
+            // 送料を計算する
             $shippingCalculator = new DefaultShippingCalculator;
             $shipping_fee = $shippingCalculator->calculate($subtotal);
 
@@ -51,13 +57,16 @@ class OrderController extends Controller
                 ->with('subtotal', $subtotal);
                 
         }else{
+            // ログインしていない場合はログイン画面にリダイレクト
             return view('order.auth');
         }
     }
 
+    // 注文処理
     public function store(Request $request){
         DB::beginTransaction();
         try{
+            // クレジットカード決済の場合は決済処理を行う
             if($request->payment_method === 'credit_card'){
                 $stripeService = new StripeService();
                 $yoshin_data = $stripeService->yoshin($request);
@@ -77,20 +86,24 @@ class OrderController extends Controller
                 'stripe_customer_id' => $yoshin_data['stripe_customer_id'] ?? null,
                 'stripe_yoshin' => $yoshin_data['stripe_yoshin'] ?? null,
             ]);
-    
+            
+            // 注文商品を中間テーブルに登録（個数, 価格も保存）
             foreach($request->line_items as $line_item){
                 $order->products()->attach($line_item['product_id'], [
                     'quantity' => $line_item['quantity'],
                     'price' => $line_item['price'],
                 ]);
 
+                // 在庫を更新
                 $product = Product::find($line_item['product_id']);
                 $product->stock -= $line_item['quantity'];
                 $product->save();
             }
     
+            // ユーザーのカートの情報を削除
             UserLineItem::where('user_id', $order->user_id)->delete();
     
+            // ゲストのカートの情報を削除
             $cart_id = Session::get('cart');
             if($cart_id){
                 LineItem::where('cart_id', $cart_id)->delete();
@@ -107,10 +120,12 @@ class OrderController extends Controller
         }
     }
 
+    // 注文成功画面を表示
     public function success(){
         return view('order.success');
     }
 
+    // クレジットカード決済のクライアントシークレットを取得
     public function card(){
         $stripeService = new StripeService();
         $client_secret = $stripeService->createClientSecret();
@@ -120,9 +135,11 @@ class OrderController extends Controller
         ]);
     }
 
+    // クレジットカード決済の顧客情報を取得
     public function card_customer(Request $request){
 
         $stripeService = new StripeService();
+        // ペイメントメソッドIDと顧客IDを取得
         [$customer_id, $payment_method_id] = $stripeService->createCustomer($request->setup_intent_id);
 
         return response()->json([

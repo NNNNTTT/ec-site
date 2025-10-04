@@ -11,16 +11,24 @@ use App\Models\User;
 
 class LineItemController extends Controller
 {
+    //　カート追加ボタンが押された時の処理
     public function create(Request $request)
     {
         if(Auth::check()){
             $user_id = Auth::user()->id;
+
+            // ログイン中の場合はUserLineItemにカートの情報を保存
+            // UserLineItemはusersテーブルとproductsテーブルの中間テーブルです
             $user_line_item = UserLineItem::where('user_id', $user_id)
                 ->where('product_id', $request->input('id'))
                 ->first();
+
+            // user_line_itemにすでに同じ商品があれば数量をプラスする
             if($user_line_item){
                 $user_line_item->quantity += $request->input('quantity');
                 $user_line_item->save();
+            
+            // 商品がなければ新しくカートに追加する
             }else{
                 UserLineItem::create([
                     'user_id' => $user_id,
@@ -29,14 +37,20 @@ class LineItemController extends Controller
                 ]);
             }
         }else{
+
+            // ゲストの場合はLineItemにカートの情報を保存
+            // LineItemはcartsテーブルとproductsテーブルの中間テーブルです
             $cart_id = Session::get('cart');
             $line_item = LineItem::where('cart_id', $cart_id)
                 ->where('product_id', $request->input('id'))
                 ->first();
-
+            
+            // line_itemにすでに同じ商品があれば数量をプラスする
             if($line_item){
                 $line_item->quantity += $request->input('quantity');
                 $line_item->save();
+
+            // 商品がなければ新しくカートに追加する
             }else{
                 LineItem::create([
                     'cart_id' => $cart_id,
