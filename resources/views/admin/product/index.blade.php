@@ -5,11 +5,11 @@
 @endsection
 
 @section('content')
-        @if(isset($success))
-            <p class="alert alert-success">{{ $success }}</p>
+        @if(session('success'))
+            <p class="alert alert-success">{{ session('success') }}</p>
         @endif
-        @if(isset($error))
-            <p class="alert alert-danger">{{ $error }}</p>
+        @if(session('error'))
+            <p class="alert alert-danger">{{ session('error') }}</p>
         @endif
         <table class="table">
             <thead>

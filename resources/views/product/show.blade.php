@@ -7,6 +7,16 @@
 @section('content')
 <div class="container">
     <div class="product">
+        @if(session('success'))
+            <div class="alert alert-success mt-3">
+                {{ session('success') }}
+            </div>
+        @endif
+        @if(session('error'))
+            <div class="alert alert-danger mt-3">
+                {{ session('error') }}
+            </div>
+        @endif
         <img src="{{ asset($product->image) }}" alt="" class="product-img">
         <div class="product__content-header text-center">
             <div class="product__name">

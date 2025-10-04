@@ -71,7 +71,7 @@ class ProductController extends Controller
 
             DB::commit(); // トランザクションをコミット データベースの変更を確定
 
-            return redirect()->route('admin.product.create')->with('success', '商品登録に成功しました');
+            return redirect()->route('admin.product.index')->with('success', '商品登録に成功しました');
 
         }catch(\Exception $e){
             DB::rollBack(); // トランザクションをロールバック データベースの変更を取り消す
@@ -135,11 +135,24 @@ class ProductController extends Controller
 
     // 商品削除を行う(管理者用)
     public function destroy($id){
-        $product = Product::find($id);
-        $product->delete();
-        $show = "product";
-        return redirect()->route('admin.product.index')->with('success', $id . '番の商品を削除しました')
-            ->with('show', $show);
+        DB::beginTransaction();
+        try{
+            $product = Product::find($id);
+            $product->delete();
+            $show = "product";
+
+            DB::commit(); // トランザクションをコミット データベースの変更を確定
+
+            return redirect()->route('admin.product.index')->with('success', '注文ID' . $id . 'の商品を削除しました')
+                ->with('show', $show);
+
+        }catch(\Exception $e){
+            DB::rollBack(); // トランザクションをロールバック データベースの変更を取り消す
+            Log::error($e); // エラーをログに保存 ログのパスはstorage/logs/laravel.log
+
+            return redirect()->route('admin.product.edit', $id)->with('error', '注文ID' . $id . 'の商品を削除できませんでした')
+                ->with('show', $show);
+        }
     }
 
     // 商品検索を行う

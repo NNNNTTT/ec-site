@@ -6,6 +6,11 @@
 
 <div class="container">
     <h2 class="mb-5 mt-5">注文詳細</h2>
+    @if(session('success'))
+        <div class="alert alert-success">
+            {{ session('success') }}
+        </div>
+    @endif
     <div class="card">
         <div class="card-body">
             <p>注文番号: {{ $order->id }}</p>

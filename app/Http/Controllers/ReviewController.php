@@ -43,10 +43,10 @@ class ReviewController extends Controller
                 'comment' => $request->comment,
             ]);
             DB::commit();
-            return redirect()->route('mypage.order_detail', $request->order_id)->with('success', 'レビューを登録しました');
+            return redirect()->route('mypage.order_detail', $request->order_id)->with('success', '商品レビューを登録しました');
         }catch(\Exception $e){
             DB::rollBack();
-            return redirect()->back()->with('error', 'レビューの登録に失敗しました');
+            return redirect()->back()->with('error', '商品レビューの登録に失敗しました');
         }
     }
 
@@ -74,10 +74,10 @@ class ReviewController extends Controller
         try{
             Review::find($id)->update($request->all());
             DB::commit();
-            return redirect()->route('product.show', $request->product_id)->with('success', 'レビューを更新しました');
+            return redirect()->route('product.show', $request->product_id)->with('success', '商品レビューを更新しました');
         }catch(\Exception $e){
             DB::rollBack();
-            return redirect()->back()->with('error', 'レビューの更新に失敗しました');
+            return redirect()->back()->with('error', '商品レビューの更新に失敗しました');
         }
     }
 
@@ -106,10 +106,10 @@ class ReviewController extends Controller
         try{
             Review::find($review_id)->update($request->all());
             DB::commit();
-            return redirect()->route('mypage.order_detail', $request->order_id)->with('success', 'レビューを更新しました');
+            return redirect()->route('mypage.order_detail', $request->order_id)->with('success', '商品レビューを更新しました');
         }catch(\Exception $e){
             DB::rollBack();
-            return redirect()->back()->with('error', 'レビューの更新に失敗しました');
+            return redirect()->back()->with('error', '商品レビューの更新に失敗しました');
         }
     }
 }
