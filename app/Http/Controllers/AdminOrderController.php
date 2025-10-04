@@ -24,10 +24,10 @@ class AdminOrderController extends Controller
     public function index(Request $request){
         if($request->query('status')){
             $status = $request->query('status');
-            $orders = Order::where('status', $status)->get();
+            $orders = Order::where('status', $status)->orderBy('created_at', 'desc')->get();
         }else{
             $status = 'pending';
-            $orders = Order::where('status', 'pending')->get();
+            $orders = Order::where('status', 'pending')->orderBy('created_at', 'desc')->get();
         }
         $show = "order";
         return view('admin.order.index', compact('orders', 'status', 'show'));
