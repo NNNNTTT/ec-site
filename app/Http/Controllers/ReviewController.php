@@ -6,6 +6,8 @@ use Illuminate\Http\Request;
 use App\Models\Review;
 use App\Models\Product;
 use App\Models\Order;
+use App\Http\Requests\StoreReviewRequest;
+use App\Http\Requests\UpdateReviewRequest;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\DB;
 
@@ -24,14 +26,7 @@ class ReviewController extends Controller
         }
     }
 
-    public function store(Request $request){
-
-        $request->validate([
-            'rating' => 'required|integer|min:1|max:5',
-            'title'     => 'required|string|max:255',
-            'comment' => 'required|string',
-            'product_id' => 'required|exists:products,id',
-        ]);
+    public function store(StoreReviewRequest $request){
 
         DB::beginTransaction();
         try{
@@ -63,12 +58,7 @@ class ReviewController extends Controller
         }
     }
 
-    public function product_review_update(Request $request, $id){
-        $request->validate([
-            'rating' => 'required|integer|min:1|max:5',
-            'title' => 'required|string|max:255',
-            'comment' => 'required|string',
-        ]);
+    public function product_review_update(UpdateReviewRequest $request, $id){
 
         DB::beginTransaction();
         try{
@@ -95,12 +85,7 @@ class ReviewController extends Controller
         }
     }
 
-    public function mypage_review_update(Request $request, $order_id, $review_id){
-        $request->validate([
-            'rating' => 'required|integer|min:1|max:5',
-            'title' => 'required|string|max:255',
-            'comment' => 'required|string',
-        ]);
+    public function mypage_review_update(UpdateReviewRequest $request, $order_id, $review_id){
 
         DB::beginTransaction();
         try{

@@ -8,6 +8,9 @@ use Illuminate\Support\Facades\Storage;
 use Illuminate\Support\Facades\DB;
 use Illuminate\Support\Facades\Log;
 
+use App\Http\Requests\StoreProductRequest;
+use App\Http\Requests\UpdateProductRequest;
+
 class ProductController extends Controller
 {
     // 商品一覧を表示する
@@ -42,17 +45,8 @@ class ProductController extends Controller
     }
 
     // 商品登録を行う(管理者用)
-    public function store(Request $request)
-    {
-        // バリデーションを行う
-        $request->validate([
-            'name' => 'required|string|max:255',
-            'price' => 'required|integer',
-            'stock' => 'required|integer',
-            'description' => 'required|string',
-            'image' => 'required|image|mimes:jpeg,png,jpg,gif|max:2048',
-        ]);
-        
+    public function store(StoreProductRequest $request)
+    {   
         // トランザクションを開始　途中でエラーが起きた場合全てのデータベースの変更を取り消せる
         DB::beginTransaction();
         try{
@@ -69,14 +63,20 @@ class ProductController extends Controller
                 $this->saveImage($request, $product);
             }
 
+            $show = "product";
+
             DB::commit(); // トランザクションをコミット データベースの変更を確定
 
-            return redirect()->route('admin.product.index')->with('success', '商品登録に成功しました');
+            return redirect()->route('admin.product.index')
+                ->with('success', '商品登録に成功しました')
+                ->with('show', $show);
 
         }catch(\Exception $e){
             DB::rollBack(); // トランザクションをロールバック データベースの変更を取り消す
             Log::error($e); // エラーをログに保存 ログのパスはstorage/logs/laravel.log
-            return redirect()->route('admin.product.create')->with('error', '商品登録に失敗しました');
+            return redirect()->route('admin.product.create')
+                ->with('error', '商品登録に失敗しました')
+                ->with('show', $show);
         }
     }
 
@@ -92,15 +92,7 @@ class ProductController extends Controller
     }
 
     // 商品編集を行う(管理者用)
-    public function update(Request $request, $id){
-        // バリデーションを行う
-        $request->validate([
-            'name' => 'required|string|max:255',
-            'price' => 'required|integer',
-            'description' => 'required|string',
-            'stock' => 'required|integer',
-            'image' => 'sometimes|image|mimes:jpeg,png,jpg,gif|max:2048',
-        ]);
+    public function update(UpdateProductRequest $request, $id){
 
         // 管理者用のページで商品一覧のトグルを開いた状態で表示するための設定　これがないとエラーになる
         $show = "product";
