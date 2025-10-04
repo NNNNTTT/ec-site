@@ -21,6 +21,7 @@ use App\Exceptions\PaymentCancelException;
 
 class AdminOrderController extends Controller
 {
+    // 注文一覧を表示する
     public function index(Request $request){
         if($request->query('status')){
             $status = $request->query('status');
@@ -33,6 +34,7 @@ class AdminOrderController extends Controller
         return view('admin.order.index', compact('orders', 'status', 'show'));
     }
 
+    // 注文詳細を表示する
     public function show($id){
         $show = "order";
         $order = Order::find($id);

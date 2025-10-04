@@ -2,21 +2,30 @@
 
 namespace App\Http\Controllers;
 
+// リクエストクラス
 use Illuminate\Http\Request;
+use App\Http\Requests\StoreReviewRequest;
+use App\Http\Requests\UpdateReviewRequest;
+
+// モデルクラス
 use App\Models\Review;
 use App\Models\Product;
 use App\Models\Order;
-use App\Http\Requests\StoreReviewRequest;
-use App\Http\Requests\UpdateReviewRequest;
+
+// ファサードクラス
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\DB;
+use Illuminate\Support\Facades\Log;
 
 class ReviewController extends Controller
 {
+    // 商品レビューを作成する
     public function create($order_id, $product_id){
         $user_id = Auth::id();
 
         $order = Order::find($order_id);
+
+        // 注文者とログインユーザーが一致しない場合はリダイレクトさせる
         if($order->user_id !== $user_id){
             return redirect()->route('mypage.order_detail', $order_id);
         }else{
@@ -26,6 +35,8 @@ class ReviewController extends Controller
         }
     }
 
+    // 商品レビューを登録する
+    // StoreReviewRequestでバリデーションを行う
     public function store(StoreReviewRequest $request){
 
         DB::beginTransaction();
@@ -45,6 +56,7 @@ class ReviewController extends Controller
         }
     }
 
+    // 商品レビューを編集する
     public function product_review_edit($id){
         $user_id = Auth::id();
         $review = Review::where('user_id', $user_id)->where('product_id', $id)->first();
@@ -58,6 +70,8 @@ class ReviewController extends Controller
         }
     }
 
+    // 商品レビューを更新する
+    // UpdateReviewRequestでバリデーションを行う
     public function product_review_update(UpdateReviewRequest $request, $id){
 
         DB::beginTransaction();
@@ -71,6 +85,8 @@ class ReviewController extends Controller
         }
     }
 
+    // 商品レビューを編集する(マイページ用)
+    // UpdateReviewRequestでバリデーションを行う
     public function mypage_review_edit($order_id, $product_id){
         $user_id = Auth::id();
         $review = Review::where('user_id', $user_id)->where('product_id', $product_id)->first();
@@ -85,6 +101,8 @@ class ReviewController extends Controller
         }
     }
 
+    // 商品レビューを更新する(マイページ用)
+    // UpdateReviewRequestでバリデーションを行う
     public function mypage_review_update(UpdateReviewRequest $request, $order_id, $review_id){
 
         DB::beginTransaction();

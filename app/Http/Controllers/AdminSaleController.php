@@ -2,14 +2,20 @@
 
 namespace App\Http\Controllers;
 
+// リクエストクラス
 use Illuminate\Http\Request;
-use App\Models\Order;
-use DateTime;
-use DatePeriod;
-use DateInterval;
-class AdminSaleController extends Controller
 
+// モデルクラス
+use App\Models\Order;
+
+// その他
+use DateTime;
+use DatePeriod; // 日付の期間を作成する
+use DateInterval; // 日付の間隔を作成する
+
+class AdminSaleController extends Controller
 {
+    // 日毎売上一覧を表示する
     public function days_show(){
         $show = "sale";
         $month = date('Y-m');
@@ -27,6 +33,7 @@ class AdminSaleController extends Controller
         return view('admin.sale.days', compact('show', 'sales'));
     }
 
+    // 日毎売上一覧を検索する
     public function days_search(Request $request){
         $show = "sale";
         $start_day = $request->start_date;
@@ -39,13 +46,18 @@ class AdminSaleController extends Controller
         return view('admin.sale.days', compact('show', 'sales'));
     }
 
+    // 期間内の日毎売上一覧を取得する
     protected function days_getSales($start, $end){
         $sales = [];
+
+        // 日毎の期間を作成する
         $period = new DatePeriod(
             $start,
             new DateInterval('P1D'), // 1日ずつ増やす
             $end->modify('+1 day')   // 最終日を含める
         );
+
+        // 日毎の売上配列を作成する
         foreach($period as $date){
             $sales[$date->format('Y-m-d')] = [
                 'total_price' => 0,
@@ -54,6 +66,7 @@ class AdminSaleController extends Controller
         }
 
         $orders = Order::whereBetween('created_at', [$start, $end])->get();
+        // 日毎の売上を配列に追加する
         foreach($orders as $order){
             $day = $order->created_at->format('Y-m-d');
             $sales[$day]['total_price'] += $order->total_price;
@@ -62,6 +75,7 @@ class AdminSaleController extends Controller
         return $sales;
     }
 
+    // 月毎売上一覧を表示する
     public function month_show(){
         $show = "sale";
         $year = date('Y');
@@ -69,6 +83,7 @@ class AdminSaleController extends Controller
         return view('admin.sale.month', compact('show', 'sales'));
     }
 
+    // 月毎売上一覧を検索する
     public function month_search(Request $request){
         $show = "sale";
         $year = $request->year;
@@ -76,6 +91,7 @@ class AdminSaleController extends Controller
         return view('admin.sale.month', compact('show', 'sales'));
     }
 
+    // 選択した年の月毎売上一覧を取得する
     protected function month_getSales($year){
         $orders = Order::where('created_at', 'like', $year . '%')->get();
         $sales = [];

@@ -1,15 +1,18 @@
 <?php
 
 namespace App\Http\Controllers;
-use App\Models\Product;
 
+// リクエストクラス
 use Illuminate\Http\Request;
-use Illuminate\Support\Facades\Storage;
-use Illuminate\Support\Facades\DB;
-use Illuminate\Support\Facades\Log;
-
 use App\Http\Requests\StoreProductRequest;
 use App\Http\Requests\UpdateProductRequest;
+
+// モデルクラス
+use App\Models\Product;
+
+// ファサードクラス
+use Illuminate\Support\Facades\DB;
+use Illuminate\Support\Facades\Log;
 
 class ProductController extends Controller
 {

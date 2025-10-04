@@ -2,16 +2,22 @@
 
 namespace App\Http\Controllers;
 
+// リクエストクラス
 use Illuminate\Http\Request;
-use Illuminate\Support\Facades\Session;
+
+// モデルクラス
 use App\Models\Cart;
 use App\Models\LineItem;
-use Illuminate\Support\Facades\Auth;
 use App\Models\UserLineItem;
 use App\Models\User;
 
+// ファサードクラス
+use Illuminate\Support\Facades\Auth;
+use Illuminate\Support\Facades\Session;
+
 class CartController extends Controller
 {
+    // カート画面を表示する
     public function index(){
         if(Auth::check()){
             $cart = User::find(Auth::id());
@@ -31,6 +37,8 @@ class CartController extends Controller
             ->with('total_price', $total_price);
     }
 
+
+    
     public function checkout(){
         if(Auth::check()){
             $user_id = Auth::user()->id;

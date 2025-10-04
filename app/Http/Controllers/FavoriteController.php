@@ -2,9 +2,14 @@
 
 namespace App\Http\Controllers;
 
+// リクエストクラス
 use Illuminate\Http\Request;
+
+// モデルクラス
 use App\Models\Product;
 use App\Models\Favorite;
+
+// ファサードクラス
 use Illuminate\Support\Facades\Auth;
 
 class FavoriteController extends Controller
@@ -28,6 +33,7 @@ class FavoriteController extends Controller
         }
     }
 
+    // お気に入りを追加する
     public function store(Request $request)
     {
         $product = Product::find($request->input('product_id'));
@@ -36,6 +42,7 @@ class FavoriteController extends Controller
         return response()->json(['success' => true, 'favoritecount' => $favoritecount]);
     }
 
+    // お気に入りを削除する
     public function destroy(Request $request)
     {
         $product = Product::find($request->input('product_id'));

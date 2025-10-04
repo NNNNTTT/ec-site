@@ -2,24 +2,32 @@
 
 namespace App\Http\Controllers;
 
-use App\Models\User;
+// リクエストクラス
 use Illuminate\Http\Request;
-use Illuminate\Support\Facades\Auth;
+
+// モデルクラス
+use App\Models\User;
 use App\Models\Order;
+
+// ファサードクラス
+use Illuminate\Support\Facades\Auth;
 
 class MypageController extends Controller
 {
+    // マイページを表示する
     public function index()
     {
         $orders = Order::where('user_id', Auth::user()->id)->orderBy('created_at', 'desc')->get();
         return view('mypage.index', compact('orders'));
     }
 
+    // アカウント情報編集画面を表示する
     public function edit()
     {
         return view('mypage.edit');
     }
 
+    // アカウント情報を更新する
     public function update(Request $request)
     {
         $request->validate([
@@ -39,6 +47,7 @@ class MypageController extends Controller
         return redirect()->route('mypage.index');
     }
 
+    // 注文詳細画面を表示する
     public function order_detail($id)
     {
         $order = Order::find($id);

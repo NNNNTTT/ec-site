@@ -2,24 +2,33 @@
 
 namespace App\Http\Controllers;
 
+// リクエストクラス
 use Illuminate\Http\Request;
+use App\Http\Requests\Auth\LoginRequest;
+
 use Illuminate\Support\Facades\Auth;
 use App\Services\LineItemService;
-use App\Http\Requests\Auth\LoginRequest;
+
+// モデルクラス
 use App\Models\LineItem;
 use App\Models\UserLineItem;
 use App\Models\User;
 use App\Models\Order;
 use App\Models\OrderProduct;
 use App\Models\Product;
+
+// ファサードクラス
 use Illuminate\Support\Facades\Session;
-use App\Services\StripeService;
-use Illuminate\Support\Facades\Hash;
-use Illuminate\Auth\Events\Registered;
-use Illuminate\Validation\Rules;
 use Illuminate\Support\Facades\Log;
 use Illuminate\Support\Facades\DB;
+
+// サービスクラス
+use App\Services\StripeService;
 use App\Services\ShippingCalculators\DefaultShippingCalculator;
+
+// その他
+use Illuminate\Auth\Events\Registered;
+use Illuminate\Validation\Rules;
 
 class OrderController extends Controller
 {

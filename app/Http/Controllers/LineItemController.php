@@ -2,12 +2,17 @@
 
 namespace App\Http\Controllers;
 
+// リクエストクラス
 use Illuminate\Http\Request;
+
+// モデルクラス
 use App\Models\LineItem;
-use Illuminate\Support\Facades\Session;
-use Illuminate\Support\Facades\Auth;
 use App\Models\UserLineItem;
 use App\Models\User;
+
+// ファサードクラス
+use Illuminate\Support\Facades\Session;
+use Illuminate\Support\Facades\Auth;
 
 class LineItemController extends Controller
 {
