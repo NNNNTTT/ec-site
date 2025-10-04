@@ -57,6 +57,7 @@
                     @endif
                 </div>
                 <button type="submit" class="btn btn-outline-secondary">更新</button>
+                <a href="{{ route('mypage.order_detail', $order_id) }}" class="btn btn-outline-secondary mx-3">戻る</a>
             </form>
         </div>
     </div>

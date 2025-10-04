@@ -54,6 +54,7 @@
                 <input type="hidden" name="product_id" value="{{ $product->id }}">
                 <input type="hidden" name="order_id" value="{{ $order_id }}">
                 <button type="submit" class="btn btn-outline-secondary">登録</button>
+                <a href="{{ route('mypage.order_detail', $order_id) }}" class="btn btn-outline-secondary mx-3">戻る</a>
             </form>
         </div>
     </div>
