@@ -34,7 +34,21 @@
             @endif
         </div>
         <div class="form-group mb-3">
-            <label for="address" class="form-label">ご住所</label>
+            <label for="postal_code" class="form-label">郵便番号</label>
+            <input type="text" class="form-control" id="postal_code" name="postal_code" value="{{ Auth::user()->postal_code }}">
+            @if($errors->has('postal_code'))
+                <span class="text-danger">{{ $errors->first('postal_code') }}</span>
+            @endif
+        </div>
+        <div class="form-group mb-3">
+            <label for="prefecture" class="form-label">都道府県</label>
+            <input type="text" class="form-control" id="prefecture" name="prefecture" value="{{ Auth::user()->prefecture }}">
+            @if($errors->has('prefecture'))
+                <span class="text-danger">{{ $errors->first('prefecture') }}</span>
+            @endif
+        </div>
+        <div class="form-group mb-3">
+            <label for="address" class="form-label">ご住所（市区町村-番地）</label>
             <input type="text" class="form-control" id="address" name="address" value="{{ Auth::user()->address }}">
             @if($errors->has('address'))
                 <span class="text-danger">{{ $errors->first('address') }}</span>

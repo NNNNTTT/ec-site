@@ -34,6 +34,8 @@ class MypageController extends Controller
             'name' => 'required|string|max:255',
             'email' => 'required|email|max:255',
             'phone' => 'required|string|max:255',
+            'postal_code' => 'required|string|max:255',
+            'prefecture' => 'required|string|max:255',
             'address' => 'required|string|max:255',
         ]);
         
@@ -41,6 +43,8 @@ class MypageController extends Controller
         $user->name = $request->name;
         $user->email = $request->email;
         $user->phone = $request->phone;
+        $user->postal_code = $request->postal_code;
+        $user->prefecture = $request->prefecture;
         $user->address = $request->address;
         $user->save();
 

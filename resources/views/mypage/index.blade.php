@@ -45,7 +45,15 @@
                 <td class="col-9">{{ Auth::user()->phone }}</td>
             </tr>
             <tr>
-                <td class="col-3">ご住所</td>
+                <td class="col-3">郵便番号</td>
+                <td class="col-9">{{ Auth::user()->postal_code }}</td>
+            </tr>
+            <tr>
+                <td class="col-3">ご住所（都道府県）</td>
+                <td class="col-9">{{ Auth::user()->prefecture }}</td>
+            </tr>
+            <tr>
+                <td class="col-3">ご住所（市区町村-番地）</td>
                 <td class="col-9">{{ Auth::user()->address }}</td>
             </tr>
         </table>
