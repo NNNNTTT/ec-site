@@ -21,6 +21,11 @@
 
 <div class='container mt-5'>
     <h2>マイページ</h2>
+    @if(session('success'))
+        <div class="alert alert-success">
+            {{ session('success') }}
+        </div>
+    @endif
     <ul class='nav nav-tabs mt-5 mb-5'>
         <li class='nav-item'>
             <a href='#account' class='nav-link active'>アカウント情報</a>
