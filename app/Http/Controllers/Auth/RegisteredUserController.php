@@ -11,6 +11,9 @@ use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Hash;
 use Illuminate\Validation\Rules;
 use Illuminate\View\View;
+use Illuminate\Support\Facades\Mail;
+use App\Mail\RegisterToAdminMail;
+use App\Mail\RegisterToUserMail;
 
 class RegisteredUserController extends Controller
 {
@@ -59,6 +62,12 @@ class RegisteredUserController extends Controller
         $favorites = json_decode($favorites, true);
 
         $user = Auth::user();
+
+        // 管理者にメールを送信する
+        Mail::to(config('mail.admin_email'))->send(new RegisterToAdminMail($user));
+
+        // ユーザーにメールを送信する
+        Mail::to($user->email)->send(new RegisterToUserMail($user));
 
         // ログインユーザーのお気に入り情報とゲスト時のお気に入り情報を結合する
         $user->favorites()->syncWithoutDetaching($favorites);

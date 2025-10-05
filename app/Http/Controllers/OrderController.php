@@ -6,9 +6,6 @@ namespace App\Http\Controllers;
 use Illuminate\Http\Request;
 use App\Http\Requests\Auth\LoginRequest;
 
-use Illuminate\Support\Facades\Auth;
-use App\Services\LineItemService;
-
 // モデルクラス
 use App\Models\LineItem;
 use App\Models\UserLineItem;
@@ -21,10 +18,17 @@ use App\Models\Product;
 use Illuminate\Support\Facades\Session;
 use Illuminate\Support\Facades\Log;
 use Illuminate\Support\Facades\DB;
+use Illuminate\Support\Facades\Auth;
 
 // サービスクラス
 use App\Services\StripeService;
 use App\Services\ShippingCalculators\DefaultShippingCalculator;
+use App\Services\LineItemService;
+
+// メールクラス
+use Illuminate\Support\Facades\Mail;
+use App\Mail\OrderToAdminMail;
+use App\Mail\OrderToUserMail;
 
 // その他
 use Illuminate\Auth\Events\Registered;
@@ -121,6 +125,12 @@ class OrderController extends Controller
             if($cart_id){
                 LineItem::where('cart_id', $cart_id)->delete();
             }
+
+            // 管理者にメールを送信する
+            Mail::to(config('mail.admin_email'))->send(new OrderToAdminMail($order));
+
+            // ユーザーにメールを送信する
+            Mail::to($order->user->email)->send(new OrderToUserMail($order));
             
             // 全ての処理が成功したので、データベースへの変更を確定
             DB::commit();

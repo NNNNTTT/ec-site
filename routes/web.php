@@ -15,6 +15,9 @@ use App\Http\Controllers\FavoriteController;
 use App\Http\Controllers\ReviewController;
 use App\Http\Controllers\AdminSaleController;
 
+use App\Mail\TestMail;
+use Illuminate\Support\Facades\Mail;
+
 
 /*
 Route::get('/', function () {
@@ -100,6 +103,11 @@ Route::middleware('auth')->group(function () {
     Route::get('/profile', [ProfileController::class, 'edit'])->name('profile.edit');
     Route::patch('/profile', [ProfileController::class, 'update'])->name('profile.update');
     Route::delete('/profile', [ProfileController::class, 'destroy'])->name('profile.destroy');
+});
+
+Route::get('/test_mail', function () {
+    Mail::to('tsubota456@outlook.jp')->send(new TestMail('テストメールです'));
+    return 'メールを送信しました';
 });
 
 require __DIR__.'/auth.php';
