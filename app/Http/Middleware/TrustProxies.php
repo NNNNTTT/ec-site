@@ -2,21 +2,20 @@
 
 namespace App\Http\Middleware;
 
-use Closure;
+use Illuminate\Http\Middleware\TrustProxies as Middleware;
 use Illuminate\Http\Request;
-use Symfony\Component\HttpFoundation\Response;
 
-class TrustProxies
+class TrustProxies extends Middleware
 {
     /**
-     * 信頼するプロキシ
-     * Traefik 経由が前提なら '*' でOK。
-     * より厳格にするなら Docker ネットワークのCIDRに置き換え（例: ['172.18.0.0/16']）。
+     * Traefik 経由なら '*' でもOK。
+     * もっと厳密にするなら Docker ネットワークのCIDRに置き換え:
+     * 例) protected $proxies = ['172.18.0.0/16'];
      */
     protected $proxies = '*';
 
     /**
-     * 参照する X-Forwarded-* ヘッダ群
+     * X-Forwarded-* ヘッダ群を使用
      */
     protected $headers = Request::HEADER_X_FORWARDED_ALL;
 }
