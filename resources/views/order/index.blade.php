@@ -181,7 +181,7 @@
 
 <script>
     const orderCardRoute = @json(route('order.card'));
-    const stripePublicKey = @json(env('STRIPE_PUBLIC_KEY'));
+    const stripePublicKey = @json(config('services.stripe.public_key'));
 </script>
 
 @endsection
