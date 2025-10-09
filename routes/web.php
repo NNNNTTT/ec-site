@@ -14,6 +14,7 @@ use App\Http\Controllers\MypageController;
 use App\Http\Controllers\FavoriteController;
 use App\Http\Controllers\ReviewController;
 use App\Http\Controllers\AdminSaleController;
+use App\Http\Controllers\AdminProductController;
 
 use App\Mail\TestMail;
 use Illuminate\Support\Facades\Mail;
@@ -76,14 +77,14 @@ Route::name('mypage')->group(function(){
 
 Route::name('admin')->group(function(){
     Route::get('/admin', [AdminController::class, 'index'])->name('.index');
-    Route::get('/admin/product', [ProductController::class, 'admin_index'])->name('.product.index');
-    Route::get('/admin/product/create', [ProductController::class, 'create'])->name('.product.create');
-    Route::post('/admin/product/store', [ProductController::class, 'store'])->name('.product.store');
-    Route::get('/admin/product/edit/{id}', [ProductController::class, 'edit'])->name('.product.edit');
-    Route::post('/admin/product/update/{id}', [ProductController::class, 'update'])->name('.product.update');
-    Route::get('/admin/product/destroy/{id}', [ProductController::class, 'destroy'])->name('.product.destroy');
-    Route::get('/admin/product/stock_edit', [ProductController::class, 'stock_edit'])->name('.product.stock_edit');
-    Route::post('/admin/product/stock_update', [ProductController::class, 'stock_update'])->name('.product.stock_update');
+    Route::get('/admin/product', [AdminProductController::class, 'admin_index'])->name('.product.index');
+    Route::get('/admin/product/create', [AdminProductController::class, 'create'])->name('.product.create');
+    Route::post('/admin/product/store', [AdminProductController::class, 'store'])->name('.product.store');
+    Route::get('/admin/product/edit/{id}', [AdminProductController::class, 'edit'])->name('.product.edit');
+    Route::post('/admin/product/update/{id}', [AdminProductController::class, 'update'])->name('.product.update');
+    Route::get('/admin/product/destroy/{id}', [AdminProductController::class, 'destroy'])->name('.product.destroy');
+    Route::get('/admin/product/stock_edit', [AdminProductController::class, 'stock_edit'])->name('.product.stock_edit');
+    Route::post('/admin/product/stock_update', [AdminProductController::class, 'stock_update'])->name('.product.stock_update');
 
     Route::get('/admin/order', [AdminOrderController::class, 'index'])->name('.order.index');
     Route::get('/admin/order/show/{id}', [AdminOrderController::class, 'show'])->name('.order.show');
