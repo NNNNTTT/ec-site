@@ -18,7 +18,7 @@ class ProductController extends Controller
     }
 
     // 商品詳細を表示する
-    public function show($id)
+    public function show($parent_slug, $category_slug, $id)
     {
         return view('product.show')
             ->with('product', Product::find($id));

@@ -27,6 +27,8 @@
                     <ul class="btn-toggle-nav list-unstyled fw-normal pb-1 small">
                         <li><a href="{{ route('admin.product.index') }}" class="link-body-emphasis d-inline-flex text-decoration-none rounded">商品一覧</a></li>
                         <li><a href="{{ route('admin.product.create') }}" class="link-body-emphasis d-inline-flex text-decoration-none rounded">商品登録</a></li>
+                        <li><a href="{{ route('admin.product_category.index') }}" class="link-body-emphasis d-inline-flex text-decoration-none rounded">商品カテゴリー一覧</a></li>
+                        <li><a href="{{ route('admin.product_category.create') }}" class="link-body-emphasis d-inline-flex text-decoration-none rounded">商品カテゴリー登録</a></li>
                         <li><a href="{{ route('admin.product.stock_edit') }}" class="link-body-emphasis d-inline-flex text-decoration-none rounded">在庫編集</a></li>
                     </ul>
                     </div>

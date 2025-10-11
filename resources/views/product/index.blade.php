@@ -23,11 +23,12 @@
 
     <div class='row'>
         @foreach($products as $product)
-            <a href="{{ route('product.show', $product->id) }}" class="col-lg-4 col-md-6">
+            <a href="{{ route('product.show', ['parent_slug' => $product->category->parent->slug,'category_slug' => $product->category->slug,'id' => $product->id]) }}" class="col-lg-4 col-md-6">
                 <div class="card card_hover">
                     <img src="{{ asset( $product->image )}}" alt="" class="card-img">
                     <div class="card-body">
                         <p class="card-title">{{ $product->name }}</p>
+                        <p class="card-text">{{ $product->category->name }}</p>
                         <p class="card-text">¥{{ number_format($product->price) }}</p>
                     </div>
                 </div>

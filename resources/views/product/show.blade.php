@@ -6,6 +6,9 @@
 
 @section('content')
 <div class="container">
+    <p class="mt-2">
+        商品 > {{ $product->category->parent->name . ' > ' . $product->category->name }}
+    </p>
     <div class="product">
         @if(session('success'))
             <div class="alert alert-success mt-3">
@@ -21,6 +24,9 @@
         <div class="product__content-header text-center">
             <div class="product__name">
                 {{ $product->name }}
+            </div>
+            <div class="product__category mb-2">
+                {{ $product->category->name }}
             </div>
             <div class="product__price">
                 ¥{{ number_format($product->price )}}

@@ -15,6 +15,7 @@ use App\Http\Controllers\FavoriteController;
 use App\Http\Controllers\ReviewController;
 use App\Http\Controllers\AdminSaleController;
 use App\Http\Controllers\AdminProductController;
+use App\Http\Controllers\AdminProductCategoryController;
 
 use App\Mail\TestMail;
 use Illuminate\Support\Facades\Mail;
@@ -30,7 +31,7 @@ Route::middleware([CartSession::class])->group(function () {
 
     Route::name('product')->group(function () {
         Route::get('/', [ProductController::class, 'index'])->name('.index');
-        Route::get('/product/{id}', [ProductController::class, 'show'])->name('.show');
+        Route::get('/product/{parent_slug}/{category_slug}/{id}', [ProductController::class, 'show'])->name('.show');
         Route::post('/product/search', [ProductController::class, 'search'])->name('.search');
         Route::get('/product/review/edit/{id}', [ReviewController::class, 'product_review_edit'])->name('.review.edit');
         Route::post('/product/review/update/{id}', [ReviewController::class, 'product_review_update'])->name('.review.update');
@@ -94,6 +95,12 @@ Route::name('admin')->group(function(){
     Route::post('/admin/sale/days_search', [AdminSaleController::class, 'days_search'])->name('.sale.days_search');
     Route::get('/admin/sale/month_show', [AdminSaleController::class, 'month_show'])->name('.sale.month_show');
     Route::post('/admin/sale/month_search', [AdminSaleController::class, 'month_search'])->name('.sale.month_search');
+
+    Route::get('/admin/product_category', [AdminProductCategoryController::class, 'index'])->name('.product_category.index');
+    Route::get('/admin/product_category/create', [AdminProductCategoryController::class, 'create'])->name('.product_category.create');
+    Route::post('/admin/product_category/store', [AdminProductCategoryController::class, 'store'])->name('.product_category.store');
+    Route::get('/admin/product_category/edit/{id}', [AdminProductCategoryController::class, 'edit'])->name('.product_category.edit');
+    Route::post('/admin/product_category/update/{id}', [AdminProductCategoryController::class, 'update'])->name('.product_category.update');
 });
 
 Route::get('/dashboard', function () {

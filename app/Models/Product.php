@@ -53,4 +53,8 @@ class Product extends Model
             'user_id'
         )->withPivot('id','user_id','rating','title','comment', 'created_at');
     }
+
+    public function category(){
+        return $this->belongsTo(ProductCategory::class, 'category_id');
+    }
 }

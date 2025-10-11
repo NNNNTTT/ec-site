@@ -22,6 +22,14 @@
                 @endif
             </div>
             <div class="mb-3" style="max-width: 700px;">
+                <label for="exampleFormControlInput1" class="form-label">商品カテゴリー</label>
+                <select class="form-select" name="product_category_id" id="exampleFormControlInput1">
+                    @foreach($product_categories as $product_category)
+                    <option value="{{ $product_category->id }}">{{ $product_category->name }}</option>
+                    @endforeach
+                </select>
+            </div>
+            <div class="mb-3" style="max-width: 700px;">
                 <label for="exampleFormControlTextarea1" class="form-label">価格</label>
                 <input type="number" class="form-control" name='price' id="exampleFormControlTextarea1" rows="3" ></input>
                 @if($errors->has('price'))

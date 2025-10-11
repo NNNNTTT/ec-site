@@ -9,6 +9,7 @@ use App\Http\Requests\UpdateProductRequest;
 
 // モデルクラス
 use App\Models\Product;
+use App\Models\ProductCategory;
 
 // ファサードクラス
 use Illuminate\Support\Facades\DB;
@@ -29,8 +30,10 @@ class AdminProductController extends Controller
     public function create()
     {
         $show = "product";
+        $product_categories = ProductCategory::whereNotNull('parent_id')->get();
         return view('admin.product.create')
-            ->with('show', $show);
+            ->with('show', $show)
+            ->with('product_categories', $product_categories);
     }
 
     // 商品登録を行う(管理者用)
@@ -42,6 +45,7 @@ class AdminProductController extends Controller
             // 商品を作成する
             $product = Product::create([
                 'name' => $request->name,
+                'category_id' => $request->product_category_id,
                 'price' => $request->price,
                 'description' => $request->description,
                 'stock' => $request->stock,
@@ -73,11 +77,13 @@ class AdminProductController extends Controller
     public function edit($id){
 
         $show = "product"; // 管理者用のページで商品一覧のトグルを開いた状態で表示するための設定　これがないとエラーになる
+        $product_categories = ProductCategory::whereNotNull('parent_id')->get();
 
         // 商品編集画面を表示
         return view('admin.product.edit')
             ->with('show', $show)
-            ->with('product', Product::find($id));
+            ->with('product', Product::find($id))
+            ->with('product_categories', $product_categories);
     }
 
     // 商品編集を行う(管理者用)
@@ -91,6 +97,7 @@ class AdminProductController extends Controller
         try{
             $product = Product::find($id);
             $product->name = $request->name;
+            $product->category_id = $request->product_category_id;
             $product->price = $request->price;
             $product->description = $request->description;
             $product->stock = $request->stock;
