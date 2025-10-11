@@ -38,7 +38,7 @@
                         <td></td>
                     @endif
                     <td><a href="{{ route('admin.product_category.edit', $product_category->id) }}" class="btn btn-success">編集</a></td>
-                    <td><a href="#" class="btn btn-danger">削除</a></td>
+                    <td><a href="{{ route('admin.product_category.destroy', $product_category->id) }}" class="btn btn-danger">削除</a></td>
                 </tr>
             </tbody>
         @endforeach

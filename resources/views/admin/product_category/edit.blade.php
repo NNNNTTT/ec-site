@@ -44,5 +44,6 @@
                 </select>
             </div>
             <button type="submit" class="btn btn-success">更新</button>
+            <a href="{{ route('admin.product_category.destroy', $product_category->id) }}" class="btn btn-danger mx-3">削除</a>
         </form>
 @endsection

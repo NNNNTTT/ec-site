@@ -31,6 +31,7 @@ Route::middleware([CartSession::class])->group(function () {
 
     Route::name('product')->group(function () {
         Route::get('/', [ProductController::class, 'index'])->name('.index');
+        Route::get('/product/{parent_slug?}/{category_slug?}', [ProductController::class, 'index'])->name('.index');
         Route::get('/product/{parent_slug}/{category_slug}/{id}', [ProductController::class, 'show'])->name('.show');
         Route::post('/product/search', [ProductController::class, 'search'])->name('.search');
         Route::get('/product/review/edit/{id}', [ReviewController::class, 'product_review_edit'])->name('.review.edit');
@@ -101,6 +102,7 @@ Route::name('admin')->group(function(){
     Route::post('/admin/product_category/store', [AdminProductCategoryController::class, 'store'])->name('.product_category.store');
     Route::get('/admin/product_category/edit/{id}', [AdminProductCategoryController::class, 'edit'])->name('.product_category.edit');
     Route::post('/admin/product_category/update/{id}', [AdminProductCategoryController::class, 'update'])->name('.product_category.update');
+    Route::get('/admin/product_category/destroy/{id}', [AdminProductCategoryController::class, 'destroy'])->name('.product_category.destroy');
 });
 
 Route::get('/dashboard', function () {

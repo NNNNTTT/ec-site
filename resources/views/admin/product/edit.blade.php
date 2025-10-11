@@ -29,6 +29,7 @@
             <div class="mb-3" style="max-width: 700px;">
                 <label for="exampleFormControlInput1" class="form-label">商品カテゴリー</label>
                 <select class="form-select" name="product_category_id" id="exampleFormControlInput1">
+                    <option value="{{ $product->category->id }}">{{ $product->category->name }}</option>
                     @foreach($product_categories as $product_category)
                     <option value="{{ $product_category->id }}">{{ $product_category->name }}</option>
                     @endforeach
@@ -73,7 +74,5 @@
             </div>
             <button type="submit" class="btn btn-success">更新</button>
             <a href="{{ route('admin.product.destroy', $product->id) }}" class="btn btn-danger mx-3">削除</a>
-            <a href="{{ route('admin.product.index') }}" class="btn btn-outline-secondary mx-3">戻る</a>
-            
         </form>
 @endsection

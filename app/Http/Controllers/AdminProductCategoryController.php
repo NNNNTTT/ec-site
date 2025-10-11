@@ -28,7 +28,7 @@ class AdminProductCategoryController extends Controller
     // 商品カテゴリ登録画面を表示する
     public function create(){
         $show = "product";
-        $product_categories = ProductCategory::all();
+        $product_categories = ProductCategory::whereNull('parent_id')->get();
         return view('admin.product_category.create')
             ->with('show', $show)
             ->with('product_categories', $product_categories);
