@@ -36,6 +36,10 @@
                         </div>
                     </a>
                 @endforeach
+                {{-- ページネーションリンク --}}
+                <div class="d-flex justify-content-center">
+                    {{ $products->links() }}
+                </div>
             </div>
         </div>
 

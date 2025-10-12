@@ -22,7 +22,7 @@ class AdminProductController extends Controller
     {
         $show = "product";
         return view('admin.product.index')
-            ->with('products', Product::get())
+            ->with('products', Product::paginate(6))
             ->with('show', $show);
     }
 

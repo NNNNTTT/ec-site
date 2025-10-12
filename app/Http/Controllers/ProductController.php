@@ -18,16 +18,16 @@ class ProductController extends Controller
             $category = ProductCategory::where('slug', $category_slug)->first();
             $category_id = $category->id;
             $category_name = $category->name;
-            $products = $category->products;
+            $products = $category->products()->paginate(6);
 
         }else if($parent_slug){
             $category = ProductCategory::where('slug', $parent_slug)->first();
             $category_id = $category->id;
             $category_name = $category->name;
-            $products = ProductCategory::where('parent_id', $category_id)->first()->products;
+            $products = ProductCategory::where('parent_id', $category_id)->first()->products()->paginate(6);
 
         }else{
-            $products = Product::get();
+            $products = Product::paginate(6);
             $category_name = '全ての商品';
         }
         $product_categories = ProductCategory::whereNull('parent_id')->get();

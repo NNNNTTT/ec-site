@@ -37,4 +37,8 @@
             </tbody>
             @endforeach
         </table>
+        {{-- ページネーションリンク --}}
+        <div class="d-flex justify-content-center">
+            {{ $products->links() }}
+        </div>
 @endsection
