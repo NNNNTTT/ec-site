@@ -41,7 +41,7 @@
 
 <div class="mask d-xl-none"></div>
 
-<div class="row sp-nav p-4 d-xl-none">
+<div class="sp-nav p-4 d-xl-none">
     <h3 class="pb-3 mb-3" style="font-size: 1.5rem;">カテゴリー</h3>
     <ul class="list-unstyled">
         @foreach($product_categories as $product_category)

@@ -22,11 +22,11 @@ class AppServiceProvider extends ServiceProvider
      */
     public function boot(): void
     {
-        //
+        // ページネーションをブートストラップに変更
         Paginator::useBootstrap();
-        $product_categories = ProductCategory::whereNull('parent_id')->get();
 
-         // 全ビューで共有
+        // カテゴリーを全ビューで共有
+        $product_categories = ProductCategory::whereNull('parent_id')->get();
         View::share('product_categories', $product_categories);
     }
 }
