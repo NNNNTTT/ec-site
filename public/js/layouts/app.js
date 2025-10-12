@@ -27,3 +27,22 @@ if(favoriteForm) {
         favoriteForm.submit();
     });
 }
+
+// ハンバーガーメニュー
+const hamburger = document.querySelector('.hamburger');
+const spNav = document.querySelector('.sp-nav');
+const mask = document.querySelector('.mask');
+if(hamburger){
+    hamburger.addEventListener('click', function(){
+        hamburger.classList.toggle('active');
+        spNav.classList.toggle('active');
+        mask.classList.toggle('active');
+    })
+}
+if(mask){
+    mask.addEventListener('click', function(){
+        hamburger.classList.remove('active');
+        spNav.classList.remove('active');
+        mask.classList.remove('active');
+    })
+}

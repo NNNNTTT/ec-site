@@ -1,5 +1,5 @@
-<div class="sidebar p-4 col-2" style="background-color: #f8f9fa;">
-    <h3 class="pb-3 mb-3">カテゴリー</h3>
+<div class="sidebar p-4 col-2 d-none d-xl-block" style="background-color: #f8f9fa;">
+    <h3 class="pb-3 mb-3" style="font-size: 1.5rem;">カテゴリー</h3>
     <ul class="list-unstyled">
         @foreach($product_categories as $product_category)
         <li class="pb-3 mb-3">

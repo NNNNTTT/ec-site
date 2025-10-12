@@ -65,6 +65,11 @@
                 @endguest
 
                 <a href="{{ route('cart.index') }}" class="fas fa-shopping-cart" style="color:black"></a>
+
+                <div class="hamburger d-xl-none">
+                    <i class="fas fa-bars"></i>
+                </div>
+                @include('partials.sp-nav')
             </div>
 
         </div>

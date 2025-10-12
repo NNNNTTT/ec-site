@@ -18,27 +18,31 @@
         <button type="submit" class="btn btn-outline-secondary">検索</button>
     </form>
     <div class="container">
-        <div class="row align-items-start">
+        <div class="row align-items-start justify-content-between">
             @include('partials.sidebar')
-            <div class='row col-10 ms-2'>
-                <div class="top__title">
-                    {{ $category_name }}
-                </div>
-                @foreach($products as $product)
-                    <a href="{{ route('product.show', ['parent_slug' => $product->category->parent->slug,'category_slug' => $product->category->slug,'id' => $product->id]) }}" class="col-lg-4 col-md-6">
-                        <div class="card card_hover">
-                            <img src="{{ asset( $product->image )}}" alt="" class="card-img">
-                            <div class="card-body">
-                                <p class="card-title">{{ $product->name }}</p>
-                                <p class="card-text">{{ $product->category->name }}</p>
-                                <p class="card-text">¥{{ number_format($product->price) }}</p>
+            <div class="col-12 col-xl-10">
+                <div class='row'>
+                    <div class="top__title">
+                        {{ $category_name }}
+                    </div>
+                    @foreach($products as $product)
+                    <div class="col-lg-4 col-md-6">
+                        <a href="{{ route('product.show', ['parent_slug' => $product->category->parent->slug,'category_slug' => $product->category->slug,'id' => $product->id]) }}">
+                            <div class="card card_hover">
+                                <img src="{{ asset( $product->image )}}" alt="" class="card-img">
+                                <div class="card-body">
+                                    <p class="card-title">{{ $product->name }}</p>
+                                    <p class="card-text">{{ $product->category->name }}</p>
+                                    <p class="card-text">¥{{ number_format($product->price) }}</p>
+                                </div>
                             </div>
-                        </div>
-                    </a>
-                @endforeach
-                {{-- ページネーションリンク --}}
-                <div class="d-flex justify-content-center">
-                    {{ $products->links() }}
+                        </a>
+                    </div>
+                    @endforeach
+                    {{-- ページネーションリンク --}}
+                    <div class="d-flex justify-content-center">
+                        {{ $products->links() }}
+                    </div>
                 </div>
             </div>
         </div>

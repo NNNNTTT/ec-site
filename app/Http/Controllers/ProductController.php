@@ -30,10 +30,8 @@ class ProductController extends Controller
             $products = Product::paginate(6);
             $category_name = '全ての商品';
         }
-        $product_categories = ProductCategory::whereNull('parent_id')->get();
         return view('product.index')
             ->with('products', $products)
-            ->with('product_categories', $product_categories)
             ->with('category_name', $category_name);
     }
 
@@ -47,11 +45,9 @@ class ProductController extends Controller
     // 商品検索を行う
     public function search(Request $request){
         $products = Product::where('name', 'like', '%' . $request->input('search') . '%')->paginate(6);
-        $product_categories = ProductCategory::whereNull('parent_id')->get();
         $category_name = '全ての商品';
         return view('product.index')
             ->with('products', $products)
-            ->with('product_categories', $product_categories)
             ->with('category_name', $category_name);
 
     }
