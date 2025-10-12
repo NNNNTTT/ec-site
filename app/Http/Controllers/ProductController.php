@@ -46,7 +46,7 @@ class ProductController extends Controller
 
     // 商品検索を行う
     public function search(Request $request){
-        $products = Product::where('name', 'like', '%' . $request->input('search') . '%')->get();
+        $products = Product::where('name', 'like', '%' . $request->input('search') . '%')->paginate(6);
         $product_categories = ProductCategory::whereNull('parent_id')->get();
         $category_name = '全ての商品';
         return view('product.index')
