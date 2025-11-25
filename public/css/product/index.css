@@ -1,0 +1,99 @@
+.center{
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+}
+.search{
+    margin-top: 100px;
+    margin-bottom: 45px;
+    width: 300px;
+    height: 40px;
+    position: relative;
+}
+.search form{
+    height: 100%;
+    width: 100%;
+}
+.search form input{
+    height: 100%;
+    width: 100%;
+    box-sizing: border-box;
+    padding: 10px;
+}
+.search form button{
+    height: 100%;
+    width: 50px;
+    position: absolute;
+    background-color:#2B3142 ;
+    right: 0;
+    top: 0;
+}
+.search form button::before{
+    position: absolute;
+    content: "";
+    width: 20px;
+    height: 20px;
+    border-radius: 50%;
+    border: 3px solid #fff;
+    top:17%;
+    right:36%;
+}
+.search form button::after{
+    position: absolute;
+    content: "";
+    width: 10px;
+    height: 0;
+    border-top: 3px solid #fff;
+    bottom:21%;
+    right:26%;
+    rotate: 45deg;
+}
+
+.category_name{
+    margin-bottom: 60px;
+}
+.option{
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    margin-bottom: 10px;
+}
+.option select{
+    width: 70px;
+    height: 30px;
+    border: none;
+}
+
+.pagination{
+    margin-top: 80px;
+}
+.pagination li span{
+    font-size: 24px;
+    width: 50px;
+    height: 50px;
+    border: #2B3142 1px solid;
+    margin-left: 10px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    cursor: pointer;
+}
+.pagination li a{
+    font-size: 24px;
+    width: 50px;
+    height: 50px;
+    border: #2B3142 1px solid;
+    margin-left: 10px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    cursor: pointer;
+}
+.pagination li.active span{
+    background-color: #2B3142;
+    color: #fff;
+}
+.pagination li.disabled span{
+    background-color: #2B3142;
+    color: #fff;
+}

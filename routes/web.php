@@ -1,5 +1,6 @@
 <?php
 
+use App\Http\Controllers\TopController;
 use App\Http\Controllers\ProfileController;
 use Illuminate\Support\Facades\Route;
 use App\Http\Controllers\ProductController;
@@ -17,6 +18,7 @@ use App\Http\Controllers\AdminSaleController;
 use App\Http\Controllers\AdminProductController;
 use App\Http\Controllers\AdminProductCategoryController;
 
+
 use App\Mail\TestMail;
 use Illuminate\Support\Facades\Mail;
 
@@ -29,8 +31,10 @@ Route::get('/', function () {
 //カートIDがあるか確認してなければ作成するミドルウェア
 Route::middleware([CartSession::class])->group(function () {
 
+    Route::get('/', [TopController::class, 'top']);
+
     Route::name('product')->group(function () {
-        Route::get('/', [ProductController::class, 'index'])->name('.index');
+        Route::get('product', [ProductController::class, 'index'])->name('.index');
         Route::get('/product/{parent_slug?}/{category_slug?}', [ProductController::class, 'index'])->name('.index');
         Route::get('/product/{parent_slug}/{category_slug}/{id}', [ProductController::class, 'show'])->name('.show');
         Route::post('/product/search', [ProductController::class, 'search'])->name('.search');
@@ -91,6 +95,7 @@ Route::name('admin')->group(function(){
     Route::get('/admin/order', [AdminOrderController::class, 'index'])->name('.order.index');
     Route::get('/admin/order/show/{id}', [AdminOrderController::class, 'show'])->name('.order.show');
     Route::post('/admin/order/status_update', [AdminOrderController::class, 'status_update'])->name('.order.status_update');
+    Route::get('/admin/order/receipt/{id}', [AdminOrderController::class, 'receipt'])->name('.order.receipt');
 
     Route::get('/admin/sale/days_show', [AdminSaleController::class, 'days_show'])->name('.sale.days_show');
     Route::post('/admin/sale/days_search', [AdminSaleController::class, 'days_search'])->name('.sale.days_search');

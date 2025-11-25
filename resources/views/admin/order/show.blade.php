@@ -95,7 +95,13 @@
                             <p>注文取消し</p>
                         @endif
                     </td>
-                </tr>   
+                </tr>
+                <tr>
+                    <td>領収書発行</td>
+                    <td>
+                        <a target="_blank" href="{{ route('admin.order.receipt', $order->id) }}" class="btn btn-outline-secondary">領収書を発行する</a>
+                    </td>
+                </tr> 
 
             </table>
             <a href="{{ route('admin.order.index') }}" class="btn btn-dark">戻る</a>

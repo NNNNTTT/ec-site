@@ -31,6 +31,16 @@
                 @endif
             </div>
             <div class="mb-3" style="max-width: 700px;">
+                <label for="exampleFormControlInput1" class="form-label">画像</label>
+                <input type="file" class="form-control mb-3" name="image" id="exampleFormControlInput1">
+                <img src="{{ asset($product_category->image) }}" alt="{{ $product_category->name }}" class="product-img" style="width: 100px;">
+                @if($errors->has('image'))
+                    <div class="alert alert-danger mt-3">
+                        {{ $errors->first('image') }}
+                    </div>
+                @endif
+            </div>
+            <div class="mb-3" style="max-width: 700px;">
                 <label for="exampleFormControlInput1" class="form-label">親カテゴリー</label>
                 <select class="form-select" name="parent_id" id="exampleFormControlInput1">
                     @if($product_category->parent_id)

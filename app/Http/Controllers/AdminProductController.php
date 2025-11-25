@@ -178,8 +178,8 @@ class AdminProductController extends Controller
     private function saveImage($request, $product){
         $extension = $request->file('image')->getClientOriginalExtension();
         $filename = $product->id . '.' . $extension;
-        $request->file('image')->storeAs('images', $filename, 'public');
-        $product->image = 'storage/images/' . $filename;
+        $request->file('image')->storeAs('images', 'products' . $filename, 'public');
+        $product->image = 'storage/images/products' . $filename;
         $product->save();
     }
 }

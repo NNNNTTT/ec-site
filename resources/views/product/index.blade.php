@@ -4,27 +4,39 @@
 商品一覧
 @endsection
 
-@section('content')
-<div class='jumbotron top-img'>
-    <p class="text-center text-white top-img-text">{{ config('app.name', 'Laravel') }}</p>
-</div>
+@section('css', asset('css/product/index.css'))
 
+@section('content')
 <div class="container">
 
     <!-- 商品検索 -->
-    <form action="{{ route('product.search') }}" method="POST" class="d-flex justify-content-center gap-2 mb-4 mt-4">
-        @csrf
-        <input type="text" name="search" placeholder="商品名を検索">
-        <button type="submit" class="btn btn-outline-secondary">検索</button>
-    </form>
+    <div class="center">
+        <div class="search">
+            <form action="{{ route('product.search') }}" method="POST">
+                @csrf
+                <input type="text" name="search" placeholder="全ての商品から探す">
+                <button type="submit" class=""></button>
+            </form>
+        </div>
+    </div>
     <div class="container">
         <div class="row align-items-start justify-content-between">
-            @include('partials.sidebar')
-            <div class="col-12 col-xl-10">
+            <div class="col-12">
                 <div class='row'>
-                    <div class="top__title">
+                    <h2 class="category_name">
                         {{ $category_name }}
+                    </h2>
+                    <div class='option'>
+                        <p>全20件</p>
+
+                        <select name="filter" id="">
+                            <option value="">新着順</option>
+                            <option value="">新着順</option>
+                            <option value="">新着順</option>
+                        </select>
+
                     </div>
+
                     @foreach($products as $product)
                     <div class="col-lg-4 col-md-6">
                         <a href="{{ route('product.show', ['parent_slug' => $product->category->parent->slug,'category_slug' => $product->category->slug,'id' => $product->id]) }}">

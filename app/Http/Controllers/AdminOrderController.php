@@ -13,6 +13,7 @@ use App\Services\StripeService;
 // ファサードクラス
 use Illuminate\Support\Facades\Log;
 use Illuminate\Support\Facades\DB;
+use Barryvdh\DomPDF\Facade\Pdf;
 
 // 例外クラス
 use App\Exceptions\PaymentCaptureException;
@@ -117,5 +118,15 @@ class AdminOrderController extends Controller
             Log::error('注文ステータス更新に失敗しました: ' . $e->getMessage());
             return redirect()->back()->with('error', '注文ステータス更新に失敗しました。サーバー管理者にお知らせください。');
         }
+    }
+
+    // 領収書を表示する
+    public function receipt($order_id)
+    {
+        $order = Order::find($order_id);
+
+        $pdf = Pdf::loadView('admin.order.receipt', ['order' => $order]);
+
+        return $pdf->stream('receipt_'.$order->id.'.pdf');
     }
 }

@@ -39,7 +39,17 @@ class AdminProductCategoryController extends Controller
         $show = "product";
         DB::beginTransaction();
         try{
-            $product_category = ProductCategory::create($request->all());
+            $product_category = ProductCategory::create([
+                'name' => $request->name,
+                'slug' => $request->slug,
+                'image' => '',
+                'parent_id' => $request->parent_id,
+            ]);
+
+            if($request->hasFile('image')){
+                $this->saveImage($request, $product_category);
+            }
+
             DB::commit();
             return redirect()->route('admin.product_category.index')
                 ->with('show', $show)
@@ -70,7 +80,15 @@ class AdminProductCategoryController extends Controller
         DB::beginTransaction();
         try{
             $product_category = ProductCategory::find($id);
-            $product_category->update($request->all());
+            $product_category->update([
+                'name' => $request->name,
+                'slug' => $request->slug,
+                'parent_id' => $request->parent_id,
+            ]);
+
+            if($request->hasFile('image')){
+                $this->saveImage($request, $product_category);
+            }
             DB::commit();
             return redirect()->route('admin.product_category.index')
                 ->with('show', $show)
@@ -104,5 +122,19 @@ class AdminProductCategoryController extends Controller
                 ->with('error', '商品カテゴリを削除できませんでした')
                 ->with('show', $show);
         }
+    }
+
+    /**
+     * 商品画像を保存
+     * - ファイル名は商品IDを使用
+     * - storage/public/images に保存
+     * - 保存後、商品モデルにパスを更新
+     */
+    private function saveImage($request, $product){
+        $extension = $request->file('image')->getClientOriginalExtension();
+        $filename = $product->id . '.' . $extension;
+        $request->file('image')->storeAs('images', 'product_categories' . $filename, 'public');
+        $product->image = 'storage/images/product_categories' . $filename;
+        $product->save();
     }
 }
