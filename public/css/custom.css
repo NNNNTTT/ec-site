@@ -23,7 +23,6 @@ header .container .icon-size{
   display: flex;
   align-items: center;
 }
-
 .top-img {
   background-image: url("../images/top.jpg");
   background-size: cover;
@@ -61,10 +60,11 @@ header .container .icon-size{
   transition-duration: 0.5s;
 }
 .card-img {
-  height: 500px;
   background-size: cover;
+  height: 500px;
 }
 
+/*
 .product {
   display: flex;
   justify-content: center;
@@ -101,7 +101,7 @@ header .container .icon-size{
 .product__btn-add-cart {
   padding: 12px 0 12px;
 }
-
+*/
 .cart-wrapper {
   width: 720px;
   margin: 20px;

@@ -68,7 +68,7 @@
                             <i class="fa-regular fa-user icon-size"></i>
                             <p class="m-0">ログイン</p>
                         </a>    
-                        <form method="POST" action="{{ route('favorite.index') }}" class="icon">
+                        <form method="POST" action="{{ route('favorite.index') }}" class="favorite-form icon">
                             @csrf
                             <i class="fa-heart guest_favorite-icon icon-size"></i>
                             <p class="m-0">お気に入り</p>

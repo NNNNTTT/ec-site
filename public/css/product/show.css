@@ -1,0 +1,145 @@
+.container{
+    max-width: 1000px;
+}
+.product{
+    display: flex;
+    justify-content: space-between;
+    margin-top: 40px;
+}
+
+.product_img{
+    width: 40%;
+}
+.product_img img{
+    width: 100%;
+}
+.product_content{
+    width: 50%;
+}
+.product_name{
+    font-size: 25px;
+    margin-bottom: 10px;
+}
+.product_category{
+    font-size: 12px;
+    width: 80px;
+    border: 1px solid #ccc;
+    border-radius: 50px;
+    text-align: center;
+    margin-bottom: 20px;
+}
+.product_price{
+    font-size: 25px;
+    margin-bottom: 25px;
+}
+.product_description{
+    font-size: 16px;
+    margin-bottom: 25px;
+}
+.product_quantity{
+    display: flex;
+    margin-bottom: 35px;
+}
+.plus, .minus {
+    width: 30px;
+    height: 30px;
+    cursor: pointer;
+    border: 1px solid #2B3142;
+    position: relative;
+}
+.plus::before, .minus::before{
+    content: '';
+    font-size: 20px;
+    position: absolute;
+    width: 10px;
+    height: 1px;
+    background-color: #2B3142;
+    top: 13px;
+    left: 9px;
+}
+.plus::after{
+    content: '';
+    font-size: 20px;
+    position: absolute;
+    width: 1px;
+    height: 10px;
+    background-color: #2B3142;
+    top: 8.5px;
+    left: 13.5px;
+}
+.quantity{
+    text-align: center;
+    margin: 0 7px 0 10px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+}
+.product_cart-btn{
+    margin-bottom: 25px;
+}
+.product_cart-btn button{
+    font-size: 25px;
+    width: 400px;
+    padding: 10px 20px;
+    border: 1px solid #2B3142;
+    background-color: #2B3142;
+    color: #fff;
+    transition: all 0.3s ease;
+}
+.product_cart-btn button:hover{
+    background-color: #fff;
+    color: #2B3142;
+    border: 1px solid #2B3142;
+}
+.favorite-btn{
+    font-size: 25px;
+    width: 400px;
+    padding: 10px 20px;
+    border: 1px solid #BF1A20;
+    background-color: #fff;
+    color: #BF1A20;
+    cursor: pointer;
+}
+.favorite-btn:hover{
+    opacity: 0.7;
+    transition: all 0.3s ease;
+}
+.active{
+    background-color: #BF1A20;
+    color: #fff;
+    border: 1px solid #BF1A20;
+    transition: all 0.3s ease;
+}
+.back-btn{
+    display: block;
+    font-size: 16px;
+    width: 230px;
+    padding: 10px 20px;
+    border: 1px solid #000;
+    color: #000;
+    cursor: pointer;
+    position: relative;
+    transition: all 0.3s ease;
+}
+.back-btn:hover{
+    opacity: 0.7;
+}
+.back-btn:before{
+    content: '';
+    position: absolute;
+    bottom: 14px;
+    right: 25px;
+    width: 25px;
+    height: 1px;
+    background-color: #000;
+}
+.back-btn:after{
+    content: '';
+    position: absolute;
+    bottom: 17.5px;
+    right: 24px;
+    width: 10px;
+    height: 1px;
+    background-color: #000;
+    transform: rotate(45deg);
+}

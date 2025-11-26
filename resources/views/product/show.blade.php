@@ -4,6 +4,8 @@
 {{ $product->name }}
 @endsection
 
+@section('css', asset('css/product/show.css'))
+
 @section('content')
 <div class="container">
     <p class="mt-2">
@@ -20,39 +22,48 @@
                 {{ session('error') }}
             </div>
         @endif
-        <img src="{{ asset($product->image) }}" alt="" class="product-img">
-        <div class="product__content-header text-center">
-            <div class="product__name">
+        <div class="product_img">
+            <img src="{{ asset($product->image) }}" alt="" >
+        </div>
+        <div class="product_content">
+            <div class="product_name">
                 {{ $product->name }}
             </div>
-            <div class="product__category mb-2">
+            <div class="product_category">
                 {{ $product->category->name }}
             </div>
-            <div class="product__price">
+            <div class="product_description">
+                {{ $product->description }}
+            </div>
+            <div class="product_price">
                 ¥{{ number_format($product->price )}}
             </div>
+
+            <form method='POST' action="{{ route('line_item.create') }}">
+                @csrf
+                @if($product->stock <= 0)
+                    <p class="product__stock mt-3 text-danger">
+                        こちらの商品は現在在庫切れのため購入できません。
+                    </p>
+                @else
+                <input type="hidden" name="id" value="{{ $product->id }}">
+                <div class="product_quantity">
+                    <div class="plus"></div>
+                    <div class="quantity">1</div>
+                    <div class="minus"></div>
+                    <input type="hidden" name='quantity' min='1' value='1' require>
+                </div>
+                <div class="product_cart-btn">
+                    <button type='submit' class=''>カートに追加する</button>
+                </div>
+                @endif
+                <div class="favorite mb-5">
+                    <button type="button" class="favorite-btn" data-item-id="{{ $product->id }}">お気に入りに追加する</button>
+                </div>
+                <a href="{{ route('product.index') }}" class="back-btn">商品一覧へ戻る</a>
+            </form>
+
         </div>
-        {{ $product->description }}
-        <form method='POST' action="{{ route('line_item.create') }}">
-            @csrf
-            @if($product->stock <= 0)
-                <p class="product__stock mt-3 text-danger">
-                    こちらの商品は現在在庫切れのため購入できません。
-                </p>
-            @else
-            <input type="hidden" name="id" value="{{ $product->id }}">
-            <div class="product__quantity">
-                <input type="number" name='quantity' min='1' value='1' require>
-            </div>
-            <div class="product__btn-add-cart">
-                <button type='submit' class='btn btn-outline-secondary'>カートに追加する</button>
-            </div>
-            @endif
-            <div class="favorite mb-3">
-                <button type="button" class="btn btn-outline-danger" data-item-id="{{ $product->id }}">お気に入りに追加する</button>
-            </div>
-            <a href="{{ route('product.index') }}">商品一覧へ戻る</a>
-        </form>
     </div>
     <div class="review mt-5 text-left">
         <p class="border-bottom p-3">レビュー</p>

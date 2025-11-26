@@ -11,14 +11,16 @@ document.addEventListener('DOMContentLoaded', function() {
             favoriteBtn.textContent = 'お気に入り解除';
             favoriteBtn.classList.remove('add');
             favoriteBtn.classList.add('destroy');
+            favoriteBtn.classList.add('active');
         } else {
             favoriteBtn.textContent = 'お気に入りに追加する';
             favoriteBtn.classList.add('add');
+            favoriteBtn.classList.remove('active');
         }
 
         favoriteBtn.addEventListener('click', function() {
             let favoriteBtn = document.querySelector('.favorite button');
-            if(favoriteBtn.classList[2] === 'add') {
+            if(favoriteBtn.classList[1] === 'add') {
                 fetch(favoriteStoreRoute , {
                     method: 'POST',
                     headers: {
@@ -35,6 +37,7 @@ document.addEventListener('DOMContentLoaded', function() {
                         this.classList.remove('add');
                         this.classList.add('destroy');
                         this.textContent = 'お気に入り解除';
+                        this.classList.add('active');
                         const authFavoriteIcon = document.querySelector('.auth_favorite-icon');
                         console.log(authFavoriteIcon);
                         if(authFavoriteIcon.classList.contains('far')) {
@@ -48,7 +51,7 @@ document.addEventListener('DOMContentLoaded', function() {
                 .catch(error => {
                     console.error('Error:', error);
                 });
-            }else if(favoriteBtn.classList[2] === 'destroy') {
+            }else if(favoriteBtn.classList[1] === 'destroy') {
                 fetch(favoriteDestroyRoute , {
                     method: 'POST',
                     headers: {
@@ -65,6 +68,7 @@ document.addEventListener('DOMContentLoaded', function() {
                         this.classList.remove('destroy');
                         this.classList.add('add');
                         this.textContent = 'お気に入りに追加する';
+                        this.classList.remove('active');
                     } else {
                         console.log('お気に入りを解除できませんでした。');
                     }
@@ -95,11 +99,13 @@ document.addEventListener('DOMContentLoaded', function() {
                 favorites.splice(itemIndex, 1);
                 console.log(`Item ${itemId} をお気に入りから削除しました。`);
                 this.textContent = 'お気に入りに追加する'; // ボタンのテキストを戻す
+                this.classList.remove('active');
             } else {
                 // なかった場合：リストに追加
                 favorites.push(itemId);
                 console.log(`Item ${itemId} をお気に入りに追加しました。`);
                 this.textContent = 'お気に入り解除'; // ボタンのテキストを変更
+                this.classList.add('active');
             }
     
             if(favorites.length > 0) {
@@ -124,13 +130,57 @@ document.addEventListener('DOMContentLoaded', function() {
         const currentFavorites = JSON.parse(localStorage.getItem('favorites') || '[]');
         if (currentFavorites.includes(itemId)) {
             favoriteBtn.textContent = 'お気に入り解除';
+            favoriteBtn.classList.add('active');
             const guestFavoriteInput = document.querySelector('.guest_favorite-input');
             console.log(currentFavorites);
             guestFavoriteInput.value = JSON.stringify(currentFavorites);
         } else {
             favoriteBtn.textContent = 'お気に入りに追加する';
+            favoriteBtn.classList.remove('active');
             const guestFavoriteInput = document.querySelector('.guest_favorite-input');
             guestFavoriteInput.value = JSON.stringify(currentFavorites);
         }
     }
+
+    /*-----------------------------------------------
+    数量変更処理
+    -------------------------------------------------*/
+
+    const plus = document.querySelector('.plus');
+    const minus = document.querySelector('.minus');
+
+    const quantity = document.querySelector('.quantity');
+    const quantityInput = document.querySelector('input[name="quantity"]');
+
+    const productPrice = document.querySelector('.product_price');
+    const productPriceText = productPrice.textContent;
+    const productPriceNumber = Number(productPriceText.replace(/[^\d.-]/g, ""));
+
+    /*プラスボタンを押したときの処理*/
+    plus.addEventListener('click', function() {
+        quantity.textContent++;
+        quantityInput.value++;
+
+        let price = productPriceNumber;
+
+        let totalPrice = price * quantity.textContent; 
+
+        productPrice.textContent = '¥' + totalPrice.toLocaleString();
+
+    });
+
+    /*マイナスボタンを押したときの処理*/
+    minus.addEventListener('click', function() {
+        if(quantity.textContent > 1) {
+            quantity.textContent--;
+            quantityInput.value--;
+
+            let price = productPriceNumber;
+
+            let totalPrice = price * quantity.textContent; 
+
+            productPrice.textContent = '¥' + totalPrice.toLocaleString();
+        };
+    });
+
 });
