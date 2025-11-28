@@ -1,0 +1,52 @@
+
+.container{
+    max-width: 1200px;
+}
+.top-tr {
+    border-top: 6px solid #2B3142 !important;
+}
+table{
+    border: 1px solid #ccc;
+}
+tr{
+    height: 80px;
+    font-size: 18px;
+}
+th{
+    text-align: center;
+    font-weight: normal;
+}
+td{
+    text-align: center;
+}
+.cart_btn{
+    display: flex;
+    justify-content: center;
+    margin-top: 50px;
+}
+.cart_btn div{
+    width: 50%;
+    text-align: center;
+}
+.back_btn a{
+    display: inline-block;
+    padding: 10px 30px;
+    border: 1px solid #2B3142;
+    background-color: #fff;
+    transition: all 0.3s ease;
+}
+.back_btn a:hover{
+    opacity: 0.7
+}
+.purchase_btn a{
+    display: inline-block;
+    padding: 10px 30px;
+    border: 1px solid #2B3142;
+    background-color: #2B3142;
+    color: #fff;
+    transition: all 0.3s ease;
+}
+.purchase_btn a:hover{
+    background-color: #fff;
+    color: #2B3142;
+}
