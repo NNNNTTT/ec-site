@@ -1,0 +1,26 @@
+.card-header{
+    background-color: #2B3142;
+    color: #fff;
+}
+.order_btn{
+    background-color: #2B3142;
+    color: #fff;
+    border: none;
+    padding: 10px 20px;
+    font-size: 20px;
+    border-radius: 5px;
+    cursor: pointer;
+    transition: all 0.3s ease;
+}
+.order_btn:hover{
+    background-color: #fff;
+    color: #2B3142;
+    border: 1px solid #2B3142;
+}
+.order_btn:disabled{
+    opacity: 0.7;
+    cursor: not-allowed;
+    border: none;
+    pointer-events: none; 
+}
+
