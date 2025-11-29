@@ -33,64 +33,68 @@
 </style>
 <body>
     <header>
-        <nav class='navbar navbar-light bg-light'>
-            <div class='container'>
-                <a href="/" class="navbar-brand">{{ config('app.name', 'Laravel') }}</a>
+        <nav class=''>
+            <a href="/" class="logo">{{ config('app.name', 'Laravel') }}</a>
 
-                <div class="d-flex gap-3 align-items-center">
-                    @auth
-                        <a href="{{ route('mypage.index') }}" class="icon">
-                            <i class="fa-regular fa-user icon-size"></i>
-                            <p>マイページ</p>
-                        </a>    
-                        @php
-                            $user = Auth::user();
-                            $favorites = $user->favorites;
-                        @endphp
-                        @if($favorites->count() > 0)
-                        <form method="POST" action="{{ route('favorite.index') }}" class="favorite-form icon">
-                            @csrf
+            <div class="menu">
+                @auth
+                    <a href="{{ route('mypage.index') }}" class="icon">
+                        <i class="fa-regular fa-user icon-size"></i>
+                        <p>マイページ</p>
+                    </a>    
+                    @php
+                        $user = Auth::user();
+                        $favorites = $user->favorites;
+                    @endphp
+                    @if($favorites->count() > 0)
+                    <form method="POST" action="{{ route('favorite.index') }}" class="favorite-form icon">
+                        @csrf
+                        <div class="icon-wrapper">
                             <i class="fas fa-heart auth_favorite-icon icon-size"></i>
-                            <p>お気に入り</p>
-                            <input type="hidden" name="type" value="auth">
-                        </form>
-                        @else
-                        <form method="POST" action="{{ route('favorite.index') }}" class="favorite-form icon">
-                            @csrf
-                            <i class="far fa-heart auth_favorite-icon icon-size"></i>
-                            <p>お気に入り</p>
-                            <input type="hidden" name="type" value="auth">
-                        </form>
-                        @endif
-                    @endauth
-                    @guest
-                        <a href="{{ route('login') }}" class="icon">
+                        </div>
+                        <p>お気に入り</p>
+                        <input type="hidden" name="type" value="auth">
+                    </form>
+                    @else
+                    <form method="POST" action="{{ route('favorite.index') }}" class="favorite-form icon">
+                        @csrf
+                        <i class="far fa-heart auth_favorite-icon icon-size"></i>
+                        <p>お気に入り</p>
+                        <input type="hidden" name="type" value="auth">
+                    </form>
+                    @endif
+                @endauth
+                @guest
+                    <a href="{{ route('login') }}" class="icon">
+                        <div class="icon-wrapper">
                             <i class="fa-regular fa-user icon-size"></i>
-                            <p class="m-0">ログイン</p>
-                        </a>    
-                        <form method="POST" action="{{ route('favorite.index') }}" class="favorite-form icon">
-                            @csrf
+                        </div>
+                        <p class="m-0">ログイン</p>
+                    </a>    
+                    <form method="POST" action="{{ route('favorite.index') }}" class="favorite-form icon">
+                        @csrf
+                        <div class="icon-wrapper">
                             <i class="fa-heart guest_favorite-icon icon-size"></i>
-                            <p class="m-0">お気に入り</p>
-                            <input type="hidden" class="guest_favorite-input" name="favorites" value="">
-                            <input type="hidden" name="type" value="guest">
-                        </form>
-                    @endguest
+                        </div>
+                        <p class="m-0">お気に入り</p>
+                        <input type="hidden" class="guest_favorite-input" name="favorites" value="">
+                        <input type="hidden" name="type" value="guest">
+                    </form>
+                @endguest
 
-                    <a href="{{ route('cart.index') }}" class="icon">
+                <a href="{{ route('cart.index') }}" class="icon">
+                    <div class="icon-wrapper">
                         <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 25 25" class="icon-size">
                             <path d="M21.3,4.6H7.7l-0.3-2C7.4,2.3,7.1,2,6.7,2H2.7C2.3,2,2,2.3,2,2.7c0,0.4,0.3,0.7,0.7,0.7H6L8,17c0.1,0.4,0.4,0.6,0.7,0.6h10c0.4,0,0.7-0.3,0.7-0.7c0-0.4-0.3-0.7-0.7-0.7H9.4l-0.4-2.5h9.8c0.4,0,0.7-0.2,0.7-0.6l1.5-7h0.2c0.4,0,0.7-0.3,0.7-0.7C22,5,21.7,4.6,21.3,4.6z M18.2,12.2H8.8L7.9,6.1h11.6L18.2,12.2z M9.3,18.2c-1.1,0-1.9,0.9-1.9,1.9S8.3,22,9.3,22c1.1,0,1.9-0.9,1.9-1.9c0,0,0,0,0,0C11.2,19,10.4,18.2,9.3,18.2z M9.3,20.9c-0.4,0-0.8-0.4-0.8-0.8s0.4-0.8,0.8-0.8c0.4,0,0.8,0.4,0.8,0.8C10.1,20.5,9.8,20.9,9.3,20.9L9.3,20.9z M18.4,18.2c-1.1,0-1.9,0.9-1.9,1.9s0.9,1.9,1.9,1.9c1.1,0,1.9-0.9,1.9-1.9c0,0,0,0,0,0C20.3,19,19.5,18.2,18.4,18.2z M18.4,20.9c-0.4,0-0.8-0.4-0.8-0.8s0.4-0.8,0.8-0.8c0.4,0,0.8,0.4,0.8,0.8C19.2,20.5,18.9,20.9,18.4,20.9L18.4,20.9z"></path>
                         </svg>
-                        <p>カート</p>
-                    </a>
-
-                    <div class="hamburger d-xl-none">
-                        <i class="fas fa-bars"></i>
                     </div>
-                    @include('partials.sp-nav')
-                </div>
-
+                    <p>カート</p>
+                </a>
             </div>
+            <div class="hamburger">
+                <i class="fas fa-bars"></i>
+            </div>
+            @include('partials.sp-nav')
         </nav>
     </header>
     @yield('content')

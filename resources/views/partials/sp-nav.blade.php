@@ -13,7 +13,7 @@
         display: block;
     }
     .sp-nav{
-        left: -30%;
+        right: -30%;
         position: fixed;
         top: 0;
         width: 30%;
@@ -23,17 +23,17 @@
         transition: all 0.3s;
     }
     .sp-nav.active{
-        left: 0;
+        right: 0;
     }
     @media (max-width: 760px) {
         .sp-nav{
-            left: -50%;
+            right: -50%;
             width: 50%;
         }
     }
     @media (max-width: 430px) {
         .sp-nav{
-            left: -60%;
+            right: -60%;
             width: 60%;
         }
     }
