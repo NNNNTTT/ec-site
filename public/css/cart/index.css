@@ -36,7 +36,7 @@ td{
     transition: all 0.3s ease;
 }
 .back_btn a:hover{
-    opacity: 0.7
+    opacity: 0.7;
 }
 .purchase_btn a{
     display: inline-block;

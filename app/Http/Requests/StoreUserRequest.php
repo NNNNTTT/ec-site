@@ -23,13 +23,36 @@ class StoreUserRequest extends FormRequest
     {
         return [
             'name' => 'required|string|max:255',
-            'email' => 'required|email|max:255',
-            'password' => 'required|confirmed|min:8',
-            'phone' => 'required|string|max:255',
-            'postal_code' => 'required|string|max:255',
-            'prefecture' => 'required|string|max:255',
+            'register_email' => 'required|email|max:255',
+            'register_password' => 'required|confirmed|min:8',
+            'phone' => 'required',
             'address' => 'required|string|max:255',
         ];
+    }
+
+    public function withValidator($validator)
+    {
+        $validator->after(function ($validator) {
+
+            $phone = $this->phone;
+            $phone = str_replace('-', '', $this->phone);
+
+            if (!preg_match('/^\d{11}$/', $phone)) {
+                $validator->errors()->add('phone', '電話番号を正しく入力してください');
+            }
+
+            $postal1 = $this->postal_code1;
+            $postal2 = $this->postal_code2;
+
+            $postal = $postal1 . $postal2;
+
+            if (!preg_match('/^\d{7}$/', $postal)) {
+                $validator->errors()->add('postal_code', '郵便番号を正しく入力してください');
+            }
+
+            session()->flash('auth_tab', 'register');
+
+        });
     }
 
     public function messages(): array
@@ -38,21 +61,13 @@ class StoreUserRequest extends FormRequest
             'name.required' => 'ユーザー名は必須です',
             'name.string' => 'ユーザー名は文字列で入力してください',
             'name.max' => 'ユーザー名は255文字以内で入力してください',
-            'email.required' => 'メールアドレスは必須です',
-            'email.email' => 'メールアドレスは有効なメールアドレスで入力してください',
-            'email.max' => 'メールアドレスは255文字以内で入力してください',
-            'password.required' => 'パスワードは必須です',
-            'password.confirmed' => 'パスワードが一致しません',
-            'password.min' => 'パスワードは8文字以上で入力してください',
+            'register_email.required' => 'メールアドレスは必須です',
+            'register_email.email' => 'メールアドレスは有効なメールアドレスで入力してください',
+            'register_email.max' => 'メールアドレスは255文字以内で入力してください',
+            'register_password.required' => 'パスワードは必須です',
+            'register_password.confirmed' => 'パスワードが一致しません',
+            'register_password.min' => 'パスワードは8文字以上で入力してください',
             'phone.required' => '電話番号は必須です',
-            'phone.string' => '電話番号は文字列で入力してください',
-            'phone.max' => '電話番号は255文字以内で入力してください',
-            'postal_code.required' => '郵便番号は必須です',
-            'postal_code.string' => '郵便番号は文字列で入力してください',
-            'postal_code.max' => '郵便番号は255文字以内で入力してください',
-            'prefecture.required' => '都道府県は必須です',
-            'prefecture.string' => '都道府県は文字列で入力してください',
-            'prefecture.max' => '都道府県は255文字以内で入力してください',
             'address.required' => '住所は必須です',
             'address.string' => '住所は文字列で入力してください',
             'address.max' => '住所は255文字以内で入力してください',

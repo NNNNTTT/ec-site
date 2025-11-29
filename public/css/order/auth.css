@@ -1,0 +1,72 @@
+.auth_radio{
+    display: flex;
+    align-items: center;
+    margin-bottom: 20px;
+    gap: 10px;
+}
+.form-check-input{
+    margin-top: 0px;
+}
+.login_btn{
+    width: 100%;
+    margin-top: 20px;
+    background-color: #2B3142;
+    color: #fff;
+    border: 1px solid #2B3142;
+    padding: 10px 10px;
+    border-radius: 5px;
+    cursor: pointer;
+    transition: all 0.3s ease;
+    marker-start: 20px;
+}
+.login_btn:hover{
+    background-color: #fff;
+    color: #2B3142;
+    border: 1px solid #2B3142;
+}
+.postal_code_container{
+    display: flex;
+    align-items: center;
+    gap: 10px;
+}
+#postal_code_1{
+    width: 30%;
+}
+#postal_code_2{
+    width: 50%;
+}
+.postal_code_btn{
+    margin-top: 15px;
+    background-color: #2B3142;
+    color: #fff;
+    border: 1px solid #2B3142;
+    padding: 5px 10px;
+    font-size: 14px;
+    border-radius: 5px;
+    cursor: pointer;
+    transition: all 0.3s ease;
+}
+.postal_code_btn:hover{
+    background-color: #fff;
+    color: #2B3142;
+    border: 1px solid #2B3142;
+}
+#prefecture{
+    width: 40%;    
+}
+.register_btn{
+    width: 100%;
+    margin-top: 40px;
+    background-color: #2B3142;
+    color: #fff;
+    border: 1px solid #2B3142;
+    padding: 10px 10px;
+    border-radius: 5px;
+    cursor: pointer;
+    transition: all 0.3s ease;
+}
+.register_btn:hover{
+    background-color: #fff;
+    color: #2B3142;
+    border: 1px solid #2B3142;
+}

@@ -5,7 +5,7 @@
 .order_btn{
     background-color: #2B3142;
     color: #fff;
-    border: none;
+    border: 1px solid #2B3142;
     padding: 10px 20px;
     font-size: 20px;
     border-radius: 5px;
@@ -20,7 +20,7 @@
 .order_btn:disabled{
     opacity: 0.7;
     cursor: not-allowed;
-    border: none;
+    border: 1px solid #2B3142;
     pointer-events: none; 
 }
 
