@@ -7,20 +7,59 @@ li {
   list-style: none;
 }
 
-header .container .icon{
+header nav{
+  max-width: 1340px;
+  margin: 0 auto;
+  padding: 10px 20px;
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+}
+header .logo{
+  font-size: 24px;
+  letter-spacing: 2px;
+}
+header .menu{
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 20px;
+}
+header .hamburger{
+  display: none;
+}
+header .icon{
   display: flex;
   flex-direction: column;
   align-items: center;
+  width: 70px;
+  background-color: #fff;
+  border-radius: 5px;
+  border: 1px solid #2B3142;
+  padding: 5px;
 }
-header .container .icon p{
+header .icon:hover{
+  opacity: 0.7;
+  transition: all 0.3s ease;
+}
+header .icon-wrapper{
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  text-align: center;
+  height: 30px;
+}
+header .icon p{
   margin: 0;
-  font-size: 12px;
+  font-size: 10px;
+  letter-spacing: 0;
 }
-header .container .icon-size{
+header .icon-size{
   width: 25px;
   height: 25px;
   font-size: 18px;
   display: flex;
+  justify-content: center;
   align-items: center;
 }
 .top-img {
@@ -181,18 +220,66 @@ footer ul{
   gap: 10px;
   padding-left: 0;
 }
-@media (max-width: 600px) {
-  .top-img {
-    background-image: url("../images/top2.jpg");
-    height: 300px;
-  }
-}
 @media (max-width: 760px) {
   .card-img {
     height: auto;
     max-height: 700px;
   }
 }
+@media (max-width: 600px) {
+  header nav{
+    padding: 10px 20px;
+  }
+  header .logo{
+    font-size: 16px;
+  }
+  /*
+  header .hamburger{
+    display: block;
+    font-size: 20px;
+    font-weight: normal;
+  }
+  */
+
+  header .menu{
+    gap: 10px;
+  }
+
+  header .icon{
+    width: 50px;
+    padding: 3px;
+  }
+  header .icon:hover{
+    opacity: 0.7;
+    transition: all 0.3s ease;
+  }
+  header .icon-wrapper{
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    text-align: center;
+    height: 25px;
+  }
+  header .icon p{
+    margin: 0;
+    font-size: 8px;
+    letter-spacing: 0;
+  }
+  header .icon-size{
+    width: 18px;
+    height: 18px;
+    font-size: 14px;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+  }
+
+  .top-img {
+    background-image: url("../images/top2.jpg");
+    height: 300px;
+  }
+}
+
 /*# sourceMappingURL=custom.css.map */
 
 /* ハンバーガーメニュー　SP用 */
