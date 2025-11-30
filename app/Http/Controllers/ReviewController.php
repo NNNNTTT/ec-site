@@ -22,7 +22,6 @@ class ReviewController extends Controller
     // 商品レビューを作成する
     public function create($order_id, $product_id){
         $user_id = Auth::id();
-
         $order = Order::find($order_id);
 
         // 注文者とログインユーザーが一致しない場合はリダイレクトさせる

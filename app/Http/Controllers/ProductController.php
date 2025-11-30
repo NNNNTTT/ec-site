@@ -68,9 +68,11 @@ class ProductController extends Controller
     public function search(Request $request){
         $products = Product::where('name', 'like', '%' . $request->input('search') . '%')->paginate(6);
         $category_name = '全ての商品';
+        $filter = '';
         return view('product.index')
             ->with('products', $products)
-            ->with('category_name', $category_name);
+            ->with('category_name', $category_name)
+            ->with('filter', $filter);
 
     }
 

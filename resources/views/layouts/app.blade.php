@@ -60,7 +60,9 @@
                     @else
                     <form method="POST" action="{{ route('favorite.index') }}" class="favorite-form icon">
                         @csrf
-                        <i class="far fa-heart auth_favorite-icon icon-size"></i>
+                        <div class="icon-wrapper">
+                            <i class="far fa-heart auth_favorite-icon icon-size"></i>
+                        </div>
                         <p>お気に入り</p>
                         <input type="hidden" name="type" value="auth">
                     </form>

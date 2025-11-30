@@ -53,7 +53,7 @@
                 </div>
                 <input type="hidden" name="product_id" value="{{ $product->id }}">
                 <button type="submit" class="btn btn-outline-secondary">更新</button>
-                <a href="{{ route('product.show', $product->id) }}" class="btn btn-outline-secondary mx-3">戻る</a>
+                <a href="{{ route('product.show', ['parent_slug' => $product->category->parent->slug,'category_slug' => $product->category->slug,'id' => $product->id]) }}" class="btn btn-outline-secondary mx-3">戻る</a>
             </form>
         </div>
     </div>
