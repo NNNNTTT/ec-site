@@ -12,7 +12,7 @@ class TopController extends Controller
 {
     public function top(){
         $products = Product::take(3)->get();
-        $product_categories = ProductCategory::whereNotNull('parent_id')->get();
+        $product_categories = ProductCategory::where('parent_id', null)->get();
         
         return view('top', compact('products', 'product_categories'));
     }

@@ -29,12 +29,14 @@
         <h2 class="section-title">ITEM CATEGORY</h2>
         <ul class="category-list">
             @foreach($product_categories as $product_category)
-            <li>
-                <a href="">
-                    <img src="{{ asset($product_category->image) }}" alt="{{ $product_category->name }}">
-                    <p>{{ $product_category->name }}</p>
-                </a>
-            </li>
+                @foreach($product_category->children as $child)
+                <li>
+                    <a href="{{ route('product.index', ['parent_slug' => $product_category->slug, 'category_slug' => $child->slug]) }}">
+                        <img src="{{ asset($child->image) }}" alt="{{ $child->name }}">
+                        <p>{{ $child->name }}</p>
+                    </a>
+                </li>
+                @endforeach
             @endforeach
         </ul>
     </section>

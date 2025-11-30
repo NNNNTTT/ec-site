@@ -39,7 +39,9 @@
             <div class="menu">
                 @auth
                     <a href="{{ route('mypage.index') }}" class="icon">
-                        <i class="fa-regular fa-user icon-size"></i>
+                        <div class="icon-wrapper">
+                            <i class="fa-regular fa-user icon-size"></i>
+                        </div>
                         <p>マイページ</p>
                     </a>    
                     @php
