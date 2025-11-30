@@ -35,7 +35,7 @@ Route::middleware([CartSession::class])->group(function () {
 
     Route::name('product')->group(function () {
         Route::get('product', [ProductController::class, 'index'])->name('.index');
-        Route::get('/product/{parent_slug?}/{category_slug?}', [ProductController::class, 'index'])->name('.index');
+        
         Route::get('/product/{parent_slug}/{category_slug}/{id}', [ProductController::class, 'show'])->name('.show');
         Route::post('/product/search', [ProductController::class, 'search'])->name('.search');
         Route::get('/product/review/edit/{id}', [ReviewController::class, 'product_review_edit'])->name('.review.edit');

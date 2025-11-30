@@ -20,8 +20,8 @@
                 <button type="submit" class=""></button>
             </form>
         </div>
-
-        <a href="/product" class="all-products">All Products ></a>
+    
+        <!-- <a href="/product" class="all-products">All Products ></a> -->
 
     </div>
 
@@ -45,7 +45,7 @@
         <h2 class="section-title">RANKING</h2>
         <div class="col-12">
             <div class='row'>
-                @foreach($products as $product)
+                @foreach($products_ranking as $product)
                 <div class="col-lg-4 col-md-6">
                     <a href="{{ route('product.show', ['parent_slug' => $product->category->parent->slug,'category_slug' => $product->category->slug,'id' => $product->id]) }}">
                         <div class="card card_hover">
@@ -62,7 +62,7 @@
             </div>
         </div>
         <div class='center'>
-            <a href="" class="view_more">view more ></a>
+            <a href="{{ route('product.index', ['ranking' => 'ranking']) }}" class="view_more">view more ></a>
         </div>
     </section>
 
@@ -70,7 +70,7 @@
         <h2 class="section-title">NEW ARRIVALS</h2>
         <div class="col-12">
             <div class='row'>
-                @foreach($products as $product)
+                @foreach($product_arrivals as $product)
                 <div class="col-lg-4 col-md-6">
                     <a href="{{ route('product.show', ['parent_slug' => $product->category->parent->slug,'category_slug' => $product->category->slug,'id' => $product->id]) }}">
                         <div class="card card_hover">
@@ -87,7 +87,7 @@
             </div>
         </div>
         <div class='center'>
-            <a href="" class="view_more">view more ></a>
+            <a href="{{ route('product.index', ['arrivals' => 'arrivals']) }}" class="view_more">view more ></a>
         </div>
     </section>
 </div>

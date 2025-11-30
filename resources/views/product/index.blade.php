@@ -27,12 +27,20 @@
                         {{ $category_name }}
                     </h2>
                     <div class='option'>
-                        <div>全20件</div>
+                        <div>全{{ $products->total() }}件</div>
 
                         <select name="filter" id="">
-                            <option value="">新着順</option>
-                            <option value="">新着順</option>
-                            <option value="">新着順</option>
+                            @if($filter === '')
+                            <option value="arrival" selected>新着順</option>
+                            <option value="ranking">人気順</option>
+
+                            @elseif($filter === 'ranking')
+                            <option value="arrival">新着順</option>
+                            <option value="ranking" selected>人気順</option>
+                            @elseif($filter === 'arrival')
+                            <option value="arrival">新着順</option>
+                            <option value="ranking">人気順</option>
+                            @endif
                         </select>
 
                     </div>
@@ -62,4 +70,11 @@
     </div>
 </div>
 @endsection
+
+<script>
+    ranking_url = '{{ route('product.index', ['ranking' => 'ranking']) }}';
+    arrival_url = '{{ route('product.index', ['arrival' => 'arrival']) }}';
+</script>
+
+@section('js', asset('js/product/index.js'))
 

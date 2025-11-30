@@ -9,30 +9,52 @@ use Illuminate\Http\Request;
 use App\Models\Product;
 use App\Models\ProductCategory;
 
+// ファサードクラス
+use Illuminate\Support\Facades\DB;
+
 class ProductController extends Controller
 {
     // 商品一覧を表示する
-    public function index($parent_slug = null, $category_slug = null)
+    public function index(Request $request)
     {   
-        if($category_slug){
-            $category = ProductCategory::where('slug', $category_slug)->first();
+        if($request->query('category_slug')){
+            $category = ProductCategory::where('slug', $request->query('category_slug'))->first();
             $category_id = $category->id;
             $category_name = $category->name;
-            $products = $category->products()->paginate(6);
+            $products = $category->products()->paginate(6)->withQueryString();
 
-        }else if($parent_slug){
-            $category = ProductCategory::where('slug', $parent_slug)->first();
+        }else if($request->query('parent_slug')){
+            $category = ProductCategory::where('slug', $request->query('parent_slug'))->first();
             $category_id = $category->id;
             $category_name = $category->name;
-            $products = ProductCategory::where('parent_id', $category_id)->first()->products()->paginate(6);
+            $products = ProductCategory::where('parent_id', $category_id)->first()->products()->paginate(6)->withQueryString();
 
-        }else{
-            $products = Product::paginate(6);
+        }else if($request->query('ranking')){
+            $products = Product::select('products.*', DB::raw('SUM(order_product.quantity) as total_quantity'))
+            ->leftJoin('order_product', 'products.id', '=', 'order_product.product_id')
+            ->groupBy('products.id')
+            ->orderByDesc('total_quantity')
+            ->paginate(6)
+            ->withQueryString();
             $category_name = '全ての商品';
+            $filter = 'ranking';
+        }else if($request->query('arrivals')){
+            $products = Product::orderBy('created_at', 'desc')->paginate(6)->withQueryString();
+            $category_name = '全ての商品';
+            $filter = 'arrival';
+        }
+        else{
+            $products = Product::orderBy('created_at', 'desc')->paginate(6)->withQueryString();
+            $category_name = '全ての商品';
+        }
+
+        if(empty($filter)){
+            $filter = '';
         }
         return view('product.index')
             ->with('products', $products)
-            ->with('category_name', $category_name);
+            ->with('category_name', $category_name)
+            ->with('filter', $filter);
     }
 
     // 商品詳細を表示する

@@ -106,22 +106,21 @@
                 <div class="col-12 col-md-4">
                     <h3>CATEGORY</h3>
                     <ul>
-                        <li><a href="">Tシャツ</a></li>
-                        <li><a href="">シャツ</a></li>
-                        <li><a href="">ポロシャツ</a></li>
-                        <li><a href="">ブルゾン</a></li>
-                        <li><a href="">ジャケット</a></li>
-                        <li><a href="">ダウン</a></li>
-                        <li><a href="">ジーンズ</a></li>
-                        <li><a href="">スラックス</a></li>
-                        <li><a href="">チノパン</a></li>
+                        @foreach($product_categories as $category)
+                            @foreach($category->children as $child)
+                            <li><a href="{{ route('product.index', ['parent_slug' => $category->slug, 'category_slug' => $child->slug]) }}">{{ $child->name }}</a></li>
+                            @endforeach
+                        @endforeach
                     </ul>
                 </div>
                 <div class="col-12 col-md-4">
                     <h3>SHOPPING GUIDE</h3>
                     <ul>
-                        <li><a href="">ログイン・会員登録</a></li>
-                        <li><a href="">マイページ</a></li>
+                        @if(auth()->check())
+                        <li><a href="{{ route('mypage.index') }}">マイページ</a></li>
+                        @else
+                        <li><a href="{{ route('login') }}">ログイン・会員登録</a></li>
+                        @endif
                         <li><a href="">お問い合わせ</a></li>
                         <li><a href="">ご利用ガイド</a></li>
                     </ul>
