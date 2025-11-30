@@ -231,7 +231,7 @@ footer ul{
     padding: 10px 20px;
   }
   header .logo{
-    font-size: 16px;
+    font-size: 20px;
   }
   /*
   header .hamburger{
@@ -277,6 +277,16 @@ footer ul{
   .top-img {
     background-image: url("../images/top2.jpg");
     height: 300px;
+  }
+  footer h3{
+    font-size: 16px;
+    margin-bottom: 10px;
+    border-bottom: 1px solid #fff;
+    padding-bottom: 10px;
+  }
+  footer p{
+    font-size: 14px;
+    margin-bottom: 5px;
   }
 }
 

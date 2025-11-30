@@ -57,7 +57,7 @@
                     <button type='submit' class=''>カートに追加する</button>
                 </div>
                 @endif
-                <div class="favorite mb-5">
+                <div class="favorite">
                     <button type="button" class="favorite-btn" data-item-id="{{ $product->id }}">お気に入りに追加する</button>
                 </div>
                 <a href="{{ route('product.index') }}" class="back-btn">商品一覧へ戻る</a>
@@ -84,8 +84,8 @@
                 @endif
             @endif
             <div class="d-flex justify-content-between">
-                <p style="font-size: 12px; color: #6c757d;">{{ $review->pivot->created_at->format('Y/m/d H:i') }}</p>
-                <p style="color: #6c757d;">不適切なレビューを報告する</p>
+                <p class="date-text">{{ $review->pivot->created_at->format('Y/m/d H:i') }}</p>
+                <p class="report-text">不適切なレビューを報告する</p>
             </div>
         </div>
         @endforeach

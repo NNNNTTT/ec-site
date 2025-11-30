@@ -27,7 +27,7 @@
                         {{ $category_name }}
                     </h2>
                     <div class='option'>
-                        <p>全20件</p>
+                        <div>全20件</div>
 
                         <select name="filter" id="">
                             <option value="">新着順</option>

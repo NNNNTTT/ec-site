@@ -12,7 +12,7 @@
         ショッピングカート
     </div>
     @if(count($line_items) > 0)
-    <p class='mb-5'>ご利用ありがとうございます<br>ショッピングカートには下記の商品が入っています。</p>
+    <p class='cart__description'>ご利用ありがとうございます<br>ショッピングカートには下記の商品が入っています。</p>
     <table class='table'>
         <thead>
             <tr class='top-tr align-middle'>
@@ -47,6 +47,37 @@
             </tr>
         </tfoot>
     </table>
+
+    <div class="sp-cart">
+        @foreach($line_items as $item)
+        <div class="cart-item">
+            <div class="cart-item-img">
+                <img src="{{ asset($item->image) }}" alt="">
+            </div>
+            <div class="item-content">
+                <div class="cart-item-name">
+                    {{ $item->name }}
+                </div>
+                <div class="cart-item-price">
+                    {{ $item->price }}円
+                </div>
+                <div class="cart-item-quantity">
+                    数量：{{ $item->pivot->quantity }}
+                </div>
+            </div>
+
+            <form class='cart-item-delete' action="{{ route('line_item.delete') }}" method='POST'>
+                @csrf
+                <input type='hidden' name='id' value='{{ $item->pivot->id}}'>
+                <button type='submit' class='btn btn-outline-secondary'>削除</button>
+            </form>
+
+        </div>
+        @endforeach
+        <div class="cart-item-total">
+            商品合計（税込）：¥{{ number_format($total_price) }}
+        </div>
+    </div>
 
     <div class="cart_btn">
         <div class='back_btn'>
