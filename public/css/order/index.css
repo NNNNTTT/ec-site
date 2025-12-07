@@ -24,3 +24,87 @@
     pointer-events: none; 
 }
 
+.sp-cart{
+    display: none;
+}
+@media (max-width: 700px) {
+    .pc-cart{
+        display: none;
+    }
+    .sp-cart{
+        display: block;
+    }
+    .cart-item{
+        display: flex;
+        gap: 30px;
+        padding: 10px;
+        border-bottom: 1px solid #ccc;
+    }
+    .cart-item-img{
+        width: 15%;
+    }
+    .cart-item-img img{
+        width: 100%;
+    }
+    .item-content{
+        width: 70%;
+    }
+    .cart-item-delete{
+        width: 15%;
+        display: flex;
+        align-items: center;
+    }
+    .cart-item-subtotal{
+        padding: 5px 10px;
+        padding-top: 20px;
+        text-align: right;
+        font-size: 14px;
+    }
+    .cart-item-shipping-fee{
+        padding: 5px 10px;
+        text-align: right;
+        font-size: 14px;
+    }
+    .cart-item-total{
+        padding: 5px 10px;
+        padding-bottom: 20px;
+        text-align: right;
+        font-size: 14px;
+    }    
+    .card-body{
+        font-size: 14px;
+    }
+}
+@media (max-width: 500px) {
+    .cart__title {
+        font-size: 20px;
+    }
+    .cart__description{
+        font-size: 12px;
+        margin-bottom: 50px;
+    }
+    .cart-item{
+        gap: 10px;
+    }
+    .cart-item-img{
+        width: 20%;
+    }
+    .item-content{
+        font-size: 12px;
+    }
+    .cart-item-delete{
+        width: 20%;
+    }
+    .cart-item-delete button{
+        font-size: 12px;
+    }    
+    .cart_btn {
+        flex-direction: column-reverse;
+        gap: 20px;
+        align-items: center;
+    }
+    .cart_btn div {
+        width: 100%;
+        max-width: 250px;
+    }
+}

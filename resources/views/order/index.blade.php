@@ -34,7 +34,7 @@
                 @else
                 <form action="{{ route('order.store') }}" method="POST">
                     @csrf
-                    <div class="card-body">
+                    <div class="card-body pc-cart">
                         <div class="table-responsive">
                             <table class="table align-middle">
                                 <thead class="">
@@ -77,6 +77,41 @@
                             </table>
                         </div>
                     </div>
+
+                    <div class="sp-cart">
+                        @foreach($line_items as $item)
+                        @if($line_item->stock <= 0)
+                            <p class="text-danger">{{ $line_item->name }}は現在在庫切れのため購入できません。</p>
+                        @else
+                        <div class="cart-item">
+                            <div class="cart-item-img">
+                                <img src="{{ asset($item->image) }}" alt="">
+                            </div>
+                            <div class="item-content">
+                                <div class="cart-item-name">
+                                    {{ $item->name }}
+                                </div>
+                                <div class="cart-item-price">
+                                    {{ $item->price }}円
+                                </div>
+                                <div class="cart-item-quantity">
+                                    数量：{{ $item->pivot->quantity }}
+                                </div>
+                            </div>
+
+                        </div>
+                        @endif
+                        @endforeach
+                        <div class="cart-item-subtotal">
+                            小計：¥{{ number_format($subtotal) }}
+                        </div>
+                        <div class="cart-item-shipping-fee">
+                            送料：¥{{ number_format($shipping_fee) }}
+                        </div>
+                        <div class="cart-item-total">
+                            商品合計（税込）：¥{{ number_format($total_price) }}
+                        </div>
+                    </div>
                 </div>
 
                 <div class="card mb-4">
@@ -110,12 +145,19 @@
                         <dl class="row mb-0">
                             <dt class="col-sm-3 mb-3">お支払方法</dt>
                             <dd class="col-sm-9">
-                                <input type="radio" id="radio_card" name="payment_method" value="credit_card">
-                                <label for="credit_card" class='me-3'>クレジットカード</label>
-                                <input type="radio" id="radio_cash_on_delivery" name="payment_method" value="cash_on_delivery">
-                                <label for="cash_on_delivery" class='me-3'>代引き</label>
-                                <input type="radio" id="radio_bank_transfer" name="payment_method" value="bank_transfer">
-                                <label for="bank_transfer" class='me-3'>銀行振込</label>
+                                <div>
+                                    <input type="radio" id="radio_card" name="payment_method" value="credit_card">
+                                    <label for="cr
+                                    edit_card" class='me-3'>クレジットカード</label>
+                                </div>
+                                <div>
+                                    <input type="radio" id="radio_cash_on_delivery" name="payment_method" value="cash_on_delivery">
+                                    <label for="cash_on_delivery" class='me-3'>代引き</label>
+                                </div>
+                                <div>
+                                    <input type="radio" id="radio_bank_transfer" name="payment_method" value="bank_transfer">
+                                    <label for="bank_transfer" class='me-3'>銀行振込</label>
+                                </div>
                             </dd>
 
                             <dt class="col-sm-3 card-btn-title" style="display: none;">クレジットカード登録</dt>
