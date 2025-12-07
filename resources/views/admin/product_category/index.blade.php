@@ -38,7 +38,13 @@
                         <td></td>
                     @endif
                     <td><a href="{{ route('admin.product_category.edit', $product_category->id) }}" class="btn btn-success">編集</a></td>
-                    <td><a href="{{ route('admin.product_category.destroy', $product_category->id) }}" class="btn btn-danger">削除</a></td>
+                    <td>
+                        <form action="{{ route('admin.product_category.destroy', $product_category->id) }}" method="post">
+                            @csrf
+                            @method('DELETE')
+                            <button type="submit" class="btn btn-danger" onclick="return confirm('本当に削除しますか？')">削除</button>
+                        </form>
+                    </td>
                 </tr>
             </tbody>
         @endforeach

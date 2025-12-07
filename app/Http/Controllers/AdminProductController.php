@@ -126,6 +126,7 @@ class AdminProductController extends Controller
         DB::beginTransaction();
         try{
             $product = Product::find($id);
+            $product_name = $product->name;
             $product->delete();
             $show = "product";
 
@@ -135,6 +136,7 @@ class AdminProductController extends Controller
                 ->with('show', $show);
 
         }catch(\Exception $e){
+            $show = "product";
             DB::rollBack(); // トランザクションをロールバック データベースの変更を取り消す
             Log::error($e); // エラーをログに保存 ログのパスはstorage/logs/laravel.log
 

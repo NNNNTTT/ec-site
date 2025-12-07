@@ -87,7 +87,7 @@ Route::name('admin')->group(function(){
     Route::post('/admin/product/store', [AdminProductController::class, 'store'])->name('.product.store');
     Route::get('/admin/product/edit/{id}', [AdminProductController::class, 'edit'])->name('.product.edit');
     Route::post('/admin/product/update/{id}', [AdminProductController::class, 'update'])->name('.product.update');
-    Route::get('/admin/product/destroy/{id}', [AdminProductController::class, 'destroy'])->name('.product.destroy');
+    Route::delete('/admin/product/destroy/{id}', [AdminProductController::class, 'destroy'])->name('.product.destroy');
     Route::get('/admin/product/stock_edit', [AdminProductController::class, 'stock_edit'])->name('.product.stock_edit');
     Route::post('/admin/product/stock_update', [AdminProductController::class, 'stock_update'])->name('.product.stock_update');
 
@@ -106,7 +106,7 @@ Route::name('admin')->group(function(){
     Route::post('/admin/product_category/store', [AdminProductCategoryController::class, 'store'])->name('.product_category.store');
     Route::get('/admin/product_category/edit/{id}', [AdminProductCategoryController::class, 'edit'])->name('.product_category.edit');
     Route::post('/admin/product_category/update/{id}', [AdminProductCategoryController::class, 'update'])->name('.product_category.update');
-    Route::get('/admin/product_category/destroy/{id}', [AdminProductCategoryController::class, 'destroy'])->name('.product_category.destroy');
+    Route::delete('/admin/product_category/destroy/{id}', [AdminProductCategoryController::class, 'destroy'])->name('.product_category.destroy');
 });
 
 Route::get('/dashboard', function () {

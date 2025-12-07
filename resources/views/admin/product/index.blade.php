@@ -32,7 +32,13 @@
                     <td style="width: 35%;">{{ $product->description }}</td>
                     <td style="width: 10%;"><img src="{{ asset($product->image) }}" alt="{{ $product->name }}" class="product-img" style="width: 100px;"></td>
                     <td style="width: 10%;"><a href="{{ route('admin.product.edit', $product->id) }}" class="btn btn-success">編集</a></td>
-                    <td style="width: 10%;"><a href="{{ route('admin.product.destroy', $product->id) }}" class="btn btn-danger">削除</a></td>
+                    <td style="width: 10%;">
+                        <form action="{{ route('admin.product.destroy', $product->id) }}" method="post">
+                            @csrf
+                            @method('DELETE')
+                            <button type="submit" class="btn btn-danger" onclick="return confirm('本当に削除しますか？')">削除</button>
+                        </form>
+                    </td>
                 </tr>
             </tbody>
             @endforeach

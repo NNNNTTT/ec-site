@@ -54,6 +54,10 @@
                 </select>
             </div>
             <button type="submit" class="btn btn-success">更新</button>
-            <a href="{{ route('admin.product_category.destroy', $product_category->id) }}" class="btn btn-danger mx-3">削除</a>
+        </form>
+        <form action="{{ route('admin.product_category.destroy', $product_category->id) }}" method="post">
+            @csrf
+            @method('DELETE')
+            <button type="submit" class="mt-2 btn btn-danger" onclick="return confirm('本当に削除しますか？')">削除</button>
         </form>
 @endsection
