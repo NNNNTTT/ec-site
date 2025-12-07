@@ -1,0 +1,53 @@
+.nav-item a:hover {
+    background-color: #f0f0f0;
+    color: inherit;
+}
+.account-table td {
+    padding: 20px;
+}
+.content {
+    display: none;
+}
+.content.active {
+    display: block;
+}
+.nav-tabs {
+    margin: 50px 0;
+}
+.detail-btn{
+    display: inline-block;
+    padding: 8px 20px;
+    margin: 5px 0;
+    background-color: #2B3142;
+    border: #2B3142 1px solid;
+    color: #fff !important;
+    cursor: pointer;
+    text-align: center;
+    transition: all 0.3s ease;
+}
+.detail-btn:hover{
+    background-color: #fff;
+    color: #2B3142 !important;
+    border: #2B3142 1px solid;
+}
+
+@media (max-width: 700px) {
+    tr {
+        font-size: 14px;
+    }
+    th {
+        font-size: 14px;
+    }
+    .account-table tr {
+        border-bottom: 1px solid #ccc;
+        margin-bottom: 20px;
+    }
+    .account-table td {
+        display: block;
+        border: none;
+        padding: 10px;
+    }
+    .nav-tabs {
+        margin: 50px 0 20px 0;
+    }
+}
