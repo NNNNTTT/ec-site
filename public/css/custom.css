@@ -1,8 +1,16 @@
 body{
   font-family: 'Lato, Noto Sans JP', sans-serif;
   letter-spacing: 0.2em;
-}
 
+}
+.main-wrapper{
+  min-height: 100vh;
+  display: flex;
+  flex-direction: column;
+}
+main{
+  flex: 1;
+}
 li {
   list-style: none;
 }
@@ -202,6 +210,11 @@ footer{
   color: #fff;
   padding: 80px 0;
   margin-top: 120px;
+}
+.footer-container{
+  max-width: 1340px;
+  margin: 0 auto;
+  padding: 0 20px;
 }
 footer h3{
   font-size: 20px;
