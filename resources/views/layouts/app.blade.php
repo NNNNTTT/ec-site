@@ -32,132 +32,136 @@
     }
 </style>
 <body>
-    <header>
-        <nav class=''>
-            <a href="/" class="logo">{{ config('app.name', 'Laravel') }}</a>
+    <div class="main-wrapper">
+        <header>
+            <nav class=''>
+                <a href="/" class="logo">{{ config('app.name', 'Laravel') }}</a>
 
-            <div class="menu">
-                @auth
-                    <a href="{{ route('mypage.index') }}" class="icon">
-                        <div class="icon-wrapper">
-                            <i class="fa-regular fa-user icon-size"></i>
-                        </div>
-                        <p>マイページ</p>
-                    </a>    
-                    @php
-                        $user = Auth::user();
-                        $favorites = $user->favorites;
-                    @endphp
-                    @if($favorites->count() > 0)
-                    <form method="POST" action="{{ route('favorite.index') }}" class="favorite-form icon">
-                        @csrf
-                        <div class="icon-wrapper">
-                            <i class="fas fa-heart auth_favorite-icon icon-size"></i>
-                        </div>
-                        <p>お気に入り</p>
-                        <input type="hidden" name="type" value="auth">
-                    </form>
-                    @else
-                    <form method="POST" action="{{ route('favorite.index') }}" class="favorite-form icon">
-                        @csrf
-                        <div class="icon-wrapper">
-                            <i class="far fa-heart auth_favorite-icon icon-size"></i>
-                        </div>
-                        <p>お気に入り</p>
-                        <input type="hidden" name="type" value="auth">
-                    </form>
-                    @endif
-                @endauth
-                @guest
-                    <a href="{{ route('login') }}" class="icon">
-                        <div class="icon-wrapper">
-                            <i class="fa-regular fa-user icon-size"></i>
-                        </div>
-                        <p class="m-0">ログイン</p>
-                    </a>    
-                    <form method="POST" action="{{ route('favorite.index') }}" class="favorite-form icon">
-                        @csrf
-                        <div class="icon-wrapper">
-                            <i class="fa-heart guest_favorite-icon icon-size"></i>
-                        </div>
-                        <p class="m-0">お気に入り</p>
-                        <input type="hidden" class="guest_favorite-input" name="favorites" value="">
-                        <input type="hidden" name="type" value="guest">
-                    </form>
-                @endguest
-
-                <a href="{{ route('cart.index') }}" class="icon">
-                    <div class="icon-wrapper">
-                        <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 25 25" class="icon-size">
-                            <path d="M21.3,4.6H7.7l-0.3-2C7.4,2.3,7.1,2,6.7,2H2.7C2.3,2,2,2.3,2,2.7c0,0.4,0.3,0.7,0.7,0.7H6L8,17c0.1,0.4,0.4,0.6,0.7,0.6h10c0.4,0,0.7-0.3,0.7-0.7c0-0.4-0.3-0.7-0.7-0.7H9.4l-0.4-2.5h9.8c0.4,0,0.7-0.2,0.7-0.6l1.5-7h0.2c0.4,0,0.7-0.3,0.7-0.7C22,5,21.7,4.6,21.3,4.6z M18.2,12.2H8.8L7.9,6.1h11.6L18.2,12.2z M9.3,18.2c-1.1,0-1.9,0.9-1.9,1.9S8.3,22,9.3,22c1.1,0,1.9-0.9,1.9-1.9c0,0,0,0,0,0C11.2,19,10.4,18.2,9.3,18.2z M9.3,20.9c-0.4,0-0.8-0.4-0.8-0.8s0.4-0.8,0.8-0.8c0.4,0,0.8,0.4,0.8,0.8C10.1,20.5,9.8,20.9,9.3,20.9L9.3,20.9z M18.4,18.2c-1.1,0-1.9,0.9-1.9,1.9s0.9,1.9,1.9,1.9c1.1,0,1.9-0.9,1.9-1.9c0,0,0,0,0,0C20.3,19,19.5,18.2,18.4,18.2z M18.4,20.9c-0.4,0-0.8-0.4-0.8-0.8s0.4-0.8,0.8-0.8c0.4,0,0.8,0.4,0.8,0.8C19.2,20.5,18.9,20.9,18.4,20.9L18.4,20.9z"></path>
-                        </svg>
-                    </div>
-                    <p>カート</p>
-                </a>
-            </div>
-            <div class="hamburger">
-                <i class="fas fa-bars"></i>
-            </div>
-            @include('partials.sp-nav')
-        </nav>
-    </header>
-    @yield('content')
-    <footer>
-        <div class="container">
-            <div class="row">
-                <div class="col-12 col-md-4">
-                    <h3>CATEGORY</h3>
-                    <ul>
-                        @foreach($product_categories as $category)
-                            @foreach($category->children as $child)
-                            <li><a href="{{ route('product.index', ['parent_slug' => $category->slug, 'category_slug' => $child->slug]) }}">{{ $child->name }}</a></li>
-                            @endforeach
-                        @endforeach
-                    </ul>
-                </div>
-                <div class="col-12 col-md-4">
-                    <h3>SHOPPING GUIDE</h3>
-                    <ul>
-                        @if(auth()->check())
-                        <li><a href="{{ route('mypage.index') }}">マイページ</a></li>
+                <div class="menu">
+                    @auth
+                        <a href="{{ route('mypage.index') }}" class="icon">
+                            <div class="icon-wrapper">
+                                <i class="fa-regular fa-user icon-size"></i>
+                            </div>
+                            <p>マイページ</p>
+                        </a>    
+                        @php
+                            $user = Auth::user();
+                            $favorites = $user->favorites;
+                        @endphp
+                        @if($favorites->count() > 0)
+                        <form method="POST" action="{{ route('favorite.index') }}" class="favorite-form icon">
+                            @csrf
+                            <div class="icon-wrapper">
+                                <i class="fas fa-heart auth_favorite-icon icon-size"></i>
+                            </div>
+                            <p>お気に入り</p>
+                            <input type="hidden" name="type" value="auth">
+                        </form>
                         @else
-                        <li><a href="{{ route('login') }}">ログイン・会員登録</a></li>
+                        <form method="POST" action="{{ route('favorite.index') }}" class="favorite-form icon">
+                            @csrf
+                            <div class="icon-wrapper">
+                                <i class="far fa-heart auth_favorite-icon icon-size"></i>
+                            </div>
+                            <p>お気に入り</p>
+                            <input type="hidden" name="type" value="auth">
+                        </form>
                         @endif
-                        <li><a href="">お問い合わせ</a></li>
-                        <li><a href="">ご利用ガイド</a></li>
-                    </ul>
+                    @endauth
+                    @guest
+                        <a href="{{ route('login') }}" class="icon">
+                            <div class="icon-wrapper">
+                                <i class="fa-regular fa-user icon-size"></i>
+                            </div>
+                            <p class="m-0">ログイン</p>
+                        </a>    
+                        <form method="POST" action="{{ route('favorite.index') }}" class="favorite-form icon">
+                            @csrf
+                            <div class="icon-wrapper">
+                                <i class="fa-heart guest_favorite-icon icon-size"></i>
+                            </div>
+                            <p class="m-0">お気に入り</p>
+                            <input type="hidden" class="guest_favorite-input" name="favorites" value="">
+                            <input type="hidden" name="type" value="guest">
+                        </form>
+                    @endguest
+
+                    <a href="{{ route('cart.index') }}" class="icon">
+                        <div class="icon-wrapper">
+                            <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 25 25" class="icon-size">
+                                <path d="M21.3,4.6H7.7l-0.3-2C7.4,2.3,7.1,2,6.7,2H2.7C2.3,2,2,2.3,2,2.7c0,0.4,0.3,0.7,0.7,0.7H6L8,17c0.1,0.4,0.4,0.6,0.7,0.6h10c0.4,0,0.7-0.3,0.7-0.7c0-0.4-0.3-0.7-0.7-0.7H9.4l-0.4-2.5h9.8c0.4,0,0.7-0.2,0.7-0.6l1.5-7h0.2c0.4,0,0.7-0.3,0.7-0.7C22,5,21.7,4.6,21.3,4.6z M18.2,12.2H8.8L7.9,6.1h11.6L18.2,12.2z M9.3,18.2c-1.1,0-1.9,0.9-1.9,1.9S8.3,22,9.3,22c1.1,0,1.9-0.9,1.9-1.9c0,0,0,0,0,0C11.2,19,10.4,18.2,9.3,18.2z M9.3,20.9c-0.4,0-0.8-0.4-0.8-0.8s0.4-0.8,0.8-0.8c0.4,0,0.8,0.4,0.8,0.8C10.1,20.5,9.8,20.9,9.3,20.9L9.3,20.9z M18.4,18.2c-1.1,0-1.9,0.9-1.9,1.9s0.9,1.9,1.9,1.9c1.1,0,1.9-0.9,1.9-1.9c0,0,0,0,0,0C20.3,19,19.5,18.2,18.4,18.2z M18.4,20.9c-0.4,0-0.8-0.4-0.8-0.8s0.4-0.8,0.8-0.8c0.4,0,0.8,0.4,0.8,0.8C19.2,20.5,18.9,20.9,18.4,20.9L18.4,20.9z"></path>
+                            </svg>
+                        </div>
+                        <p>カート</p>
+                    </a>
                 </div>
-                <div class="col-12 col-md-4">
-                    <h3>OTHER MENU</h3>
-                    <ul>
-                        <li><a href="">プライバシーポリシー</a></li>
-                        <li><a href="">特定商取引法に基づく表記</a></li>
-                        <li><a href="">ご利用規約</a></li>
-                    </ul>
+                <div class="hamburger">
+                    <i class="fas fa-bars"></i>
+                </div>
+                @include('partials.sp-nav')
+            </nav>
+        </header>
+        <main>
+        @yield('content')
+        </main>
+        <footer>
+            <div class="footer-container">
+                <div class="row">
+                    <div class="col-12 col-md-4">
+                        <h3>CATEGORY</h3>
+                        <ul>
+                            @foreach($product_categories as $category)
+                                @foreach($category->children as $child)
+                                <li><a href="{{ route('product.index', ['parent_slug' => $category->slug, 'category_slug' => $child->slug]) }}">{{ $child->name }}</a></li>
+                                @endforeach
+                            @endforeach
+                        </ul>
+                    </div>
+                    <div class="col-12 col-md-4">
+                        <h3>SHOPPING GUIDE</h3>
+                        <ul>
+                            @if(auth()->check())
+                            <li><a href="{{ route('mypage.index') }}">マイページ</a></li>
+                            @else
+                            <li><a href="{{ route('login') }}">ログイン・会員登録</a></li>
+                            @endif
+                            <li><a href="">お問い合わせ</a></li>
+                            <li><a href="">ご利用ガイド</a></li>
+                        </ul>
+                    </div>
+                    <div class="col-12 col-md-4">
+                        <h3>OTHER MENU</h3>
+                        <ul>
+                            <li><a href="">プライバシーポリシー</a></li>
+                            <li><a href="">特定商取引法に基づく表記</a></li>
+                            <li><a href="">ご利用規約</a></li>
+                        </ul>
+                    </div>
                 </div>
             </div>
+        </footer>
+        <div class="admin_btn" style="position: fixed; bottom: 20px; right: 20px;">
+            <a href="{{ route('admin.product.index') }}" class="btn btn-success" style="color: white;">管理画面</a>
         </div>
-    </footer>
-    <div class="admin_btn" style="position: fixed; bottom: 20px; right: 20px;">
-        <a href="{{ route('admin.product.index') }}" class="btn btn-success" style="color: white;">管理画面</a>
+        <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/js/bootstrap.bundle.min.js"></script>
+
+        <!-- サーバー情報をJSに渡す -->
+        <script>
+            const isGuest = @json(auth()->guest());
+            const hasFavoritesSession = @json(session()->has('favorites'));
+        </script>
+
+        <!-- 上記でfavoritesのセッション情報を変数に格納した後セッションを削除する -->
+        @php
+        if(session()->has('favorites')) {
+            session()->forget('favorites');
+        }
+        @endphp
+
+
+        <script src="{{ asset('js/layouts/app.js') }}"></script>
+        <script src="@yield('js')"></script>
     </div>
-    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/js/bootstrap.bundle.min.js"></script>
-
-    <!-- サーバー情報をJSに渡す -->
-    <script>
-        const isGuest = @json(auth()->guest());
-        const hasFavoritesSession = @json(session()->has('favorites'));
-    </script>
-
-    <!-- 上記でfavoritesのセッション情報を変数に格納した後セッションを削除する -->
-    @php
-    if(session()->has('favorites')) {
-        session()->forget('favorites');
-    }
-    @endphp
-
-
-    <script src="{{ asset('js/layouts/app.js') }}"></script>
-    <script src="@yield('js')"></script>
 </body>
 </html>
