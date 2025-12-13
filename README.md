@@ -299,25 +299,10 @@ graph TB
             MySQL[(MySQL 8.0<br/>Port: 3306)]
         end
         
-        subgraph "Cache & Session"
-            Redis[(Redis<br/>Port: 6379)]
-        end
-        
-        subgraph "Search Engine"
-            Meilisearch[Meilisearch<br/>Port: 7700]
-        end
-        
-        subgraph "Mail Service"
-            Mailpit[Mailpit<br/>SMTP: 1025<br/>Dashboard: 8025]
-        end
-        
         subgraph "Database Management"
             phpMyAdmin[phpMyAdmin<br/>Port: 8081]
         end
         
-        subgraph "Testing"
-            Selenium[Selenium<br/>Chromium]
-        end
     end
     
     subgraph "External Services"
@@ -326,17 +311,12 @@ graph TB
     
     User[ユーザー] -->|HTTP/HTTPS| Laravel
     Laravel --> MySQL
-    Laravel --> Redis
-    Laravel --> Meilisearch
-    Laravel --> Mailpit
     Laravel -->|API Call| Stripe
-    Vite -->|Assets| Laravel
     Admin[管理者] -->|HTTP| phpMyAdmin
     phpMyAdmin --> MySQL
     
     style Laravel fill:#ff2d20
     style MySQL fill:#4479a1
-    style Redis fill:#dc382d
     style Stripe fill:#635bff
 ```
 
