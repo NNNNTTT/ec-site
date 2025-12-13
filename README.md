@@ -292,7 +292,6 @@ graph TB
     subgraph "Docker Compose Environment"
         subgraph "Application Layer"
             Laravel[Laravel Application<br/>PHP 8.4]
-            Vite[Vite Dev Server<br/>Port: 5173]
         end
         
         subgraph "Database Layer"
