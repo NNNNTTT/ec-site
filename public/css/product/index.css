@@ -25,6 +25,7 @@
     width: 50px;
     position: absolute;
     background-color:#2B3142 ;
+    border: solid 1px #2B3142 ;
     right: 0;
     top: 0;
 }
